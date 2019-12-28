@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { Router } from '@angular/router';
+import { MustMatch } from 'src/app/core/must-match';
 
 @Component({
   selector: 'app-register-company',
@@ -7,9 +11,39 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterCompanyComponent implements OnInit {
 
-  constructor() { }
+  form: FormGroup;
+  emailPattern = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+
+  constructor(
+    private authService: AuthService,
+    private fb: FormBuilder,
+    private router: Router
+    ) { }
 
   ngOnInit() {
+      this.form = this.fb.group({
+        username: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(25)]],
+        email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+        firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
+        middleName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
+        lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
+        companyName: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(80)]],
+        bulstat: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(13)]]
+      }, {
+        validator: MustMatch('password', 'confirmPassword')
+      });
+  }
+
+  get f() { return this.form.controls; }
+
+  registerCompany() {
+    this.authService
+      .registerComapny(this.form.value)
+      .subscribe((data) => {
+        this.router.navigate([ '/home' ]);
+      });
   }
 
 }
