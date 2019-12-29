@@ -1,3 +1,4 @@
+import { RecruitmentOffersModule } from './components/recruitment-offers/recruitment-offers.module';
 import { AuthService } from './core/services/auth.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -33,6 +34,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   ],
   providers: [
     AuthService,
+    { provide: HTTP_INTERCEPTORS, useClass: ResponseHandlerInterceptorService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ResponseHandlerInterceptorService, multi: true }
   ],
   bootstrap: [AppComponent]
