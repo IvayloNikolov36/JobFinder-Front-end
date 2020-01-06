@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup  } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private fb: FormBuilder,
     private router: Router
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -24,12 +24,11 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  get f() { return this.form.controls; }
-
   login() {
     this.authService
       .login(this.form.value)
       .subscribe((data) => {
+        console.log(data);
 
         const token = data['token'];
         localStorage.setItem('token', token);
@@ -40,7 +39,13 @@ export class LoginComponent implements OnInit {
         const isAdmin = data['role'] === 'Admin' ? true : false;
         localStorage.setItem('isAdmin', String(isAdmin));
 
-        this.router.navigate([ '/home' ]);
+        const isCompany = data['role'] === 'Company' ? true : false;
+        localStorage.setItem('isCompany', String(isCompany));
+
+        this.router.navigate(['/home']);
       });
   }
+
+  get f() { return this.form.controls; }
+
 }

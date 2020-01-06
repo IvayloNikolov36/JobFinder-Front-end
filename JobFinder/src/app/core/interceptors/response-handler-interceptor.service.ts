@@ -18,16 +18,19 @@ export class ResponseHandlerInterceptorService implements HttpInterceptor {
 
       if (success instanceof HttpResponse) {
         if (success.url.endsWith('login') || success.url.includes('register')
-        || success.url.endsWith('create') || success.url.includes('delete')
+        || success.url.includes('create') || success.url.includes('delete')
         || success.url.includes('edit')) {
           this.toastr.success(success.body.message, 'Success');
         }
       }
     }), catchError((err) => {
+
+      // console.log(err.error.title);
+
       let errMsg = err.error.error;
-      if (!errMsg) {
-        const arrMsgs = err.error.errors;
-        if (arrMsgs) {
+      if (errMsg) {
+        const arrMsgs = err.error.errors.description;
+        if (!arrMsgs) {
           errMsg = arrMsgs.join(' ');
         }
       }

@@ -33,6 +33,14 @@ export class AuthService {
     return localStorage.getItem('token') !== null;
   }
 
+  isCompany() {
+    return localStorage.getItem('isCompany') === 'true';
+  }
+
+  isAdmin() {
+    return localStorage.getItem('isAdmin') === 'true';
+  }
+
   getToken() {
     const token = localStorage.getItem('token');
     return token;
