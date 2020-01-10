@@ -1,5 +1,4 @@
 import { JwtInterceptorService } from './core/interceptors/jwt-interceptor.service';
-import { RecruitmentOffersModule } from './components/recruitment-offers/recruitment-offers.module';
 import { AuthService } from './core/services/auth.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -18,14 +17,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DropdownDirective } from './components/shared/navigation/dropdown.directive';
 import { CollapseDirective } from './components/shared/navigation/collapse.directive';
 
-
 @NgModule({
   declarations: [
     AppComponent,
+    NavigationComponent,
     LoginComponent,
     RegisterUserComponent,
     RegisterCompanyComponent,
-    NavigationComponent,
     HomeComponent,
     DropdownDirective,
     CollapseDirective,
@@ -34,9 +32,9 @@ import { CollapseDirective } from './components/shared/navigation/collapse.direc
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    HttpClientModule,
     ReactiveFormsModule,
-    ToastrModule.forRoot(),
+    HttpClientModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     AuthService,

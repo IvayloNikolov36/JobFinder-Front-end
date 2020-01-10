@@ -12,8 +12,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register/user', component: RegisterUserComponent },
   { path: 'register/company', component: RegisterCompanyComponent },
-  { path: 'offers',
-    loadChildren: './components/recruitment-offers/recruitment-offers.module#RecruitmentOffersModule',
+  { path: 'ads',
+    loadChildren: './components/job-ads/job-ads/job-ads.module#JobAdsModule',
     canActivate: [AuthGuard]
   },
 ];

@@ -5,7 +5,6 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse } fr
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -14,7 +13,8 @@ export class ResponseHandlerInterceptorService implements HttpInterceptor {
   constructor(public toastr: ToastrService, private router: Router) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req).pipe(tap((success) => {
+    // tslint:disable-next-line: no-angle-bracket-type-assertion
+    return <any> next.handle(req).pipe(tap((success) => {
 
       if (success instanceof HttpResponse) {
         if (success.url.endsWith('login') || success.url.includes('register')
@@ -25,7 +25,7 @@ export class ResponseHandlerInterceptorService implements HttpInterceptor {
       }
     }), catchError((err) => {
 
-      // console.log(err.error.title);
+      console.log('Error from interceptor: ' + err.title);
 
       let errMsg = err.error.error;
       if (errMsg) {
@@ -37,6 +37,6 @@ export class ResponseHandlerInterceptorService implements HttpInterceptor {
       this.toastr.error(errMsg, 'Error');
       this.router.navigate(['/home']);
       throw err;
-    }));
+    })) as any;
   }
 }
