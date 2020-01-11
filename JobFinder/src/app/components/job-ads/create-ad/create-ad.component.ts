@@ -11,7 +11,7 @@ import { JobAdsService } from 'src/app/core/services/job-ads.service';
 export class CreateAdComponent implements OnInit {
   form: FormGroup;
   constructor(
-    private offersService: JobAdsService,
+    private jobAdsService: JobAdsService,
     private fb: FormBuilder,
     private router: Router
   ) { }
@@ -25,7 +25,7 @@ export class CreateAdComponent implements OnInit {
   }
 
   createOffer() {
-    this.offersService.createOffer(this.form.value)
+    this.jobAdsService.createjobAd(this.form.value)
     .subscribe((data) => {
       this.router.navigate(['/home']);
     });

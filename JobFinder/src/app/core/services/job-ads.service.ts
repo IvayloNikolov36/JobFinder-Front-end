@@ -1,8 +1,11 @@
-import { RecruitmentOffer } from '../models/recruitment-offer';
+import { Observable } from 'rxjs';
+import { JobAd } from './../models/job-ad';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-const createAdUrl = 'https://localhost:44357/api/recruitmentoffers/create';
+const baseUrl = 'https://localhost:44357/api/jobads/';
+const createAdUrl =  baseUrl + 'create';
+const getAllAdsUrl = baseUrl + 'all';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +18,12 @@ export class JobAdsService {
     this.userToken = localStorage.getItem('token');
   }
 
-  createOffer(data: RecruitmentOffer) {
-    // return this.http.post(createAdUrl, data, {
-    //     headers: new HttpHeaders().set('Authorization', `Bearer ${this.userToken}`)
-    //   });
-
+  createjobAd(data: JobAd) {
       return this.http.post(createAdUrl, data);
   }
+
+  getAll(): Observable<JobAd[]> {
+    return this.http.get<JobAd[]>(getAllAdsUrl);
+  }
+
 }
