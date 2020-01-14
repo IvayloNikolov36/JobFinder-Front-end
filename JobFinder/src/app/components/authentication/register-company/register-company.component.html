@@ -115,8 +115,8 @@
     </div>
 
     <div class="d-flex justify-content-around">
+      <!-- Company name -->
       <div class="form-group w-25">
-        <!-- Company name -->
         <div class="form-group">
           <label class="form-control-label" for="companyName">Company name</label>
           <input class="form-control" id="companyName" formControlName="companyName" type="text">
@@ -131,8 +131,16 @@
           Length must be up to {{f.companyName.errors.maxlength.requiredLength}} characters!
         </div>
       </div>
+      <!-- Company logo -->
       <div class="form-group w-25">
-        <!-- Bulstat -->
+        <label class="form-control-label" for="companyLogoUrl">Company Logo Url</label>
+        <input class="form-control" id="companyLogoUrl" formControlName="companyLogo" type="text">
+        <div class="alert alert-danger" *ngIf="f.companyLogo.touched && f.companyLogo.errors?.required">
+          This field is required!
+        </div>
+      </div>
+      <!-- Bulstat -->
+      <div class="form-group w-25">
         <div class="form-group">
           <label class="form-control-label" for="bulstat">Bulstat</label>
           <input class="form-control" id="bulstat" formControlName="bulstat" type="text">

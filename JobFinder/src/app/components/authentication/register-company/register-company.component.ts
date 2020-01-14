@@ -26,6 +26,7 @@ export class RegisterCompanyComponent implements OnInit {
         email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
         password: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+        companyLogo: ['', [Validators.required]],
         firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
         middleName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
         lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
