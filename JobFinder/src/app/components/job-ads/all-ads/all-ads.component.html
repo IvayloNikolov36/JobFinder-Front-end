@@ -34,9 +34,8 @@
   </div>
 
   <div class="w-50 mx-auto">
-    <app-app-pagination [totalRecords]="3" [recordsPerPage]="2"
+    <app-app-pagination [totalRecords]="totalCount" [recordsPerPage]="itemsCount"
       (onPageChange)="loadActivePageItems($event)">
     </app-app-pagination>
   </div>
-
 </div>

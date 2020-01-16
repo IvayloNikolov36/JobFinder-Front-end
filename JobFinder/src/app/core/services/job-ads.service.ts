@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 
 const baseUrl = 'https://localhost:44357/api/jobads/';
 const createAdUrl =  baseUrl + 'create';
+const getCountUrl = baseUrl + 'count';
 const getAllAdsUrl = baseUrl + 'get';
 const getEngagementsUrl = baseUrl + 'engagements';
 const getCategoriesUrl = baseUrl + 'categories';
@@ -25,6 +26,10 @@ export class JobAdsService {
 
   getAll(page: number, items: number): Observable<JobAd[]> {
     return this.http.get<JobAd[]>(getAllAdsUrl + `?page=${page}&items=${items}`);
+  }
+
+  getCount(): Observable<number> {
+    return this.http.get<number>(getCountUrl);
   }
 
   getEngagements(): Observable<object[]> {
