@@ -1,3 +1,4 @@
+import { AppPaginationComponent } from './../../shared/app-pagination/app-pagination.component';
 import { AllAdsComponent } from './../all-ads/all-ads.component';
 import { CreateAdComponent } from './../create-ad/create-ad.component';
 import { NgModule } from '@angular/core';
@@ -21,6 +22,7 @@ const routes: Routes = [
   declarations: [
     CreateAdComponent,
     AllAdsComponent,
+    AppPaginationComponent
   ],
   providers: [
     JobAdsService,

@@ -11,7 +11,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AllAdsComponent implements OnInit {
   jobAds$: Observable<JobAd[]>;
-  // jobAds: JobAd[];
+  activePage = 1;
+  itemsCount = 2;
 
   constructor(
     private jobAdsService: JobAdsService,
@@ -19,8 +20,12 @@ export class AllAdsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.jobAds$ = this.jobAdsService.getAll();
-    // this.jobAdsService.getAll().subscribe((data) => console.log(data));
+    this.jobAds$ = this.jobAdsService.getAll(this.activePage, this.itemsCount);
+  }
+
+  loadActivePageItems(activePageNumber: number) {
+    this.activePage = activePageNumber;
+    this.jobAds$ = this.jobAdsService.getAll(this.activePage, this.itemsCount);
   }
 
 }
