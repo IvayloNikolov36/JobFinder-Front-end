@@ -3,10 +3,34 @@
 
   <div class="d-flex justify-content-around">
     <div class="form-group">
-      <label class="form-control-label" for="engagement">Items:</label>
-      <select id="engagement" class="form-control" (change)="changeItemsCount($event)">
+      <label class="form-control-label" for="itemsCount">Items:</label>
+      <select id="itemsCount" class="form-control" (change)="changeItemsCount($event)">
       <!-- <option selected [value]="itemsCount">{{itemsCount}}</option> -->
       <option *ngFor="let c of itemsCountArray" [value]="c">{{c}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-control-label" for="filterLocation">Filter by Location:</label>
+      <select id="filterLocation" class="form-control" (change)="changeFilterLocation($event)">
+      <option value="">All</option>
+      <option *ngFor="let l of locationsArray" [value]="l">{{l}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-control-label" for="filterCategory">Filter by Category:</label>
+      <select id="filterCategory" class="form-control" (change)="changeFilterCategory($event)">
+      <option value="">All</option>
+      <option *ngFor="let c of categories$ | async" [value]="c['id']">{{c['name']}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-control-label" for="filterEngagement">Filter by Engagement:</label>
+      <select id="filterEngagement" class="form-control" (change)="changeFilterEngagement($event)">
+      <option value="">All</option>
+      <option *ngFor="let e of engagements$ | async" [value]="e['id']">{{e['name']}}</option>
       </select>
     </div>
   </div>
@@ -26,7 +50,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let jobAd of jobAds$ | async">
+        <tr *ngFor="let jobAd of jobAds">
           <td>
             <div class="rounded float-left">
               <img [src]="jobAd.companyLogo" class="rounded table-company-logo" alt="Company Logo">
@@ -49,4 +73,5 @@
       (onPageChange)="loadActivePageItems($event)">
     </app-app-pagination>
   </div>
+
 </div>

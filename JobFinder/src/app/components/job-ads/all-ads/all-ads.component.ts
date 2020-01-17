@@ -9,12 +9,21 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ['./all-ads.component.css']
 })
 export class AllAdsComponent implements OnInit, OnDestroy {
-  jobAds$: Observable<JobAd[]>;
+  jobAds: JobAd[];
+  jobAdsSubscription: Subscription;
+
+  categories$: Observable<object[]>;
+  engagements$: Observable<object[]>;
+
   itemsCountArray = [5, 10, 15, 20, 30, 50, 100];
-  totalCountSubscription: Subscription;
+  locationsArray = ['Sofia', 'Plovdiv', 'Varna', 'Burgas', 'Ruse', 'Stara Zagora', 'Pleven'];
+
   totalCount: number;
   activePage = 1;
   itemsCount = this.itemsCountArray[0];
+  location = 'All';
+  category: any = 'All';
+  engagement: any = 'All';
 
   constructor(
     private jobAdsService: JobAdsService
@@ -22,18 +31,22 @@ export class AllAdsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadJobAds();
-    this.totalCountSubscription = this.jobAdsService.getCount().subscribe((data) => {
-      this.totalCount = parseInt(data['count'], 10);
-    });
 
+    this.categories$ = this.jobAdsService.getCategories();
+    this.engagements$ = this.jobAdsService.getEngagements();
   }
 
   ngOnDestroy() {
-    this.totalCountSubscription.unsubscribe();
+    this.jobAdsSubscription.unsubscribe();
   }
 
   loadJobAds() {
-    this.jobAds$ = this.jobAdsService.getAll(this.activePage, this.itemsCount);
+    this.jobAdsSubscription = this.jobAdsService
+    .getAll(this.activePage, this.itemsCount, this.location, this.category, this.engagement)
+    .subscribe((data) => {
+      this.jobAds = data;
+      this.totalCount = data.length;
+    });
   }
 
   loadActivePageItems(activePageNumber: number) {
@@ -46,4 +59,18 @@ export class AllAdsComponent implements OnInit, OnDestroy {
     this.loadJobAds();
   }
 
+  changeFilterLocation(event) {
+    this.location = event.target.value;
+    this.loadJobAds();
+  }
+
+  changeFilterCategory(event) {
+    this.category = event.target.value;
+    this.loadJobAds();
+  }
+
+  changeFilterEngagement(event) {
+    this.engagement = event.target.value;
+    this.loadJobAds();
+  }
 }
