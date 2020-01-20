@@ -33,6 +33,23 @@
       <option *ngFor="let e of engagements$ | async" [value]="e['id']">{{e['name']}}</option>
       </select>
     </div>
+
+    <div class="form-group">
+      <label class="form-control-label" for="sortBy">Sort by:</label>
+      <select id="sortBy" class="form-control" (change)="changeSortBy($event)">
+        <option value="Salary">Salary</option>
+        <option value="Published" selected>Published</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-control-label" for="order">Order:</label>
+      <select id="order" class="form-control" (change)="changeOrder($event)">
+        <option value="ASC">Asc</option>
+        <option value="DESC" selected>Desc</option>
+      </select>
+    </div>
+
   </div>
 
   <div class="table-responsive">

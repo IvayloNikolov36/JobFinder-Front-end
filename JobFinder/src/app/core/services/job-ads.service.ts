@@ -23,8 +23,8 @@ export class JobAdsService {
     return this.http.post(createAdUrl, data);
   }
 
-  getAll(page: number, items: number, location: string, category: any, engagement: any)
-    : Observable<JobAd[]> {
+  getAll(page: number, items: number, location: string, category: string, engagement: string,
+    sortBy: string, isAscending: boolean): Observable<JobAd[]> {
     let locationParam = '';
     if (location !== 'All') {
       locationParam = `&location=${location}`;
@@ -40,7 +40,8 @@ export class JobAdsService {
     }
 
     return this.http.get<JobAd[]>(
-      getAllAdsUrl + `?page=${page}&items=${items}` + locationParam + categoryParam + engagementParam);
+      getAllAdsUrl + `?page=${page}&items=${items}` + locationParam + categoryParam
+      + engagementParam + `&sortBy=${sortBy}&isAscending=${isAscending}`);
   }
 
   getEngagements(): Observable<object[]> {

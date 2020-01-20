@@ -9,21 +9,23 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ['./all-ads.component.css']
 })
 export class AllAdsComponent implements OnInit, OnDestroy {
-  jobAds: JobAd[];
-  jobAdsSubscription: Subscription;
-
   categories$: Observable<object[]>;
   engagements$: Observable<object[]>;
 
+  jobAds: JobAd[];
+  totalCount: number;
+
+  JobAdsSubscription: Subscription;
+
   itemsCountArray = [5, 10, 15, 20, 30, 50, 100];
   locationsArray = ['Sofia', 'Plovdiv', 'Varna', 'Burgas', 'Ruse', 'Stara Zagora', 'Pleven'];
-
-  totalCount: number;
   activePage = 1;
   itemsCount = this.itemsCountArray[0];
   location = 'All';
-  category: any = 'All';
-  engagement: any = 'All';
+  category = 'All';
+  engagement = 'All';
+  sortBy = 'Published';
+  isAscending = false;
 
   constructor(
     private jobAdsService: JobAdsService
@@ -37,16 +39,18 @@ export class AllAdsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.jobAdsSubscription.unsubscribe();
+    this.JobAdsSubscription.unsubscribe();
   }
 
   loadJobAds() {
-    this.jobAdsSubscription = this.jobAdsService
-    .getAll(this.activePage, this.itemsCount, this.location, this.category, this.engagement)
-    .subscribe((data) => {
-      this.jobAds = data;
-      this.totalCount = data.length;
-    });
+
+    this.JobAdsSubscription = this.jobAdsService
+      .getAll(this.activePage, this.itemsCount, this.location, this.category,
+        this.engagement, this.sortBy, this.isAscending)
+      .subscribe((data) => {
+        this.totalCount = parseInt(data['totalCount'], 10);
+        this.jobAds = data['jobAds'];
+      });
   }
 
   loadActivePageItems(activePageNumber: number) {
@@ -71,6 +75,17 @@ export class AllAdsComponent implements OnInit, OnDestroy {
 
   changeFilterEngagement(event) {
     this.engagement = event.target.value;
+    this.loadJobAds();
+  }
+
+  changeSortBy(event) {
+    this.sortBy = event.target.value;
+    this.loadJobAds();
+  }
+
+  changeOrder(event) {
+    const value = event.target.value;
+    value === 'ASC' ? this.isAscending = true : this.isAscending = false;
     this.loadJobAds();
   }
 }
