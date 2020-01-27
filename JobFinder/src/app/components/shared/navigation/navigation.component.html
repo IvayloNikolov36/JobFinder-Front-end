@@ -9,10 +9,10 @@
   <div class="navbar-collapse collapse" id="navbarColor01">
     <ul class="navbar-nav mr-auto">
       <li *ngIf="authService.isCompany()" class="nav-item">
-        <a class="nav-link" routerLink="/ads/create">Create offer</a>
+        <a class="nav-link" routerLink="/jobs/create">Create</a>
       </li>
       <li *ngIf="authService.isAuthenticated()" class="nav-item">
-        <a class="nav-link" routerLink="/ads/all">Job Ads</a>
+        <a class="nav-link" routerLink="/jobs/all">Jobs</a>
       </li>
     </ul>
     <ul class="navbar-nav ml-auto">

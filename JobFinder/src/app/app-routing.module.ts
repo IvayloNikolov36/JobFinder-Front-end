@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register/user', component: RegisterUserComponent },
   { path: 'register/company', component: RegisterCompanyComponent },
-  { path: 'ads',
+  { path: 'jobs',
     loadChildren: './components/job-ads/job-ads/job-ads.module#JobAdsModule',
     canActivate: [AuthGuard]
   },

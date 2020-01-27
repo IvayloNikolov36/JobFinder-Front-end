@@ -2,6 +2,7 @@ import { JobAd } from './../../../core/models/job-ad';
 import { Observable, Subscription } from 'rxjs';
 import { JobAdsService } from './../../../core/services/job-ads.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-all-ads',
@@ -11,6 +12,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 export class AllAdsComponent implements OnInit, OnDestroy {
   categories$: Observable<object[]>;
   engagements$: Observable<object[]>;
+  searchText: string = null;
 
   jobAds: JobAd[];
   totalCount: number;
@@ -26,6 +28,8 @@ export class AllAdsComponent implements OnInit, OnDestroy {
   engagement = 'All';
   sortBy = 'Published';
   isAscending = false;
+  showFilters = false;
+  buttonText = 'Show Filters';
 
   constructor(
     private jobAdsService: JobAdsService
@@ -45,12 +49,16 @@ export class AllAdsComponent implements OnInit, OnDestroy {
   loadJobAds() {
 
     this.JobAdsSubscription = this.jobAdsService
-      .getAll(this.activePage, this.itemsCount, this.location, this.category,
+      .getAll(this.activePage, this.itemsCount, this.searchText, this.location, this.category,
         this.engagement, this.sortBy, this.isAscending)
       .subscribe((data) => {
         this.totalCount = parseInt(data['totalCount'], 10);
         this.jobAds = data['jobAds'];
       });
+  }
+
+  searchJob() {
+    this.loadJobAds();
   }
 
   loadActivePageItems(activePageNumber: number) {
@@ -87,5 +95,12 @@ export class AllAdsComponent implements OnInit, OnDestroy {
     const value = event.target.value;
     value === 'ASC' ? this.isAscending = true : this.isAscending = false;
     this.loadJobAds();
+  }
+
+  showOrHideFilters(element) {
+    this.showFilters = !this.showFilters;
+    this.buttonText === 'Show Filters'
+    ? this.buttonText = 'Hide Filters'
+    :  this.buttonText = 'Show Filters';
   }
 }
