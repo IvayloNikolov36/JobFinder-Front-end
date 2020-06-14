@@ -1,3 +1,4 @@
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { JwtInterceptorService } from './core/interceptors/jwt-interceptor.service';
 import { AuthService } from './core/services/auth.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -31,6 +32,7 @@ import { CollapseDirective } from './components/shared/navigation/collapse.direc
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    AngularFontAwesomeModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,

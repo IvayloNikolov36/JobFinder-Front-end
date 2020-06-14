@@ -7,7 +7,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { JobAdsService } from 'src/app/core/services/job-ads.service';
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { JobDetailsComponent } from '../job-details/job-details.component';
 
 const routes: Routes = [
@@ -27,7 +26,6 @@ const routes: Routes = [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    AngularFontAwesomeModule,
     RouterModule.forChild(routes)
   ],
   declarations: [
@@ -38,7 +36,7 @@ const routes: Routes = [
   ],
   providers: [
     JobAdsService,
-    JobDetailsResolver,
+    JobDetailsResolver
   ]
 })
 export class JobAdsModule { }

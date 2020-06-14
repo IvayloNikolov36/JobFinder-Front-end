@@ -31,7 +31,6 @@ export class CreateAdComponent implements OnInit {
     this.form = this.fb.group({
       position: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(90)]],
       description: ['', [Validators.required, Validators.minLength(20)]],
-      daysActive: ['', [Validators.required, Validators.min(10), Validators.max(90)]],
       minSalary: [null, [Validators.min(1)]],
       maxSalary: [null, [Validators.min(1)]],
       jobCategoryId: ['', [Validators.required]],

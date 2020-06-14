@@ -15,7 +15,7 @@ export class ResponseHandlerInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // tslint:disable-next-line: no-angle-bracket-type-assertion
     return <any> next.handle(req).pipe(tap((success) => {
-
+      console.log(success);
       if (success instanceof HttpResponse) {
         if (success.url.endsWith('login') || success.url.includes('register')
         || success.url.includes('create') || success.url.includes('delete')
@@ -25,14 +25,10 @@ export class ResponseHandlerInterceptorService implements HttpInterceptor {
       }
     }), catchError((err) => {
 
-      console.log('Error from interceptor: ' + err.title);
-
+      console.log(err);
       let errMsg = err.error.error;
-      if (errMsg) {
-        const arrMsgs = err.error.errors.description;
-        if (!arrMsgs) {
-          errMsg = arrMsgs.join(' ');
-        }
+      if (errMsg === undefined) {
+        errMsg = err.error.errors.join(' ');
       }
       this.toastr.error(errMsg, 'Error');
       this.router.navigate(['/home']);

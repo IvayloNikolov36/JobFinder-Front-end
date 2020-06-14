@@ -37,14 +37,15 @@ export class RegisterCompanyComponent implements OnInit {
       });
   }
 
-  get f() { return this.form.controls; }
-
   registerCompany() {
-    this.authService
-      .registerComapny(this.form.value)
+    this.authService.registerComapny(this.form.value)
       .subscribe((data) => {
-        this.router.navigate([ '/home' ]);
+        this.router.navigate(['/login']);
       });
+  }
+
+  get f() {
+    return this.form.controls;
   }
 
 }

@@ -34,16 +34,15 @@ export class RegisterUserComponent implements OnInit {
       });
   }
 
-  get f() { return this.form.controls; }
-
   register() {
-    // console.log(this.form);
     this.authService
       .registerUser(this.form.value)
       .subscribe((data) => {
-        console.log(data);
-
-        this.router.navigate([ '/home' ]);
+        this.router.navigate(['/login']);
       });
+  }
+
+  get f() {
+    return this.form.controls;
   }
 }

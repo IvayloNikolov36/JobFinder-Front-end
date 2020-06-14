@@ -27,20 +27,6 @@
       Length must be at least {{f.description.errors.minlength.requiredLength}} characters!
     </div>
 
-    <div class="form-group w-25 mx-auto">
-      <label class="form-control-label" for="daysActive">Days active</label>
-      <input class="form-control" id="daysActive" formControlName="daysActive" type="number">
-    </div>
-    <div class="alert alert-danger" *ngIf="f.daysActive.touched && f.daysActive.errors?.required">
-      This field is required!
-    </div>
-    <div class="alert alert-danger" *ngIf="f.daysActive.errors?.min">
-      Value must be grater than or equal to {{f.daysActive.errors.min.min}}!
-    </div>
-    <div class="alert alert-danger" *ngIf="f.daysActive.errors?.max">
-      Value must be smaller than or equal to {{f.daysActive.errors.max.max}}!
-    </div>
-
     <div class="d-flex justify-content-around">
       <div class="form-group w-25">
         <div class="form-group">

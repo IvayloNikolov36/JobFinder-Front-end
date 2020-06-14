@@ -2,7 +2,6 @@ import { JobAd } from './../../../core/models/job-ad';
 import { Observable, Subscription } from 'rxjs';
 import { JobAdsService } from './../../../core/services/job-ads.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-all-ads',
@@ -47,11 +46,9 @@ export class AllAdsComponent implements OnInit, OnDestroy {
   }
 
   loadJobAds() {
-
     this.JobAdsSubscription = this.jobAdsService
       .getAll(this.activePage, this.itemsCount, this.searchText, this.location, this.category,
-        this.engagement, this.sortBy, this.isAscending)
-      .subscribe((data) => {
+        this.engagement, this.sortBy, this.isAscending).subscribe((data) => {
         this.totalCount = parseInt(data['totalCount'], 10);
         this.jobAds = data['jobAds'];
       });
@@ -97,7 +94,7 @@ export class AllAdsComponent implements OnInit, OnDestroy {
     this.loadJobAds();
   }
 
-  showOrHideFilters(element) {
+  showOrHideFilters() {
     this.showFilters = !this.showFilters;
     this.buttonText === 'Show Filters'
     ? this.buttonText = 'Hide Filters'

@@ -15,18 +15,15 @@ const getCategoriesUrl = baseUrl + 'categories';
   providedIn: 'root'
 })
 export class JobAdsService {
-  userToken: string;
 
-  constructor(private http: HttpClient) {
-    this.userToken = localStorage.getItem('token');
-  }
+  constructor(private http: HttpClient) { }
 
   createjobAd(data: JobAd) {
     return this.http.post(createAdUrl, data);
   }
 
   getAll(page: number, items: number, searchText: string, location: string, category: string,
-    engagement: string, sortBy: string, isAscending: boolean): Observable<JobAd[]> {
+         engagement: string, sortBy: string, isAscending: boolean): Observable<JobAd[]> {
     let searchTextParam = '';
     if (searchText !== null) {
       searchTextParam = `&searchText=${searchText}`;
