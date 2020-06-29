@@ -16,6 +16,11 @@ const routes: Routes = [
     loadChildren: './components/job-ads/job-ads/job-ads.module#JobAdsModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'user',
+    loadChildren: './components/user-profile/user-profile/user-profile.module#UserProfileModule',
+    canActivate: [AuthGuard]
+  }
 ];
 
 @NgModule({

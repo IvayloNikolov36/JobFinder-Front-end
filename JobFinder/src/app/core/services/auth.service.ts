@@ -41,6 +41,10 @@ export class AuthService {
     return localStorage.getItem('isAdmin') === 'true';
   }
 
+  getUserName() {
+    return localStorage.getItem('username');
+  }
+
   getToken() {
     const token = localStorage.getItem('token');
     return token;

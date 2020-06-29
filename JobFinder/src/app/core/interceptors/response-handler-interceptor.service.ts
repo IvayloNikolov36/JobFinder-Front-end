@@ -15,7 +15,6 @@ export class ResponseHandlerInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // tslint:disable-next-line: no-angle-bracket-type-assertion
     return <any> next.handle(req).pipe(tap((success) => {
-      console.log(success);
       if (success instanceof HttpResponse) {
         if (success.url.endsWith('login') || success.url.includes('register')
         || success.url.includes('create') || success.url.includes('delete')
@@ -24,8 +23,7 @@ export class ResponseHandlerInterceptorService implements HttpInterceptor {
         }
       }
     }), catchError((err) => {
-
-      console.log(err);
+      console.log('Error from interceptor: ' + err);
       let errMsg = err.error.error;
       if (errMsg === undefined) {
         errMsg = err.error.errors.join(' ');
