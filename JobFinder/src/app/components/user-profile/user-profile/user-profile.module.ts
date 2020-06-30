@@ -15,6 +15,8 @@ import {
   MatNativeDateModule,
   MatCheckboxModule,
 } from '@angular/material';
+import { SkillsComponent } from '../create-cv/child-components/skills/skills.component';
+import { PersonalDetailsComponent } from '../create-cv/child-components/personal-details/personal-details.component';
 
 const routes: Routes = [
   { path: '', component: UserAccountComponent },
@@ -27,6 +29,8 @@ const routes: Routes = [
     UserAccountComponent,
     CurriculumVitaesComponent,
     CreateCvComponent,
+    PersonalDetailsComponent,
+    SkillsComponent,
   ],
   imports: [
     CommonModule,

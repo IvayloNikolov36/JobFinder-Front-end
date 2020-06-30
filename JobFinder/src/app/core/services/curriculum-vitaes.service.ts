@@ -31,13 +31,14 @@ export class CurriculumVitaesService {
   }
 
   createPersonalDetails(cvId: string, data: PersonalDetails) {
+    // console.log(data);
     data.cvId = cvId;
     return this.http.post(createPersonalDetailsUrl, data);
   }
 
-  createWorkExperiences(cvId: string, data: WorkExperience) {
-    data.cvId = cvId;
-    return this.http.post(createWorkExperiencesUrl, data);
+  createWorkExperiences(cvId: string, data: WorkExperience[]) {
+    // console.log('Dataaaaaa' + JSON.stringify(data));
+    return this.http.post(createWorkExperiencesUrl + `/${cvId}`, data);
   }
 
   createEducations(cvId: string, data: Education) {

@@ -1,5 +1,8 @@
+import { SkillsInfo } from './../../../core/models/cv/SkillsInfo';
+import { PersonalDetails } from './../../../core/models/cv/personal-details';
+import { WorkExperience } from './../../../core/models/cv/work-experience';
 import { CurriculumVitaesService } from './../../../core/services/curriculum-vitaes.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -12,14 +15,14 @@ export class CreateCvComponent implements OnInit {
   cvId: string;
 
   cvForm: FormGroup;
-  personalInfoForm: FormGroup;
-  workExperienceForm: FormGroup;
+  dynamicWorkExperienceForm: FormGroup;
   educationForm: FormGroup;
   languageForm: FormGroup;
-  skillsForm: FormGroup;
   coursesForm: FormGroup;
 
-  emailPattern = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+  personalDetails: PersonalDetails;
+  skillsInfo: SkillsInfo;
+
   urlPicPattern = /^(http(s)?:\/\/)(.+)\.(jp(e)?g)$/;
 
   constructor(
@@ -33,23 +36,10 @@ export class CreateCvComponent implements OnInit {
       pictureUrl: ['', [Validators.required, Validators.pattern(this.urlPicPattern)]]
     });
 
-    this.personalInfoForm = this.fb.group({
-      firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      middleName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
-      phone: ['', [Validators.required]]
+    this.dynamicWorkExperienceForm = this.fb.group({
+      weArray: new FormArray([])
     });
-
-    this.workExperienceForm = this.fb.group({
-      fromDate: ['', [Validators.required]],
-      toDate: ['', []],
-      jobTitle: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
-      organization: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
-      businessSector: ['', []],
-      location: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      additionalDetails: ['', [Validators.minLength(20), Validators.maxLength(3000)]]
-    });
+    this.addWorkExperienceForm();
 
     this.educationForm = this.fb.group({
       fromDate: ['', [Validators.required]],
@@ -67,42 +57,65 @@ export class CreateCvComponent implements OnInit {
       writing: ['', [Validators.required]]
     });
 
-    this.skillsForm = this.fb.group({
-      computerSkills: ['', [Validators.minLength(10), Validators.maxLength(1000)]],
-      skills: ['', [Validators.minLength(10), Validators.maxLength(500)]],
-      hasManagedPeople: ['', []],
-      drivingCategoryType: ['', []]
-    });
-
     this.coursesForm = this.fb.group({
       courseName: ['', [Validators.minLength(5), Validators.maxLength(100)]],
       certificateUrl: ['', []]
     });
+
+  }
+
+  onPassedPersonalDetailsData(data: PersonalDetails) {
+    this.personalDetails = data;
+  }
+
+  onPassedSkillsInfoData(data: SkillsInfo) {
+    this.skillsInfo = data;
   }
 
   sendCVdata() {
     this.cvService.createCv(this.cvForm.value).subscribe((data) => {
       this.cvId = data['cvId'];
-      this.cvService.createPersonalDetails(this.cvId, this.personalInfoForm.value).subscribe();
-      this.cvService.createWorkExperiences(this.cvId, this.workExperienceForm.value).subscribe();
+      this.cvService.createPersonalDetails(this.cvId, this.personalDetails).subscribe();
+      this.cvService.createWorkExperiences(this.cvId, this.dynamicWorkExperienceForm.value.weArray).subscribe();
       this.cvService.createEducations(this.cvId, this.educationForm.value).subscribe();
       this.cvService.createLanguages(this.cvId, this.languageForm.value).subscribe();
-      this.cvService.createSkills(this.cvId, this.skillsForm.value).subscribe();
+      this.cvService.createSkills(this.cvId, this.skillsInfo).subscribe();
       this.cvService.createCourses(this.cvId, this.coursesForm.value).subscribe();
     });
 
   }
 
+  addWorkExperienceForm() {
+    this.we.push(this.fb.group({
+      fromDate: ['', [Validators.required]],
+      toDate: ['', []],
+      jobTitle: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
+      organization: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
+      businessSector: ['', []],
+      location: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      additionalDetails: ['', [Validators.minLength(20), Validators.maxLength(3000)]]
+    }));
+  }
+
+  removeWorkExperienceForm() {
+    if (this.we.length === 1) {
+      return;
+    }
+
+    this.we.removeAt(this.we.length - 1);
+  }
+
+
   get cvf() {
     return this.cvForm.controls;
   }
 
-  get pif() {
-    return this.personalInfoForm.controls;
+  get wef() {
+    return this.dynamicWorkExperienceForm.controls;
   }
 
-  get wef() {
-    return this.workExperienceForm.controls;
+  get we() {
+    return this.wef.weArray as FormArray;
   }
 
   get edf() {
@@ -113,9 +126,6 @@ export class CreateCvComponent implements OnInit {
     return this.languageForm.controls;
   }
 
-  get sf() {
-    return this.skillsForm.controls;
-  }
 
   get cf() {
     return this.coursesForm.controls;
