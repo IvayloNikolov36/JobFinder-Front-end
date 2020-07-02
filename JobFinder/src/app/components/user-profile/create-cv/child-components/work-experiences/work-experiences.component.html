@@ -1,0 +1,75 @@
+<form [formGroup]="workExperiencesForm">
+  <div *ngFor="let workExp of we.controls; let i = index">
+    <h5>Work Experience {{i + 1}}</h5>
+    <div [formGroup]="workExp">
+      <mat-form-field>
+        <input matInput [matDatepicker]="fromDatePicker" placeholder="Choose start date" formControlName="fromDate">
+        <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #fromDatePicker></mat-datepicker>
+        <mat-error *ngIf="wef.fromDate?.touched && wef.fromDate?.errors?.required">
+          Start date is required!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [matDatepicker]="toDatePicker" placeholder="Choose end date" formControlName="toDate">
+        <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #toDatePicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="text" placeholder="Job title" formControlName="jobTitle">
+        <mat-hint>Enter job title.</mat-hint>
+        <mat-error *ngIf="wef.jobTitle?.touched && wef.jobTitle?.errors.required">Job title is required!</mat-error>
+        <mat-error *ngIf="wef.jobTitle?.errors?.minlength">
+          Job title length must be at least {{wef.jobTitle?.errors.minlength.requiredLength}} characters!
+        </mat-error>
+        <mat-error *ngIf="wef.jobTitle?.errors?.maxlength">
+          Job title length must be no more than {{wef.jobTitle?.errors.maxlength.requiredLength}} characters!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="text" placeholder="Organization" formControlName="organization">
+        <mat-hint>Enter Organization.</mat-hint>
+        <mat-error *ngIf="wef.organization?.touched && wef.organization?.errors?.required">Organization is required!
+        </mat-error>
+        <mat-error *ngIf="wef.organization?.errors?.minlength">
+          Organization length must be at least {{wef.organization?.errors.minlength.requiredLength}} characters!
+        </mat-error>
+        <mat-error *ngIf="wef.organization?.errors?.maxlength">
+          Organization length must be no more than {{wef.organization?.errors.maxlength.requiredLength}} characters!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="text" placeholder="Business sector" formControlName="businessSector">
+        <mat-hint>Enter business sector.</mat-hint>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="text" placeholder="Location" formControlName="location">
+        <mat-hint>Enter Organization.</mat-hint>
+        <mat-error *ngIf="wef.location?.touched && wef.location?.errors?.required">Location is required!</mat-error>
+        <mat-error *ngIf="wef.location?.errors?.minlength">
+          Location length must be at least {{wef.location?.errors.minlength.requiredLength}} characters!
+        </mat-error>
+        <mat-error *ngIf="wef.location?.errors?.maxlength">
+          Location length must be no more than {{wef.location?.errors.maxlength.requiredLength}} characters!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <textarea matInput type="text" placeholder="Additional details" formControlName="additionalDetails"></textarea>
+        <mat-hint>Enter additional details.</mat-hint>
+        <mat-error *ngIf="wef.additionalDetails?.errors?.minlength">
+          Details length must be at least {{wef.additionalDetails?.errors.minlength.requiredLength}} characters!
+        </mat-error>
+        <mat-error *ngIf="wef.additionalDetails?.errors?.maxlength">
+          Details length must be no more than {{wef.additionalDetails?.errors.maxlength.requiredLength}} characters!
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div>
+    <button mat-button (click)="addWorkExperienceForm()">Add another</button>
+    <button mat-button (click)="removeWorkExperienceForm()">Remove last</button>
+  </div>
+  <div>
+    <button mat-button matStepperNext (click)="emitData()">Next</button>
+  </div>
+</form>

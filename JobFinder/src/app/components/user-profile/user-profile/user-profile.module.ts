@@ -1,3 +1,4 @@
+import { CvInfoComponent } from './../create-cv/child-components/cv-info/cv-info.component';
 import { CurriculumVitaesService } from './../../../core/services/curriculum-vitaes.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CreateCvComponent } from './../create-cv/create-cv.component';
@@ -17,6 +18,10 @@ import {
 } from '@angular/material';
 import { SkillsComponent } from '../create-cv/child-components/skills/skills.component';
 import { PersonalDetailsComponent } from '../create-cv/child-components/personal-details/personal-details.component';
+import { EducationComponent } from '../create-cv/child-components/educations/educations.component';
+import { LanguagesInfoComponent } from '../create-cv/child-components/languages-info/languages-info.component';
+import { CoursesCertificatesComponent } from '../create-cv/child-components/courses-certificates/courses-certificates.component';
+import { WorkExperiencesComponent } from '../create-cv/child-components/work-experiences/work-experiences.component';
 
 const routes: Routes = [
   { path: '', component: UserAccountComponent },
@@ -31,6 +36,11 @@ const routes: Routes = [
     CreateCvComponent,
     PersonalDetailsComponent,
     SkillsComponent,
+    EducationComponent,
+    LanguagesInfoComponent,
+    CoursesCertificatesComponent,
+    CvInfoComponent,
+    WorkExperiencesComponent,
   ],
   imports: [
     CommonModule,

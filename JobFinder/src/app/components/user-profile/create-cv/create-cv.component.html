@@ -1,263 +1,54 @@
-<mat-vertical-stepper [linear]="false" #stepper>
+<mat-vertical-stepper [linear]="true" #stepper>
   <!-- Cv Details -->
-  <mat-step [stepControl]="cvForm">
-    <form [formGroup]="cvForm">
-      <ng-template matStepLabel>CV Details</ng-template>
-      <mat-form-field>
-        <input matInput type="text" placeholder="Name" formControlName="name">
-        <mat-hint>Enter cv name.</mat-hint>
-        <mat-error *ngIf="cvf.name.touched && cvf.name.errors?.required">CV name is required!</mat-error>
-        <mat-error *ngIf="cvf.name.errors?.minlength">
-          CV name length must be at least {{cvf.name.errors.minlength.requiredLength}} characters!
-        </mat-error>
-        <mat-error *ngIf="cvf.name.errors?.maxlength">
-          CV name length must be no more than {{cvf.name.errors.maxlength.requiredLength}} characters!
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput type="text" placeholder="Picture Url" formControlName="pictureUrl">
-        <mat-hint>Paste picture url.</mat-hint>
-        <mat-error *ngIf="cvf.pictureUrl.touched && cvf.pictureUrl.errors?.required">Picture url is required!
-        </mat-error>
-        <mat-error *ngIf="cvf.pictureUrl.errors?.pattern">
-          Url is invalid!
-        </mat-error>
-      </mat-form-field>
-      <div>
-        <button mat-button color="primary" matStepperNext>Next</button>
-      </div>
-    </form>
+  <mat-step [stepControl]="cvInfo">
+    <ng-template matStepLabel>CV Details</ng-template>
+    <app-cv-info (emitCvInfoData)="onPassedCvInfoData($event)">
+    </app-cv-info>
   </mat-step>
-
   <!-- Personal Info -->
   <mat-step [stepControl]="personalDetails">
     <ng-template matStepLabel>Personal Info</ng-template>
     <app-personal-details (passFormData)="onPassedPersonalDetailsData($event)">
     </app-personal-details>
   </mat-step>
-
   <!-- Work Experience Info -->
-  <mat-step [stepControl]="dynamicWorkExperienceForm">
-    <form [formGroup]="dynamicWorkExperienceForm">
-      <ng-template matStepLabel>Work Experience</ng-template>
-
-      <div *ngFor="let workExp of we.controls; let i = index">
-        <h5>Work Experience {{i + 1}}</h5>
-        <div [formGroup]="workExp">
-          <mat-form-field>
-            <input matInput [matDatepicker]="fromDatePicker" placeholder="Choose start date" formControlName="fromDate">
-            <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #fromDatePicker></mat-datepicker>
-            <mat-error *ngIf="wef.fromDate?.touched && wef.fromDate?.errors?.required">
-              Start date is required!
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput [matDatepicker]="toDatePicker" placeholder="Choose end date" formControlName="toDate">
-            <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #toDatePicker></mat-datepicker>
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput type="text" placeholder="Job title" formControlName="jobTitle">
-            <mat-hint>Enter job title.</mat-hint>
-            <mat-error *ngIf="wef.jobTitle?.touched && wef.jobTitle?.errors.required">Job title is required!</mat-error>
-            <mat-error *ngIf="wef.jobTitle?.errors?.minlength">
-              Job title length must be at least {{wef.jobTitle?.errors.minlength.requiredLength}} characters!
-            </mat-error>
-            <mat-error *ngIf="wef.jobTitle?.errors?.maxlength">
-              Job title length must be no more than {{wef.jobTitle?.errors.maxlength.requiredLength}} characters!
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput type="text" placeholder="Organization" formControlName="organization">
-            <mat-hint>Enter Organization.</mat-hint>
-            <mat-error *ngIf="wef.organization?.touched && wef.organization?.errors?.required">Organization is required!
-            </mat-error>
-            <mat-error *ngIf="wef.organization?.errors?.minlength">
-              Organization length must be at least {{wef.organization?.errors.minlength.requiredLength}} characters!
-            </mat-error>
-            <mat-error *ngIf="wef.organization?.errors?.maxlength">
-              Organization length must be no more than {{wef.organization?.errors.maxlength.requiredLength}} characters!
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput type="text" placeholder="Business sector" formControlName="businessSector">
-            <mat-hint>Enter business sector.</mat-hint>
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput type="text" placeholder="Location" formControlName="location">
-            <mat-hint>Enter Organization.</mat-hint>
-            <mat-error *ngIf="wef.location?.touched && wef.location?.errors?.required">Location is required!</mat-error>
-            <mat-error *ngIf="wef.location?.errors?.minlength">
-              Location length must be at least {{wef.location?.errors.minlength.requiredLength}} characters!
-            </mat-error>
-            <mat-error *ngIf="wef.location?.errors?.maxlength">
-              Location length must be no more than {{wef.location?.errors.maxlength.requiredLength}} characters!
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field>
-            <textarea matInput type="text" placeholder="Additional details"
-              formControlName="additionalDetails"></textarea>
-            <mat-hint>Enter additional details.</mat-hint>
-            <mat-error *ngIf="wef.additionalDetails?.errors?.minlength">
-              Details length must be at least {{wef.additionalDetails?.errors.minlength.requiredLength}} characters!
-            </mat-error>
-            <mat-error *ngIf="wef.additionalDetails?.errors?.maxlength">
-              Details length must be no more than {{wef.additionalDetails?.errors.maxlength.requiredLength}} characters!
-            </mat-error>
-          </mat-form-field>
-        </div>
-      </div>
-
-      <div>
-        <button mat-button (click)="addWorkExperienceForm()">Add new Work Experience From</button>
-        <button mat-button (click)="removeWorkExperienceForm()">Remove last Work Experience From</button>
-      </div>
-
-      <div>
-        <button mat-button matStepperNext>Next</button>
-      </div>
-
-    </form>
+  <mat-step [stepControl]="workExperiences">
+    <ng-template matStepLabel>Work Experience</ng-template>
+    <app-work-experiences (emitWorkExperiencesData)="onPassedWorkExperiencesData($event)">
+    </app-work-experiences>
   </mat-step>
-
-  <mat-step [stepControl]="educationForm">
-    <form [formGroup]="educationForm">
-      <ng-template matStepLabel>Education</ng-template>
-
-      <mat-form-field>
-        <input matInput [matDatepicker]="fromDateEducationPicker" placeholder="Choose start date"
-          formControlName="fromDate">
-        <mat-datepicker-toggle matSuffix [for]="fromDateEducationPicker"></mat-datepicker-toggle>
-        <mat-datepicker #fromDateEducationPicker></mat-datepicker>
-        <mat-error *ngIf="edf.fromDate.touched && edf.fromDate.errors?.required">Start date is required!</mat-error>
-      </mat-form-field>
-
-      <mat-form-field>
-        <input matInput [matDatepicker]="toDateEducationPicker" placeholder="Choose end date" formControlName="toDate">
-        <mat-datepicker-toggle matSuffix [for]="toDateEducationPicker"></mat-datepicker-toggle>
-        <mat-datepicker #toDateEducationPicker></mat-datepicker>
-      </mat-form-field>
-
-      <mat-form-field>
-        <input matInput type="text" placeholder="Location" formControlName="location">
-        <mat-hint>Enter Location.</mat-hint>
-        <mat-error *ngIf="edf.location.touched && edf.location.errors?.required">Location is required!</mat-error>
-        <mat-error *ngIf="edf.location.errors?.minlength">
-          Location length must be at least {{edf.location.errors.minlength.requiredLength}} characters!
-        </mat-error>
-        <mat-error *ngIf="edf.location.errors?.maxlength">
-          Location length must be no more than {{edf.location.errors.maxlength.requiredLength}} characters!
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field>
-        <input matInput type="text" placeholder="Education level" formControlName="educationLevel">
-        <mat-hint>Enter major.</mat-hint>
-        <mat-error *ngIf="edf.educationLevel.touched && edf.educationLevel.errors?.required">Education level is
-          required!</mat-error>
-      </mat-form-field>
-
-      <mat-form-field>
-        <input matInput type="text" placeholder="Major" formControlName="major">
-        <mat-hint>Enter major.</mat-hint>
-        <mat-error *ngIf="edf.major.touched && edf.major.errors?.required">Major is required!</mat-error>
-        <mat-error *ngIf="edf.major.errors?.minlength">
-          Major length must be at least {{edf.major.errors.minlength.requiredLength}} characters!
-        </mat-error>
-        <mat-error *ngIf="edf.major.errors?.maxlength">
-          Major length must be no more than {{edf.major.errors.maxlength.requiredLength}} characters!
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field>
-        <textarea matInput type="text" placeholder="Main subjects" formControlName="mainSubjects"></textarea>
-        <mat-hint>Enter main subjects.</mat-hint>
-        <mat-error *ngIf="edf.mainSubjects.errors?.minlength">
-          Subjects length must be at least {{edf.mainSubjects.errors.minlength.requiredLength}} characters!
-        </mat-error>
-        <mat-error *ngIf="edf.mainSubjects.errors?.maxlength">
-          Details length must be no more than {{edf.mainSubjects.errors.maxlength.requiredLength}} characters!
-        </mat-error>
-      </mat-form-field>
-
-      <div>
-        <button mat-button matStepperNext>Next</button>
-      </div>
-
-    </form>
+  <!-- Education -->
+  <mat-step [stepControl]="educations">
+    <ng-template matStepLabel>Education</ng-template>
+    <app-education (emitEducationData)="onPassedEducationData($event)">
+    </app-education>
   </mat-step>
-
-  <mat-step [stepControl]="languageForm">
-    <form [formGroup]="languageForm">
-      <ng-template matStepLabel>Languages</ng-template>
-      <mat-form-field>
-        <input matInput type="text" placeholder="Language" formControlName="languageType">
-        <mat-hint>Enter Language.</mat-hint>
-        <mat-error *ngIf="lf.languageType.touched && lf.languageType.errors?.required">Language is required!</mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput type="text" placeholder="Comprehension" formControlName="comprehension">
-        <mat-hint>Enter comprehension level.</mat-hint>
-        <mat-error *ngIf="lf.comprehension.touched && lf.comprehension.errors?.required">Comprehension level is
-          required!</mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput type="text" placeholder="Speaking level" formControlName="speaking">
-        <mat-hint>Enter Speaking level.</mat-hint>
-        <mat-error *ngIf="lf.speaking.touched && lf.speaking.errors?.required">Speaking level is required!</mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput type="text" placeholder="Writing level" formControlName="writing">
-        <mat-hint>Enter Writing level.</mat-hint>
-        <mat-error *ngIf="lf.writing.touched && lf.writing.errors?.required">Speaking level is required!</mat-error>
-      </mat-form-field>
-      <div>
-        <button mat-button matStepperNext>Next</button>
-      </div>
-    </form>
+  <!-- Languages -->
+  <mat-step [stepControl]="languagesInfo">
+    <ng-template matStepLabel>Languages Info</ng-template>
+    <app-languages-info (emitLanguagesInfo)="onPassedLanguagesInfo($event)">
+    </app-languages-info>
   </mat-step>
-
   <!-- Skills -->
   <mat-step [stepControl]="skillsInfo">
     <ng-template matStepLabel>Skills</ng-template>
     <app-skills (emitSkillsData)="onPassedSkillsInfoData($event)">
     </app-skills>
   </mat-step>
-
   <!-- Courses and Certificates -->
-  <mat-step [stepControl]="coursesForm">
-    <form [formGroup]="coursesForm">
-      <ng-template matStepLabel>Courses and certificates</ng-template>
-      <mat-form-field>
-        <input matInput type="text" placeholder="Course name" formControlName="courseName">
-        <mat-hint>Enter course name.</mat-hint>
-        <mat-error *ngIf="cf.courseName.touched && cf.courseName.errors?.required">Course name is required!</mat-error>
-        <mat-error *ngIf="cf.courseName.errors?.minlength">
-          Course name length must be at least {{cf.courseName.errors.minlength.requiredLength}} characters!
-        </mat-error>
-        <mat-error *ngIf="cf.courseName.errors?.maxlength">
-          Course name length must be no more than {{cf.courseName.errors.maxlength.requiredLength}} characters!
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput type="text" placeholder="Sertificate url" formControlName="certificateUrl">
-        <mat-hint>Enter sertificate url.</mat-hint>
-      </mat-form-field>
-      <div>
-        <button mat-button matStepperNext>Next</button>
-      </div>
-    </form>
+  <mat-step [stepControl]="coursesCertificates">
+    <ng-template matStepLabel>Courses and certificates</ng-template>
+    <app-courses-certificates (emitCoursesData)="onPassedCoursesData($event)">
+    </app-courses-certificates>
   </mat-step>
-
+  <!-- Done step -->>
   <mat-step>
-    <ng-template matStepLabel>Done</ng-template>
+    <ng-template matStepLabel>Submit your data</ng-template>
     You are now done.
     <div>
-      <button mat-button color="primary" matStepperPrevious>Back</button>
       <button mat-button color="success" (click)="sendCVdata()">Create</button>
+      <button mat-button color="primary" matStepperPrevious>Back</button>
       <button mat-button color="danger" (click)="stepper.reset()">Reset</button>
     </div>
   </mat-step>
-
 </mat-vertical-stepper>

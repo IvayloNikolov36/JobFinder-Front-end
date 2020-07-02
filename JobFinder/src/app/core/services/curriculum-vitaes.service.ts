@@ -31,7 +31,6 @@ export class CurriculumVitaesService {
   }
 
   createPersonalDetails(cvId: string, data: PersonalDetails) {
-    // console.log(data);
     data.cvId = cvId;
     return this.http.post(createPersonalDetailsUrl, data);
   }
@@ -41,14 +40,12 @@ export class CurriculumVitaesService {
     return this.http.post(createWorkExperiencesUrl + `/${cvId}`, data);
   }
 
-  createEducations(cvId: string, data: Education) {
-    data.cvId = cvId;
-    return this.http.post(createEducationsUrl, data);
+  createEducations(cvId: string, data: Education[]) {
+    return this.http.post(createEducationsUrl + `/${cvId}`, data);
   }
 
-  createLanguages(cvId: string, data: LanguageInfo) {
-    data.cvId = cvId;
-    return this.http.post(createLanguagesUrl, data);
+  createLanguages(cvId: string, data: LanguageInfo[]) {
+    return this.http.post(createLanguagesUrl + `/${cvId}`, data);
   }
 
   createSkills(cvId: string, data: SkillsInfo) {
@@ -56,9 +53,8 @@ export class CurriculumVitaesService {
     return this.http.post(createSkillsUrl, data);
   }
 
-  createCourses(cvId: string, data: CourseSertificate) {
-    data.cvId = cvId;
-    return this.http.post(createCoursesUrl, data);
+  createCourses(cvId: string, data: CourseSertificate[]) {
+    return this.http.post(createCoursesUrl + `/${cvId}`, data);
   }
 
 }

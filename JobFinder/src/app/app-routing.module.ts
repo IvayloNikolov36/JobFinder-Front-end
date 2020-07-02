@@ -12,14 +12,15 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register/user', component: RegisterUserComponent },
   { path: 'register/company', component: RegisterCompanyComponent },
-  { path: 'jobs',
-    loadChildren: './components/job-ads/job-ads/job-ads.module#JobAdsModule',
-    canActivate: [AuthGuard]
+  {
+    path: 'jobs',
+    loadChildren: () => import('./components/job-ads/job-ads/job-ads.module').then(m => m.JobAdsModule),
+    canLoad: [AuthGuard]
   },
   {
     path: 'user',
-    loadChildren: './components/user-profile/user-profile/user-profile.module#UserProfileModule',
-    canActivate: [AuthGuard]
+    loadChildren: () => import('./components/user-profile/user-profile/user-profile.module').then(m => m.UserProfileModule),
+    canLoad: [AuthGuard]
   }
 ];
 
