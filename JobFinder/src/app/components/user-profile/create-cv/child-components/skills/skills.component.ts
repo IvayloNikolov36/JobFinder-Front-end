@@ -1,6 +1,8 @@
+import { DrivingCategory } from './../../../../../core/models/cv/driving-category';
 import { SkillsInfo } from './../../../../../core/models/cv/SkillsInfo';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-skills',
@@ -9,7 +11,9 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class SkillsComponent implements OnInit {
   skillsForm: FormGroup;
+  categories = new FormControl();
 
+  @Input() drivingCategories: Observable<DrivingCategory[]>;
   @Output() emitSkillsData = new EventEmitter<SkillsInfo>();
 
   constructor(private formBuilder: FormBuilder) { }

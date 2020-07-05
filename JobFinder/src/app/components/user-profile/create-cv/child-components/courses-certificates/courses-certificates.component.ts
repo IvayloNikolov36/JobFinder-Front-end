@@ -9,6 +9,7 @@ import { CourseSertificate } from 'src/app/core/models/cv/course-sertificate';
 })
 export class CoursesCertificatesComponent implements OnInit {
   coursesForm: FormGroup;
+  urlPattern = /^(http(s)?:\/\/)(.+)$/;
 
   @Output() emitCoursesData = new EventEmitter<CourseSertificate[]>();
 
@@ -24,7 +25,7 @@ export class CoursesCertificatesComponent implements OnInit {
   addNewCoursesFrom() {
     this.c.push(this.formBuilder.group({
       courseName: ['', [Validators.minLength(5), Validators.maxLength(100)]],
-      certificateUrl: ['', []]
+      certificateUrl: ['', [Validators.pattern(this.urlPattern)]]
     }));
   }
 

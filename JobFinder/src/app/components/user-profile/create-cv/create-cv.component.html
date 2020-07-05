@@ -8,31 +8,42 @@
   <!-- Personal Info -->
   <mat-step [stepControl]="personalDetails">
     <ng-template matStepLabel>Personal Info</ng-template>
-    <app-personal-details (passFormData)="onPassedPersonalDetailsData($event)">
+    <app-personal-details
+    [countries]="countries"
+    (passFormData)="onPassedPersonalDetailsData($event)">
     </app-personal-details>
   </mat-step>
   <!-- Work Experience Info -->
   <mat-step [stepControl]="workExperiences">
     <ng-template matStepLabel>Work Experience</ng-template>
-    <app-work-experiences (emitWorkExperiencesData)="onPassedWorkExperiencesData($event)">
+    <app-work-experiences
+    [businessSectors]="businessSectors"
+    (emitWorkExperiencesData)="onPassedWorkExperiencesData($event)">
     </app-work-experiences>
   </mat-step>
   <!-- Education -->
   <mat-step [stepControl]="educations">
     <ng-template matStepLabel>Education</ng-template>
-    <app-education (emitEducationData)="onPassedEducationData($event)">
+    <app-education
+    [educationLevels]="educationLevels$"
+    (emitEducationData)="onPassedEducationData($event)">
     </app-education>
   </mat-step>
   <!-- Languages -->
   <mat-step [stepControl]="languagesInfo">
     <ng-template matStepLabel>Languages Info</ng-template>
-    <app-languages-info (emitLanguagesInfo)="onPassedLanguagesInfo($event)">
+    <app-languages-info
+    [languageTypes]="languageTypes$"
+    [languageLevels]="languageLevels$"
+    (emitLanguagesInfo)="onPassedLanguagesInfo($event)">
     </app-languages-info>
   </mat-step>
   <!-- Skills -->
   <mat-step [stepControl]="skillsInfo">
     <ng-template matStepLabel>Skills</ng-template>
-    <app-skills (emitSkillsData)="onPassedSkillsInfoData($event)">
+    <app-skills
+    [drivingCategories]="drivingCategories$"
+    (emitSkillsData)="onPassedSkillsInfoData($event)">
     </app-skills>
   </mat-step>
   <!-- Courses and Certificates -->

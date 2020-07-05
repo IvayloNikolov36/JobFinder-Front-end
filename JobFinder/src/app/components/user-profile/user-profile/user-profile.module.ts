@@ -15,6 +15,8 @@ import {
   MatDatepickerModule,
   MatNativeDateModule,
   MatCheckboxModule,
+  MatSelectModule,
+  MatAutocompleteModule,
 } from '@angular/material';
 import { SkillsComponent } from '../create-cv/child-components/skills/skills.component';
 import { PersonalDetailsComponent } from '../create-cv/child-components/personal-details/personal-details.component';
@@ -52,6 +54,8 @@ const routes: Routes = [
     MatDatepickerModule,
     MatNativeDateModule,
     MatCheckboxModule,
+    MatSelectModule,
+    MatAutocompleteModule,
     RouterModule.forChild(routes)
   ],
   providers: [
@@ -65,6 +69,8 @@ const routes: Routes = [
     MatDatepickerModule,
     MatNativeDateModule,
     MatCheckboxModule,
+    MatSelectModule,
+    MatAutocompleteModule,
   ]
 })
 export class UserProfileModule { }

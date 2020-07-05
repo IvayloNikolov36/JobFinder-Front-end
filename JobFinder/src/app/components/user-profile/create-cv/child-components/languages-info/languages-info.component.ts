@@ -1,5 +1,7 @@
+import { SelectOptionsType } from './../../../../../core/models/common/select-options-type';
+import { Observable } from 'rxjs';
 import { LanguageInfo } from './../../../../../core/models/cv/language-info';
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 
 @Component({
@@ -10,6 +12,8 @@ import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 export class LanguagesInfoComponent implements OnInit {
   languagesForm: FormGroup;
 
+  @Input() languageTypes: Observable<SelectOptionsType[]>;
+  @Input() languageLevels: Observable<SelectOptionsType[]>;
   @Output() emitLanguagesInfo = new EventEmitter<LanguageInfo[]>();
 
   constructor(private formBuilder: FormBuilder) { }

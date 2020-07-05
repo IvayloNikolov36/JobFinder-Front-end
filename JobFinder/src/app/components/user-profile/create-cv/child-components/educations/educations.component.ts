@@ -1,5 +1,7 @@
+import { SelectOptionsType } from './../../../../../core/models/common/select-options-type';
+import { Observable } from 'rxjs';
 import { Education } from '../../../../../core/models/cv/education';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 
 @Component({
@@ -10,6 +12,7 @@ import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 export class EducationComponent implements OnInit {
   educationsForm: FormGroup;
 
+  @Input() educationLevels: Observable<SelectOptionsType[]>;
   @Output() emitEducationData = new EventEmitter<Education[]>();
 
   constructor(private formBuilder: FormBuilder) { }

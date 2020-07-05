@@ -20,6 +20,8 @@
     </mat-error>
   </mat-form-field>
   <div>
-    <button mat-button color="primary" matStepperNext (click)="emitData()">Next</button>
+    <button type="submit" mat-button color="primary"
+    matStepperNext (click)="emitData()"
+    [disabled]="!cvInfoForm.valid">Next</button>
   </div>
 </form>

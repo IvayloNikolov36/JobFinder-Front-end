@@ -8,16 +8,24 @@ import { Observable } from 'rxjs';
 import { CvCreate } from '../models/cv/cv-create';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { SelectOptionsType } from '../models/common/select-options-type';
+import { DrivingCategory } from '../models/cv/driving-category';
 
 const baseUrl = 'https://localhost:44357/api/cvs/';
 const createCvUrl = baseUrl + 'create';
-
 const createPersonalDetailsUrl = baseUrl + 'PersonalDetails/create';
 const createWorkExperiencesUrl = baseUrl + 'WorkExperience/create';
 const createEducationsUrl = baseUrl + 'education/create';
 const createLanguagesUrl = baseUrl + 'languages/create';
 const createSkillsUrl = baseUrl + 'skills/create';
 const createCoursesUrl = baseUrl + 'courses/create';
+
+const getCountriesUrl = baseUrl + 'PersonalDetails/countryTypes';
+const getBusinessSectorsUrl = baseUrl + 'workExperience/businessSectors';
+const getEducationLevelsUrl = baseUrl + 'education/levels';
+const getLanguageLevelsUrl = baseUrl + 'languages/levels';
+const getLanguageTypesUrl = baseUrl + 'languages/types';
+const getDrivingCategoriesUrl = baseUrl + 'skills/drivingCategories';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +44,6 @@ export class CurriculumVitaesService {
   }
 
   createWorkExperiences(cvId: string, data: WorkExperience[]) {
-    // console.log('Dataaaaaa' + JSON.stringify(data));
     return this.http.post(createWorkExperiencesUrl + `/${cvId}`, data);
   }
 
@@ -55,6 +62,30 @@ export class CurriculumVitaesService {
 
   createCourses(cvId: string, data: CourseSertificate[]) {
     return this.http.post(createCoursesUrl + `/${cvId}`, data);
+  }
+
+  getCountries(): Observable<SelectOptionsType[]> {
+    return this.http.get<SelectOptionsType[]>(getCountriesUrl);
+  }
+
+  getBusinessSectors(): Observable<SelectOptionsType[]> {
+    return this.http.get<SelectOptionsType[]>(getBusinessSectorsUrl);
+  }
+
+  getEducationLevels(): Observable<SelectOptionsType[]> {
+    return this.http.get<SelectOptionsType[]>(getEducationLevelsUrl);
+  }
+
+  getLanguageLevels(): Observable<SelectOptionsType[]> {
+    return this.http.get<SelectOptionsType[]>(getLanguageLevelsUrl);
+  }
+
+  getLanguageTypes(): Observable<SelectOptionsType[]> {
+    return this.http.get<SelectOptionsType[]>(getLanguageTypesUrl);
+  }
+
+  getDrivingCategories(): Observable<DrivingCategory[]> {
+    return this.http.get<DrivingCategory[]>(getDrivingCategoriesUrl);
   }
 
 }

@@ -1,4 +1,5 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { SelectOptionsType } from './../../../../../core/models/common/select-options-type';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { WorkExperience } from 'src/app/core/models/cv/work-experience';
 
@@ -9,6 +10,8 @@ import { WorkExperience } from 'src/app/core/models/cv/work-experience';
 })
 export class WorkExperiencesComponent implements OnInit {
   workExperiencesForm: FormGroup;
+
+  @Input() businessSectors: SelectOptionsType[];
   @Output() emitWorkExperiencesData = new EventEmitter<WorkExperience[]>();
 
   constructor(private formBuilder: FormBuilder) { }
@@ -27,7 +30,7 @@ export class WorkExperiencesComponent implements OnInit {
       toDate: ['', []],
       jobTitle: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
       organization: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
-      businessSector: ['', []],
+      businessSector: ['', [Validators.required]],
       location: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       additionalDetails: ['', [Validators.minLength(20), Validators.maxLength(3000)]]
     }));
@@ -44,12 +47,12 @@ export class WorkExperiencesComponent implements OnInit {
     this.emitWorkExperiencesData.emit(this.workExperiencesForm.value.weArray);
   }
 
-  get wef() {
+  get f() {
     return this.workExperiencesForm.controls;
   }
 
   get we() {
-    return this.wef.weArray as FormArray;
+    return this.f.weArray as FormArray;
   }
 
 }
