@@ -1,15 +1,12 @@
 import { JobDetails } from './../models/job-details';
 import { Observable } from 'rxjs';
 import { JobAd } from './../models/job-ad';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-const baseUrl = 'https://localhost:44357/api/jobads/';
-const createAdUrl = baseUrl + 'create';
-const getAllAdsUrl = baseUrl + 'get';
-const getJobDetailsUrl = baseUrl + 'details/';
-const getEngagementsUrl = baseUrl + 'engagements';
-const getCategoriesUrl = baseUrl + 'categories';
+const baseUrl = 'https://localhost:44357/api/jobads';
+const getEngagementsUrl = baseUrl + '/engagements';
+const getCategoriesUrl = baseUrl + '/categories';
 
 @Injectable({
   providedIn: 'root'
@@ -19,35 +16,26 @@ export class JobAdsService {
   constructor(private http: HttpClient) { }
 
   createjobAd(data: JobAd) {
-    return this.http.post(createAdUrl, data);
+    return this.http.post(baseUrl, data);
   }
 
-  getAll(page: number, items: number, searchText: string, location: string, category: string,
-         engagement: string, sortBy: string, isAscending: boolean): Observable<JobAd[]> {
-    let searchTextParam = '';
-    if (searchText !== null) {
-      searchTextParam = `&searchText=${searchText}`;
-    }
-    let locationParam = '';
-    if (location !== 'All') {
-      locationParam = `&location=${location}`;
-    }
-    let categoryParam = '';
-    if (category !== 'All') {
-      categoryParam = `&categoryId=${category}`;
-    }
-    let engagementParam = '';
-    if (engagement !== 'All') {
-      engagementParam = `&engagementId=${engagement}`;
-    }
+  getAll(page: number, items: number, searchText: string, location: string, category: number,
+         engagement: number, sortBy: string, isAscending: boolean): Observable<JobAd[]> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('items', items.toString())
+      .set('searchText', searchText)
+      .set('location', location !== 'All' ? location : '')
+      .set('sortBy', sortBy)
+      .set('isAscending', isAscending.toString())
+      .set('categoryId', category.toString())
+      .set('engagementId', engagement.toString());
 
-    return this.http.get<JobAd[]>(
-      getAllAdsUrl + `?page=${page}&items=${items}` + searchTextParam + locationParam + categoryParam
-      + engagementParam + `&sortBy=${sortBy}&isAscending=${isAscending}`);
+    return this.http.get<JobAd[]>(baseUrl, { params });
   }
 
   getJobDetails(id: number): Observable<JobDetails> {
-    return this.http.get<JobDetails>(getJobDetailsUrl + id);
+    return this.http.get<JobDetails>(baseUrl + id);
   }
 
   getEngagements(): Observable<object[]> {

@@ -12,17 +12,16 @@ import { SelectOptionsType } from '../models/common/select-options-type';
 import { DrivingCategory } from '../models/cv/driving-category';
 
 const baseUrl = 'https://localhost:44357/api/cvs/';
-const createCvUrl = baseUrl + 'create';
-const createPersonalDetailsUrl = baseUrl + 'PersonalDetails/create';
-const createWorkExperiencesUrl = baseUrl + 'WorkExperience/create';
-const createEducationsUrl = baseUrl + 'education/create';
-const createLanguagesUrl = baseUrl + 'languages/create';
-const createSkillsUrl = baseUrl + 'skills/create';
-const createCoursesUrl = baseUrl + 'courses/create';
+const createPersonalDetailsUrl = baseUrl + 'PersonalDetails';
+const createWorkExperiencesUrl = baseUrl + 'WorkExperiences';
+const createEducationsUrl = baseUrl + 'educations';
+const createLanguagesUrl = baseUrl + 'languages';
+const createSkillsUrl = baseUrl + 'skills';
+const createCoursesUrl = baseUrl + 'courses';
 
 const getCountriesUrl = baseUrl + 'PersonalDetails/countryTypes';
-const getBusinessSectorsUrl = baseUrl + 'workExperience/businessSectors';
-const getEducationLevelsUrl = baseUrl + 'education/levels';
+const getBusinessSectorsUrl = baseUrl + 'workExperiences/businessSectors';
+const getEducationLevelsUrl = baseUrl + 'educations/levels';
 const getLanguageLevelsUrl = baseUrl + 'languages/levels';
 const getLanguageTypesUrl = baseUrl + 'languages/types';
 const getDrivingCategoriesUrl = baseUrl + 'skills/drivingCategories';
@@ -35,7 +34,7 @@ export class CurriculumVitaesService {
   constructor(private http: HttpClient) { }
 
   createCv(data: CvCreate): Observable<string> {
-    return this.http.post<string>(createCvUrl, data);
+    return this.http.post<string>(baseUrl, data);
   }
 
   createPersonalDetails(cvId: string, data: PersonalDetails) {

@@ -1,3 +1,4 @@
+import { MaterialModule } from './../../../material.module';
 import { CvInfoComponent } from './../create-cv/child-components/cv-info/cv-info.component';
 import { CurriculumVitaesService } from './../../../core/services/curriculum-vitaes.service';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -7,17 +8,6 @@ import { UserAccountComponent } from './../user-account/user-account.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import {
-  MatStepperModule,
-  MatInputModule,
-  MatButtonModule,
-  MatFormFieldModule,
-  MatDatepickerModule,
-  MatNativeDateModule,
-  MatCheckboxModule,
-  MatSelectModule,
-  MatAutocompleteModule,
-} from '@angular/material';
 import { SkillsComponent } from '../create-cv/child-components/skills/skills.component';
 import { PersonalDetailsComponent } from '../create-cv/child-components/personal-details/personal-details.component';
 import { EducationComponent } from '../create-cv/child-components/educations/educations.component';
@@ -47,30 +37,11 @@ const routes: Routes = [
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatStepperModule,
-    MatInputModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatAutocompleteModule,
+    MaterialModule,
     RouterModule.forChild(routes)
   ],
   providers: [
     CurriculumVitaesService,
   ],
-  exports: [
-    MatStepperModule,
-    MatInputModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatAutocompleteModule,
-  ]
 })
 export class UserProfileModule { }

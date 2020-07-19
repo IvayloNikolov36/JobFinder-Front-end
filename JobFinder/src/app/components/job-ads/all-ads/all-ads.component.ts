@@ -11,7 +11,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 export class AllAdsComponent implements OnInit, OnDestroy {
   categories$: Observable<object[]>;
   engagements$: Observable<object[]>;
-  searchText: string = null;
+  searchText = '';
 
   jobAds: JobAd[];
   totalCount: number;
@@ -23,8 +23,8 @@ export class AllAdsComponent implements OnInit, OnDestroy {
   activePage = 1;
   itemsCount = this.itemsCountArray[0];
   location = 'All';
-  category = 'All';
-  engagement = 'All';
+  category = 0;
+  engagement = 0;
   sortBy = 'Published';
   isAscending = false;
   showFilters = false;
@@ -36,7 +36,6 @@ export class AllAdsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadJobAds();
-
     this.categories$ = this.jobAdsService.getCategories();
     this.engagements$ = this.jobAdsService.getEngagements();
   }
@@ -50,7 +49,7 @@ export class AllAdsComponent implements OnInit, OnDestroy {
       .getAll(this.activePage, this.itemsCount, this.searchText, this.location, this.category,
         this.engagement, this.sortBy, this.isAscending).subscribe((data) => {
         this.totalCount = parseInt(data['totalCount'], 10);
-        this.jobAds = data['jobAds'];
+        this.jobAds = data['data'];
       });
   }
 
@@ -75,6 +74,7 @@ export class AllAdsComponent implements OnInit, OnDestroy {
 
   changeFilterCategory(event) {
     this.category = event.target.value;
+    console.log(event.target.value);
     this.loadJobAds();
   }
 
