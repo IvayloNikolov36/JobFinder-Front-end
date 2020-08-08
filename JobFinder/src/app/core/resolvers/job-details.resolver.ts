@@ -11,6 +11,6 @@ export class JobDetailsResolver implements Resolve<JobDetails> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const id = route.params['id'];
 
-    return this.jobsService.getJobDetails(id);
+    return this.jobsService.details(id);
   }
 }

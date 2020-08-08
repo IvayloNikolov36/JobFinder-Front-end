@@ -1,3 +1,4 @@
+import { DataListing } from './../models/common/data-listing';
 import { JobDetails } from './../models/job-details';
 import { Observable } from 'rxjs';
 import { JobAd } from './../models/job-ad';
@@ -5,8 +6,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 const baseUrl = 'https://localhost:44357/api/jobads';
-const getEngagementsUrl = baseUrl + '/engagements';
-const getCategoriesUrl = baseUrl + '/categories';
+const getEngagementsUrl = 'https://localhost:44357/api/jobEngagements';
+const getCategoriesUrl = 'https://localhost:44357/api/jobCategories';
 
 @Injectable({
   providedIn: 'root'
@@ -19,23 +20,23 @@ export class JobAdsService {
     return this.http.post(baseUrl, data);
   }
 
-  getAll(page: number, items: number, searchText: string, location: string, category: number,
-         engagement: number, sortBy: string, isAscending: boolean): Observable<JobAd[]> {
+  all(page: number, items: number, searchText: string, location: string, category: number,
+      engagement: number, sortBy: string, isAscending: boolean): Observable<DataListing<JobAd>> {
     const params = new HttpParams()
-      .set('page', page.toString())
-      .set('items', items.toString())
-      .set('searchText', searchText)
-      .set('location', location !== 'All' ? location : '')
-      .set('sortBy', sortBy)
-      .set('isAscending', isAscending.toString())
-      .set('categoryId', category.toString())
-      .set('engagementId', engagement.toString());
+       .set('page', page.toString())
+       .set('items', items.toString())
+       .set('searchText', searchText)
+       .set('location', location !== 'All' ? location : '')
+       .set('sortBy', sortBy)
+       .set('isAscending', isAscending.toString())
+       .set('categoryId', category.toString())
+       .set('engagementId', engagement.toString());
 
-    return this.http.get<JobAd[]>(baseUrl, { params });
+    return this.http.get<DataListing<JobAd>>(baseUrl, {params});
   }
 
-  getJobDetails(id: number): Observable<JobDetails> {
-    return this.http.get<JobDetails>(baseUrl + id);
+  details(id: number): Observable<JobDetails> {
+    return this.http.get<JobDetails>(baseUrl + '/' + id);
   }
 
   getEngagements(): Observable<object[]> {

@@ -1,4 +1,13 @@
 .table-company-logo {
   max-width: 80px;
-  height: auto;
+  max-height: 90px;
+}
+
+.td-center {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.th-color {
+  color: cornflowerblue;
 }
