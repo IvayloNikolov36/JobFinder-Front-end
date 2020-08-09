@@ -1,3 +1,6 @@
+import { CvListing } from './../../../core/models/cv/cv-listing';
+import { Observable } from 'rxjs';
+import { CurriculumVitaesService } from './../../../core/services/curriculum-vitaes.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,10 +9,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./curriculum-vitaes.component.css']
 })
 export class CurriculumVitaesComponent implements OnInit {
+  cvs$: Observable<CvListing[]>;
 
-  constructor() { }
+  constructor(private cvService: CurriculumVitaesService) { }
 
   ngOnInit() {
+    this.cvs$ = this.cvService.getUserCVs();
   }
 
 }

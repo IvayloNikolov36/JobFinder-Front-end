@@ -3,6 +3,8 @@ export interface PersonalDetails {
   firstName: string;
   middleName: string;
   lastName: string;
+  phone: string;
+  email: string;
   gender: string;
   birthDate: string;
   citizenShip: string;

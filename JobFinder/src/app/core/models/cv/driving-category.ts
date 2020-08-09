@@ -1,5 +1,5 @@
 export interface DrivingCategory {
-  id: string;
+  id: number;
   category: string;
 }
 

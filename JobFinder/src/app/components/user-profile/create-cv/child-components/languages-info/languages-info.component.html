@@ -10,7 +10,7 @@
           </mat-option>
         </mat-select>
         <mat-hint>Select education level.</mat-hint>
-        <mat-error *ngIf="lInfo.controls.languageType?.touched && lInfo.controls.languageType.errors?.required">
+        <mat-error *ngIf="lInfo['controls'].languageType?.touched && lInfo['controls'].languageType.errors?.required">
           Language is required!
         </mat-error>
       </mat-form-field>
@@ -22,7 +22,7 @@
           </mat-option>
         </mat-select>
         <mat-hint>Select comprehension level.</mat-hint>
-        <mat-error *ngIf="lInfo.controls.comprehension?.touched && lInfo.controls.comprehension.errors?.required">
+        <mat-error *ngIf="lInfo['controls'].comprehension?.touched && lInfo['controls'].comprehension.errors?.required">
           Comprehension level is required!
         </mat-error>
       </mat-form-field>
@@ -34,7 +34,7 @@
           </mat-option>
         </mat-select>
         <mat-hint>Select speaking level.</mat-hint>
-        <mat-error *ngIf="lInfo.controls.speaking?.touched && lInfo.controls.speaking.errors?.required">
+        <mat-error *ngIf="lInfo['controls'].speaking?.touched && lInfo['controls'].speaking.errors?.required">
           Speaking level is required!
         </mat-error>
       </mat-form-field>
@@ -46,7 +46,7 @@
           </mat-option>
         </mat-select>
         <mat-hint>Select writing level.</mat-hint>
-        <mat-error *ngIf="lInfo.controls.writing?.touched && lInfo.controls.writing.errors?.required">
+        <mat-error *ngIf="lInfo['controls'].writing?.touched && lInfo['controls'].writing.errors?.required">
           Writing level is required!
         </mat-error>
       </mat-form-field>

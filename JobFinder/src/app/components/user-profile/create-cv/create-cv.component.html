@@ -38,11 +38,11 @@
     (emitLanguagesInfo)="onPassedLanguagesInfo($event)">
     </app-languages-info>
   </mat-step>
-  <!-- Skills -->
+  <!-- Skills  Add DrivingCategories-->
   <mat-step [stepControl]="skillsInfo">
     <ng-template matStepLabel>Skills</ng-template>
     <app-skills
-    [drivingCategories]="drivingCategories$"
+    [drivingCategories]=""
     (emitSkillsData)="onPassedSkillsInfoData($event)">
     </app-skills>
   </mat-step>
