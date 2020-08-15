@@ -16,25 +16,28 @@
     </div>
   </div>
 
-  <div class="d-flex justify-content-around" *ngIf="showFilters">
+  <div class="d-flex justify-content-around" *ngIf="showFiltersArea">
     <div class="form-group">
       <label class="form-control-label" for="itemsCount">Items:</label>
-      <select id="itemsCount" class="form-control" (change)="changeItemsCount($event)">
+      <select id="itemsCount" class="form-control" [(ngModel)]="itemsCount"
+        (change)="changeItemsCount($event.target.value)">
         <option *ngFor="let c of itemsCountArray" [value]="c">{{c}}</option>
       </select>
     </div>
 
     <div class="form-group">
       <label class="form-control-label" for="filterLocation">Filter by Location:</label>
-      <select id="filterLocation" class="form-control" (change)="changeFilterLocation($event)">
-        <option value="">All</option>
+      <select id="filterLocation" class="form-control" [(ngModel)]="location"
+        (change)="changeFilterLocation($event.target.value)">
+        <option value="All">All</option>
         <option *ngFor="let l of locationsArray" [value]="l">{{l}}</option>
       </select>
     </div>
 
     <div class="form-group">
       <label class="form-control-label" for="filterCategory">Filter by Category:</label>
-      <select id="filterCategory" class="form-control" (change)="changeFilterCategory($event)">
+      <select id="filterCategory" class="form-control" [(ngModel)]="category"
+        (change)="changeFilterCategory($event.target.value)">
         <option value="0">All</option>
         <option *ngFor="let c of categories$ | async" [value]="c['id']">{{c['name']}}</option>
       </select>
@@ -42,7 +45,8 @@
 
     <div class="form-group">
       <label class="form-control-label" for="filterEngagement">Filter by Engagement:</label>
-      <select id="filterEngagement" class="form-control" (change)="changeFilterEngagement($event)">
+      <select id="filterEngagement" class="form-control" [(ngModel)]="engagement"
+        (change)="changeFilterEngagement($event.target.value)">
         <option value="0">All</option>
         <option *ngFor="let e of engagements$ | async" [value]="e['id']">{{e['name']}}</option>
       </select>
@@ -50,7 +54,7 @@
 
     <div class="form-group">
       <label class="form-control-label" for="sortBy">Sort by:</label>
-      <select id="sortBy" class="form-control" (change)="changeSortBy($event)">
+      <select id="sortBy" class="form-control" [(ngModel)]="sortBy" (change)="changeSortBy($event.target.value)">
         <option value="Salary">Salary</option>
         <option value="Published" selected>Published</option>
       </select>
@@ -58,9 +62,10 @@
 
     <div class="form-group">
       <label class="form-control-label" for="order">Order:</label>
-      <select id="order" class="form-control" (change)="changeOrder($event)">
-        <option value="ASC">Asc</option>
-        <option value="DESC" selected>Desc</option>
+      <select id="order" class="form-control" [(ngModel)]="isAscending"
+        (change)="changeSortingOrder($event.target.value)">
+        <option value="true">Asc</option>
+        <option value="false" selected>Desc</option>
       </select>
     </div>
 
@@ -82,13 +87,26 @@
       </thead>
       <tbody>
         <tr *ngFor="let jobAd of jobAds">
-          <td class="td-center"><a [routerLink]="['/jobs/details', jobAd.id]">{{jobAd.position}}</a></td>
-          <td class="td-center">{{jobAd.location}}</td>
-          <td class="td-center">{{jobAd.salary === null ? '-' : jobAd.salary}}</td>
-          <td class="td-center">{{jobAd.jobEngagement}}</td>
-          <td class="td-center">{{jobAd.jobCategory}}</td>
-          <td class="td-center">{{jobAd.postedOn | date:'longDate'}}</td>
-          <td class="td-center">{{jobAd.companyName}}</td>
+          <td class="td-center">
+            <a [routerLink]="['/jobs/details', jobAd.id]" [queryParams]="{
+                 page: currentPage,
+                 items: itemsCount,
+                 searchText: searchText,
+                 location: location,
+                 sortBy: sortBy,
+                 isAscending: isAscending,
+                 category: category,
+                 engagement: engagement
+                }">
+              {{ jobAd.position }}
+            </a>
+          </td>
+          <td class="td-center">{{ jobAd.location }}</td>
+          <td class="td-center">{{ jobAd.salary === null ? '-' : jobAd.salary }}</td>
+          <td class="td-center">{{ jobAd.jobEngagement }}</td>
+          <td class="td-center">{{ jobAd.jobCategory }}</td>
+          <td class="td-center">{{ jobAd.postedOn | date:'longDate' }}</td>
+          <td class="td-center">{{ jobAd.companyName }}</td>
           <td>
             <div class="rounded float-right">
               <img [src]="jobAd.companyLogo" class="rounded table-company-logo" alt="Company Logo">
@@ -98,10 +116,13 @@
       </tbody>
     </table>
 
-  <div class="w-50 mx-auto">
-    <app-app-pagination [totalRecords]="totalCount" [recordsPerPage]="itemsCount"
-      (onPageChange)="loadActivePageItems($event)">
-    </app-app-pagination>
+    <div class="w-50 mx-auto">
+      <app-app-pagination
+        [activePage]="currentPage"
+        [totalRecords]="totalCount"
+        [recordsPerPage]="itemsCount"
+        (pageChange)="loadActivePageItems($event)">
+      </app-app-pagination>
+    </div>
   </div>
-</div>
 </div>

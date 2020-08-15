@@ -1,8 +1,10 @@
+import { AllAdsResolved } from './../../../core/models/all-ads-resolved';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataListing } from './../../../core/models/common/data-listing';
 import { JobAd } from './../../../core/models/job-ad';
 import { Observable, Subscription } from 'rxjs';
 import { JobAdsService } from './../../../core/services/job-ads.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, QueryList } from '@angular/core';
 import { tap } from 'rxjs/operators';
 
 @Component({
@@ -13,27 +15,43 @@ import { tap } from 'rxjs/operators';
 export class AllAdsComponent implements OnInit, OnDestroy {
   categories$: Observable<object[]>;
   engagements$: Observable<object[]>;
-  searchText = '';
-
+  // allAdsResolved: AllAdsResolved;
   jobAds: JobAd[];
   totalCount: number;
+
+  searchText = '';
+  currentPage = 1;
+  readonly initialPage = 1;
 
   jobAdsSubscription: Subscription;
 
   itemsCountArray = [5, 10, 15, 20, 30, 50, 100];
-  locationsArray = ['Sofia', 'Plovdiv', 'Varna', 'Burgas', 'Ruse', 'Stara Zagora', 'Pleven'];
-  activePage = 1;
-  initialPage = 1;
   itemsCount = this.itemsCountArray[0];
+  locationsArray = ['Sofia', 'Plovdiv', 'Varna', 'Burgas', 'Ruse', 'Stara Zagora', 'Pleven'];
   location = 'All';
   category = 0;
   engagement = 0;
   sortBy = 'Published';
   isAscending = false;
-  showFilters = false;
+  showFiltersArea = false;
   buttonText = 'Show Filters';
 
-  constructor(private jobAdsService: JobAdsService) { }
+  constructor(
+    private jobAdsService: JobAdsService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    if (this.route.snapshot.queryParamMap.get('page')) {
+      this.currentPage = +this.route.snapshot.queryParamMap.get('page');
+      this.itemsCount = +this.route.snapshot.queryParamMap.get('items');
+      this.searchText = this.route.snapshot.queryParamMap.get('searchText');
+      this.location = this.route.snapshot.queryParamMap.get('location');
+      this.category = +this.route.snapshot.queryParamMap.get('category');
+      this.engagement = +this.route.snapshot.queryParamMap.get('engagement');
+      this.sortBy = this.route.snapshot.queryParamMap.get('sortBy');
+      this.isAscending = this.route.snapshot.queryParamMap.get('isAscending') === 'true' ? true : false;
+    }
+  }
 
   ngOnInit() {
     this.getJobAds();
@@ -45,9 +63,9 @@ export class AllAdsComponent implements OnInit, OnDestroy {
     this.jobAdsSubscription.unsubscribe();
   }
 
-  getJobAds() {
+  private getJobAds(): void {
     this.jobAdsSubscription = this.jobAdsService
-      .all(this.activePage, this.itemsCount, this.searchText, this.location,
+      .all(this.currentPage, this.itemsCount, this.searchText, this.location,
         this.category, this.engagement, this.sortBy, this.isAscending)
       .pipe(
         tap((data) => console.log(data))
@@ -56,54 +74,81 @@ export class AllAdsComponent implements OnInit, OnDestroy {
         this.totalCount = data.totalCount;
         this.jobAds = data.data;
       });
+
+    // this.allAdsResolved = this.route.snapshot.data['allAdsResolved'];
   }
 
-  loadActivePageItems(activePageNumber: number, hasFilteringOrSorting: boolean) {
-    this.activePage = activePageNumber;
-    if (activePageNumber !== this.initialPage || hasFilteringOrSorting) {
-      this.getJobAds();
+  searchJob(): void {
+    this.currentPage = this.initialPage;
+    this.updateQueryParams({ page: this.currentPage, searchText: this.searchText });
+    this.getJobAds();
+  }
+
+  changeItemsCount(selectedItemsCount: number): void {
+    this.itemsCount = selectedItemsCount;
+    this.currentPage = this.initialPage;
+    this.updateQueryParams({ page: this.currentPage, items: selectedItemsCount });
+    this.getJobAds();
+  }
+
+  changeFilterLocation(selectedLocation: string): void {
+    this.currentPage = this.initialPage;
+    this.location = selectedLocation;
+    this.updateQueryParams({ page: this.currentPage, location: selectedLocation });
+    this.getJobAds();
+  }
+
+  changeFilterCategory(selectedCategory: number): void {
+    this.currentPage = this.initialPage;
+    this.category = selectedCategory;
+    this.updateQueryParams({ page: this.currentPage, category: selectedCategory });
+    this.getJobAds();
+  }
+
+  changeFilterEngagement(selectedEngagement: number): void {
+    this.currentPage = this.initialPage;
+    this.engagement = selectedEngagement;
+    this.updateQueryParams({ page: this.currentPage, engagement: selectedEngagement });
+    this.getJobAds();
+  }
+
+  changeSortBy(sortBy: string): void {
+    this.currentPage = this.initialPage;
+    this.sortBy = sortBy;
+    this.updateQueryParams({ page: this.currentPage, sortBy: sortBy });
+    this.getJobAds();
+  }
+
+  changeSortingOrder(orderValue: string): void {
+    this.currentPage = this.initialPage;
+    console.log(orderValue);
+    orderValue === 'true' ? this.isAscending = true : this.isAscending = false;
+    this.updateQueryParams({ page: this.currentPage, isAscending: orderValue });
+    this.getJobAds();
+  }
+
+  loadActivePageItems(activePageNumber: number): void {
+    if (this.currentPage === activePageNumber) {
+      return;
     }
+    this.currentPage = activePageNumber;
+    this.updateQueryParams({ page: this.currentPage });
+    this.getJobAds();
   }
 
-  searchJob() {
-    this.loadActivePageItems(this.initialPage, true);
-  }
-
-  changeItemsCount(event) {
-    this.itemsCount = event.target.value;
-    this.loadActivePageItems(this.initialPage, true);
-  }
-
-  changeFilterLocation(event) {
-    this.location = event.target.value;
-    this.loadActivePageItems(this.initialPage, true);
-  }
-
-  changeFilterCategory(event) {
-    this.category = event.target.value;
-    this.loadActivePageItems(this.initialPage, true);
-  }
-
-  changeFilterEngagement(event) {
-    this.engagement = event.target.value;
-    this.loadActivePageItems(this.initialPage, true);
-  }
-
-  changeSortBy(event) {
-    this.sortBy = event.target.value;
-    this.loadActivePageItems(this.initialPage, true);
-  }
-
-  changeOrder(event) {
-    const value = event.target.value;
-    value === 'ASC' ? this.isAscending = true : this.isAscending = false;
-    this.loadActivePageItems(this.initialPage, true);
-  }
-
-  showOrHideFilters() {
-    this.showFilters = !this.showFilters;
+  showOrHideFilters(): void {
+    this.showFiltersArea = !this.showFiltersArea;
     this.buttonText === 'Show Filters'
       ? this.buttonText = 'Hide Filters'
       : this.buttonText = 'Show Filters';
+  }
+
+  private updateQueryParams(queryParamsObject: object): void {
+    this.router.navigate([],
+      {
+        relativeTo: this.route,
+        queryParams: queryParamsObject,
+        queryParamsHandling: 'merge'
+      });
   }
 }

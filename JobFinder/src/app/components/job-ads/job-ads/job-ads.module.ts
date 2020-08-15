@@ -1,3 +1,4 @@
+import { AllJobAdsResolver } from './../../../core/resolvers/all-job-ads.resolver';
 import { JobDetailsResolver } from './../../../core/resolvers/job-details.resolver';
 import { AppPaginationComponent } from './../../shared/app-pagination/app-pagination.component';
 import { AllAdsComponent } from './../all-ads/all-ads.component';
@@ -11,13 +12,15 @@ import { JobDetailsComponent } from '../job-details/job-details.component';
 
 const routes: Routes = [
   { path: 'create', component: CreateAdComponent },
-  { path: 'all', component: AllAdsComponent },
+  {
+    path: 'all',
+    component: AllAdsComponent,
+    // resolve: { allAdsResolved: AllJobAdsResolver }
+  },
   {
     path: 'details/:id',
     component: JobDetailsComponent,
-    resolve: {
-      singleJob: JobDetailsResolver
-    }
+    resolve: { singleJob: JobDetailsResolver }
   },
 ];
 
@@ -36,7 +39,8 @@ const routes: Routes = [
   ],
   providers: [
     JobAdsService,
-    JobDetailsResolver
+    JobDetailsResolver,
+    AllJobAdsResolver,
   ]
 })
 export class JobAdsModule { }
