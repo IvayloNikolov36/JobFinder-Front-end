@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-@Injectable()
+
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
+
   private readonly apiUrl = 'https://localhost:44357/api/';
   private readonly loginUrl = this.apiUrl + 'login';
   private readonly registerBaseUrl = this.apiUrl + 'register/';
@@ -13,15 +17,15 @@ export class AuthService {
     private http: HttpClient
   ) {  }
 
-  registerUser(body) {
+  registerUser(body: any) {
     return this.http.post(this.registerUserUrl, body);
   }
 
-  registerComapny(body) {
+  registerComapny(body: any) {
     return this.http.post(this.registerCompanyUrl, body);
   }
 
-  login(body) {
+  login(body: any) {
     return this.http.post(this.loginUrl, body);
   }
 

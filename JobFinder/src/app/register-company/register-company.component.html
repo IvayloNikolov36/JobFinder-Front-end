@@ -1,0 +1,177 @@
+<div class="container-fluid">
+
+  <h3 class="text-center text-primary">Register Company</h3>
+
+  <div class="d-flex justify-content-center">
+    <hr class="bg-primary w-75" />
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="registerCompany()">
+
+    <div class="d-flex justify-content-around">
+
+      <div class="mb-3 w-25">
+        <div class="mb-3">
+          <label class="form-control-label" for="username">Username</label>
+          <input class="form-control" id="username" formControlName="username" type="text">
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('username')?.touched && form.get('username')?.errors?.['required']">
+          Username field is required!
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('username')?.errors?.['minlength']">
+          Username length must be at least {{form.get('username')?.errors?.['minlength']['requiredLength']}} characters!
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('username')?.errors?.['maxlength']">
+          Username length must up to {{form.get('username')?.errors?.['maxlength']['requiredLength']}} characters!
+        </div>
+      </div>
+
+      <div class="mb-3 w-25">
+        <div class="mb-3">
+          <label class="form-control-label" for="email">Email</label>
+          <input class="form-control" id="email" formControlName="email" type="text">
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('email')?.touched && form.get('email')?.errors?.['required']">
+          Email field is required!
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('email')?.errors?.['pattern']">
+          Invalid email!
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-around">
+      <div class="mb-3 w-25">
+        <div class="mb-3">
+          <label class="form-control-label" for="password">Password</label>
+          <input class="form-control" id="password" formControlName="password" type="password">
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('password')?.touched && form.get('password')?.errors?.['required']">
+          This field is required!
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('password')?.errors?.['minlength']">
+          Length must be at least {{form.get('password')?.errors?.['minlength']['requiredLength']}} characters!
+        </div>
+      </div>
+      <div class="mb-3 w-25">
+
+        <div class="mb-3">
+          <label class="form-control-label" for="confirmPassword">Confirm Password</label>
+          <input class="form-control" id="confirmPassword" formControlName="confirmPassword" type="password">
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('confirmPassword')?.touched && form.get('confirmPassword')?.errors?.['required']">
+          This field is required!
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('confirmPassword')?.errors?.['minlength']">
+          Length must be at least {{form.get('confirmPassword')?.errors?.['minlength']['requiredLength']}} characters!
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('confirmPassword')?.errors?.['mustMatch']">
+          Passwords must match!
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-around">
+      <div class="mb-3 w-25">
+        <div class="mb-3">
+          <label class="form-control-label" for="firstName">First Name</label>
+          <input class="form-control" id="firstName" formControlName="firstName" type="text">
+        </div>
+        <div class="alert alert-danger"
+          *ngIf="form.get('firstName')?.touched && form.get('firstName')?.errors?.['required']">
+          This field is required!
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('firstName')?.errors?.['minlength']">
+          Length must be at least {{form.get('firstName')?.errors?.['minlength']['requiredLength']}} characters!
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('firstName')?.errors?.['maxlength']">
+          Length must up to {{form.get('firstName')?.errors?.['maxlength']['requiredLength']}} characters!
+        </div>
+      </div>
+      <div class="mb-3 w-25">
+        <div class="mb-3">
+          <label class="form-control-label" for="middleName">Middle Name</label>
+          <input class="form-control" id="middleName" formControlName="middleName" type="text">
+        </div>
+        <div class="alert alert-danger"
+          *ngIf="form.get('middleName')?.touched && form.get('middleName')?.errors?.['required']">
+          This field is required!
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('middleName')?.errors?.['minlength']">
+          Length must be at least {{form.get('middleName')?.errors?.['minlength']['requiredLength']}} characters!
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('middleName')?.errors?.['maxlength']">
+          Length must up to {{ form.get('middleName')?.errors?.['maxlength']['requiredLength'] }} characters!
+        </div>
+      </div>
+      <div class="mb-3 w-25">
+        <div class="mb-3">
+          <label class="form-control-label" for="lastName">Last Name</label>
+          <input class="form-control" id="lastName" formControlName="lastName" type="text">
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('lastName')?.touched && form.get('lastName')?.errors?.['required']">
+          This field is required!
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('lastName')?.errors?.['minlength']">
+          Length must be at least {{form.get('lastName')?.errors?.['minlength']['requiredLength']}} characters!
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('lastName')?.errors?.['maxlength']">
+          Length must up to {{form.get('lastName')?.errors?.['maxlength']['requiredLength']}} characters!
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-around">
+      <div class="mb-3 w-25">
+        <div class="mb-3">
+          <label class="form-control-label" for="companyName">Company name</label>
+          <input class="form-control" id="companyName" formControlName="companyName" type="text">
+        </div>
+        <div class="alert alert-danger"
+          *ngIf="form.get('companyName')?.touched && form.get('companyName')?.errors?.['required']">
+          This field is required!
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('companyName')?.errors?.['minlength']">
+          Length must be at least {{form.get('companyName')?.errors?.['minlength']['requiredLength']}} characters!
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('companyName')?.errors?.['maxlength']">
+          Length must be up to {{form.get('companyName')?.errors?.['maxlength']['requiredLength']}} characters!
+        </div>
+      </div>
+
+      <div class="mb-3 w-25">
+        <label class="form-control-label" for="companyLogoUrl">Company Logo Url</label>
+        <input class="form-control" id="companyLogoUrl" formControlName="companyLogo" type="text">
+        <div class="alert alert-danger" *ngIf="form.get('companyLogo')?.touched && form.get('companyLogo')?.errors?.['required']">
+          This field is required!
+        </div>
+      </div>
+
+      <div class="mb-3 w-25">
+        <div class="mb-3">
+          <label class="form-control-label" for="bulstat">Bulstat</label>
+          <input class="form-control" id="bulstat" formControlName="bulstat" type="text">
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('bulstat')?.touched && form.get('bulstat')?.errors?.['required']">
+          This field is required!
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('bulstat')?.errors?.['minlength']">
+          Length must be at least {{form.get('bulstat')?.errors?.['minlength']['requiredLength']}} characters!
+        </div>
+        <div class="alert alert-danger" *ngIf="form.get('bulstat')?.errors?.['maxlength']">
+          Length must be up to {{form.get('bulstat')?.errors?.['maxlength']['requiredLength']}} characters!
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <hr class="bg-primary w-75" />
+    </div>
+
+    <div class="d-flex justify-content-center mt-3">
+      <button type="submit" [disabled]="!form.valid" class="btn btn-primary">
+        Register
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,47 +1,57 @@
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
-import { JwtInterceptorService } from './core/interceptors/jwt-interceptor.service';
-import { AuthService } from './core/services/auth.service';
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './components/authentication/login/login.component';
-import { RegisterUserComponent } from './components/authentication/register-user/register-user.component';
-import { RegisterCompanyComponent } from './components/authentication/register-company/register-company.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NavigationComponent } from './components/shared/navigation/navigation.component';
-import { HomeComponent } from './components/home/home.component';
-import { ResponseHandlerInterceptorService } from './core/interceptors/response-handler-interceptor.service';
-import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DropdownDirective } from './components/shared/navigation/dropdown.directive';
-import { CollapseDirective } from './components/shared/navigation/collapse.directive';
+import { ToastrModule } from 'ngx-toastr';
+import { LoginComponent } from './login/login.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HomeComponent } from './home/home.component';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { RegisterUserComponent } from './register-user/register-user.component';
+import { RegisterCompanyComponent } from './register-company/register-company.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { CollapseDirective } from './directives/collapse.directive';
+import { DropdownDirective } from './directives/dropdown.directive';
+import { CreateJobAdvertisementComponent } from './create-job-advertisement/create-job-advertisement.component';
+import { JobAdvertisementsComponent } from './job-advertisements/job-advertisements.component';
+import { PaginationComponent } from './pagination/pagination.component';
+import { JobAdvertisementDetailsComponent } from './job-advertisement-details/job-advertisement-details.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { JwtInterceptorService } from './core/interceptors/jwt-interceptor.service';
+import { UsersModule } from './users/users.module';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavigationComponent,
     LoginComponent,
+    HomeComponent,
     RegisterUserComponent,
     RegisterCompanyComponent,
-    HomeComponent,
-    DropdownDirective,
+    NavbarComponent,
     CollapseDirective,
+    DropdownDirective,
+    CreateJobAdvertisementComponent,
+    JobAdvertisementsComponent,
+    PaginationComponent,
+    JobAdvertisementDetailsComponent,
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
-    AngularFontAwesomeModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     ReactiveFormsModule,
-    HttpClientModule,
-    ToastrModule.forRoot()
+    FormsModule,
+    UsersModule,
   ],
   providers: [
-    AuthService,
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ResponseHandlerInterceptorService, multi: true }
+    provideHttpClient(withInterceptorsFromDi()),
+    provideAnimationsAsync(),
+    {
+      provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,30 @@
+<form [formGroup]="cvInfoForm">
+  <mat-form-field>
+    <input matInput type="text" placeholder="Name" formControlName="name">
+    <mat-hint>Enter cv name.</mat-hint>
+    <mat-error *ngIf="cvInfoForm.get('name')?.touched && cvInfoForm.get('name')?.errors?.['required']">CV name is
+      required!</mat-error>
+    <mat-error *ngIf="cvInfoForm.get('name')?.errors?.['minlength']">
+      CV name length must be at least {{cvInfoForm.get('name')?.errors?.['minlength']['requiredLength']}} characters!
+    </mat-error>
+    <mat-error *ngIf="cvInfoForm.get('name')?.errors?.['maxlength']">
+      CV name length must be no more than {{cvInfoForm.get('name')?.errors?.['maxlength']['requiredLength']}}
+      characters!
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="text" placeholder="Picture Url" formControlName="pictureUrl">
+    <mat-hint>Paste picture url.</mat-hint>
+    <mat-error
+      *ngIf="cvInfoForm.get('pictureUrl')?.touched && cvInfoForm.get('pictureUrl')?.errors?.['required']">Picture url is
+      required!
+    </mat-error>
+    <mat-error *ngIf="cvInfoForm.get('pictureUrl')?.errors?.['pattern']">
+      Url is invalid!
+    </mat-error>
+  </mat-form-field>
+  <div>
+    <button type="submit" mat-button color="primary" matStepperNext (click)="emitData()"
+      [disabled]="!cvInfoForm.valid">Next</button>
+  </div>
+</form>

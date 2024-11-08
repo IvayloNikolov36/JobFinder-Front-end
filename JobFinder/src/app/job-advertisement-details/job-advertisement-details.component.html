@@ -1,0 +1,17 @@
+<div class="container-fluid">
+  <p>
+    <strong>{{ jobDetails.position }}</strong>
+  </p>
+
+  <a class="btn btn-primary" [routerLink]="['/jobs/all']" [queryParams]="{
+      page: page,
+      items: items,
+      searchText: searchText,
+      location: location,
+      sortBy: sortBy,
+      isAscending: isAscending,
+      category: category,
+      engagement: engagement
+      }"> Back
+  </a>
+</div>

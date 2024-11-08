@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+
+    <a class="navbar-brand" routerLink="/home">Job Finder</a>
+
+    <button jfCollapse class="navbar-toggler collapsed" type="button" data-toggle="collapse"
+      data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="navbar-collapse collapse" id="navbarColor01">
+
+      <ul class="navbar-nav mr-auto">
+        <li *ngIf="isCompany" class="nav-item">
+          <a class="nav-link" routerLink="/job-advertisement-create">Create</a>
+        </li>
+        <li *ngIf="isAuthenticated" class="nav-item">
+          <a class="nav-link" routerLink="/jobs-all">Jobs</a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav ml-auto">
+
+        <li *ngIf="!isAuthenticated" jfDropdown class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">Register</a>
+          <div class="dropdown-menu" aria-labelledby="dropdown01">
+            <a class="dropdown-item" routerLink="/register-user">as User</a>
+            <a class="dropdown-item" routerLink="/register-company">as Company</a>
+          </div>
+        </li>
+
+        <li *ngIf="!isAuthenticated" class="nav-item">
+          <a class="nav-link" routerLink="/login">Login</a>
+        </li>
+        <li *ngIf="isAuthenticated" class="nav-item">
+          <ul class="navbar-nav mr-auto">
+            <a class="nav-link" routerLink="users/profile">
+              <strong>{{userName}}</strong>
+            </a>
+            <a class="nav-link" routerLink="users/create-cv">
+              <strong>Create CV</strong>
+            </a>
+            <a class="nav-link" (click)="logout()">Logout</a>
+          </ul>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
