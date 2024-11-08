@@ -14,7 +14,7 @@ export class UserCurriculumVitaesComponent implements OnInit {
 
   constructor(private cvService: CurriculumVitaesService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.cvs$ = this.cvService.getUserCVs();
   }
 }

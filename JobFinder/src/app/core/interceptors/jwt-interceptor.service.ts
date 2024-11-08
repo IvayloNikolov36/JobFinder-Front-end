@@ -1,6 +1,12 @@
 import { catchError, Observable, throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpInterceptor,
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpErrorResponse
+} from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 
 
@@ -13,7 +19,7 @@ export class JwtInterceptorService implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    const token = this.authService.getToken();
+    const token: string | null = this.authService.getToken();
 
     if (token) {
       request = request.clone({
@@ -21,15 +27,17 @@ export class JwtInterceptorService implements HttpInterceptor {
       });
     }
 
-    return next.handle(request).pipe(
-      catchError((err) => {
-        if (err instanceof HttpErrorResponse) {
-          if (err.status === 401) {
-            // TODO: redirect user to the unauthorized page
+    return next
+      .handle(request)
+      .pipe(
+        catchError((err) => {
+          if (err instanceof HttpErrorResponse) {
+            if (err.status === 401) {
+              // TODO: redirect user to the unauthorized page
+            }
           }
-        }
-        return throwError(() => err);
-      })
+          return throwError(() => err);
+        })
     )
   }
 }

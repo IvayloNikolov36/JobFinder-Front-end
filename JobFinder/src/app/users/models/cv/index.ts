@@ -4,7 +4,6 @@ export * from './cv-create';
 export * from './cv-listing';
 export * from './driving-category';
 export * from './education';
-export * from './gender';
 export * from './language-info';
 export * from './personal-details';
 export * from './skills-info';

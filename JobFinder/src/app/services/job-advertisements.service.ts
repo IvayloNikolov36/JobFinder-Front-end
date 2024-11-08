@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BasicModel } from '../models/basic-model';
+import { BasicModel } from '../models/basic.model';
 import { JobAd } from '../models/job-ad';
 import { JobDetails } from '../models/job-details';
 
@@ -17,7 +17,7 @@ export class JobAdvertisementsService {
 
   constructor(private http: HttpClient) { }
 
-  createjobAd(data: JobAd) {
+  createjobAd(data: JobAd): Observable<Object> {
     return this.http.post(baseUrl + "/create", data);
   }
 

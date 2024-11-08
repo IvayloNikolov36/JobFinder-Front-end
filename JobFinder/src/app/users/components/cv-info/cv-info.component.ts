@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CvCreate } from '../../models/cv';
 
@@ -7,7 +7,7 @@ import { CvCreate } from '../../models/cv';
   selector: 'jf-cv-info',
   templateUrl: './cv-info.component.html'
 })
-export class CvInfoComponent {
+export class CvInfoComponent implements OnInit {
 
   @Output() emitCvInfoData: EventEmitter<CvCreate> = new EventEmitter<CvCreate>();
 
@@ -16,14 +16,18 @@ export class CvInfoComponent {
 
   constructor(private formBuilder: FormBuilder) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.initializeForm();
+  }
+
+  emitData(): void {
+    this.emitCvInfoData.emit(this.cvInfoForm.value);
+  }
+
+  private initializeForm(): void {
     this.cvInfoForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
       pictureUrl: ['', [Validators.required, Validators.pattern(this.urlPicPattern)]]
     });
-  }
-
-  emitData() {
-    this.emitCvInfoData.emit(this.cvInfoForm.value);
   }
 }

@@ -26,7 +26,7 @@ export class JobAdvertisementDetailsComponent implements OnInit {
     private route: ActivatedRoute
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     // TODO: refactor
     this.jobDetails = this.route.snapshot.data['singleJob']; // TODO: fix to get job details
     this.page = parseInt(this.route.snapshot.queryParamMap.get('page') ?? '1');

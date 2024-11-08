@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { SelectOptionsType } from '../../../models/select-options-type';
 import { Education } from '../../models/cv';
+import { BasicValueModel } from '../../../core/models';
 
 
 @Component({
@@ -11,21 +11,27 @@ import { Education } from '../../models/cv';
 })
 export class EducationsComponent implements OnInit {
 
-  @Input() educationLevels!: Observable<SelectOptionsType[]>;
+  @Input() educationLevels!: Observable<BasicValueModel[]>;
   @Output() emitEducationData = new EventEmitter<Education[]>();
 
   educationsForm!: FormGroup;
 
   constructor(private formBuilder: FormBuilder) { }
 
-  ngOnInit() {
-    this.educationsForm = this.formBuilder.group({
-      educationsArray: new FormArray<FormGroup>([])
-    });
+  ngOnInit(): void {
+    this.initializeForm();
     this.addNewEducationForm();
   }
 
-  addNewEducationForm() {
+  get edf() {
+    return this.educationsForm.controls;
+  }
+
+  get ed() {
+    return this.edf['educationsArray'] as FormArray<FormGroup>;
+  }
+
+  addNewEducationForm(): void {
     this.ed.push(this.formBuilder.group({
       fromDate: ['', [Validators.required]],
       toDate: ['', []],
@@ -37,22 +43,20 @@ export class EducationsComponent implements OnInit {
     }));
   }
 
-  removeLastEducationForm() {
+  removeLastEducationForm(): void {
     if (this.ed.length === 1) {
       return;
     }
     this.ed.removeAt(this.ed.length - 1);
   }
 
-  get edf() {
-    return this.educationsForm.controls;
-  }
-
-  get ed() {
-    return this.edf['educationsArray'] as FormArray<FormGroup>;
-  }
-
-  emitData() {
+  emitData(): void {
     this.emitEducationData.emit(this.educationsForm.value.educationsArray);
+  }
+
+  private initializeForm(): void {
+    this.educationsForm = this.formBuilder.group({
+      educationsArray: new FormArray<FormGroup>([])
+    });
   }
 }

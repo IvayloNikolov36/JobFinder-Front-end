@@ -11,8 +11,8 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@a
 import { RegisterUserComponent } from './register-user/register-user.component';
 import { RegisterCompanyComponent } from './register-company/register-company.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { CollapseDirective } from './directives/collapse.directive';
-import { DropdownDirective } from './directives/dropdown.directive';
+import { CollapseDirective } from './core/directives/collapse.directive';
+import { DropdownDirective } from './core/directives/dropdown.directive';
 import { CreateJobAdvertisementComponent } from './create-job-advertisement/create-job-advertisement.component';
 import { JobAdvertisementsComponent } from './job-advertisements/job-advertisements.component';
 import { PaginationComponent } from './pagination/pagination.component';
@@ -20,6 +20,7 @@ import { JobAdvertisementDetailsComponent } from './job-advertisement-details/jo
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { JwtInterceptorService } from './core/interceptors/jwt-interceptor.service';
 import { UsersModule } from './users/users.module';
+import { ResponseHandlerInterceptorService } from './core/interceptors/response-handler-interceptor.service';
 
 
 @NgModule({
@@ -51,6 +52,9 @@ import { UsersModule } from './users/users.module';
     provideAnimationsAsync(),
     {
       provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS, useClass: ResponseHandlerInterceptorService, multi: true
     }
   ],
   bootstrap: [AppComponent]

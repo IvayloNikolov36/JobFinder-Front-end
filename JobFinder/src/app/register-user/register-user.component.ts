@@ -1,15 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControlOptions, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../core/services/auth.service';
 import { Router } from '@angular/router';
-import { MustMatch } from '../core/must-match';
+import { MustMatch } from '../core/functions/must-match';
 
 
 @Component({
   selector: 'jf-register-user',
   templateUrl: './register-user.component.html'
 })
-export class RegisterUserComponent {
+export class RegisterUserComponent implements OnInit {
 
   form!: FormGroup;
   emailPattern = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
@@ -20,7 +20,19 @@ export class RegisterUserComponent {
     private router: Router
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.initializeRegisterForm();
+  }
+
+  register() {
+    this.authService
+      .registerUser(this.form.value)
+      .subscribe(() => {
+        this.router.navigate(['/login']);
+      });
+  }
+
+  private initializeRegisterForm(): void {
     this.form = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(25)]],
       email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
@@ -32,13 +44,5 @@ export class RegisterUserComponent {
     }, {
       validator: MustMatch('password', 'confirmPassword')
     } as AbstractControlOptions);
-  }
-
-  register() {
-    this.authService
-      .registerUser(this.form.value)
-      .subscribe(() => {
-        this.router.navigate(['/login']);
-      });
   }
 }

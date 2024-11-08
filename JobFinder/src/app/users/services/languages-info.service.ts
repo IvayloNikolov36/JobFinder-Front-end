@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LanguageInfo } from '../models/cv/language-info';
-import { SelectOptionsType } from '../../models/select-options-type';
+import { BasicValueModel } from '../../core/models';
 
 
 const baseUrl = 'https://localhost:44357/api/cvs/Languages';
@@ -16,17 +16,19 @@ export class LanguagesInfoService {
 
   constructor(private http: HttpClient) { }
 
-  create = (cvId: string, data: LanguageInfo[]) => this.http.post(baseUrl + `/${cvId}`, data);
+  create(cvId: string, data: LanguageInfo[]): Observable<Object> {
+    return this.http.post(baseUrl + `/${cvId}`, data);
+  }
 
-  get(cvId: string): Observable<LanguageInfo[]> {
+  get(): Observable<LanguageInfo[]> {
     return this.http.get<LanguageInfo[]>(baseUrl);
   }
 
-  getLanguageLevels(): Observable<SelectOptionsType[]> {
-    return this.http.get<SelectOptionsType[]>(getLanguageLevelsUrl);
+  getLanguageLevels(): Observable<BasicValueModel[]> {
+    return this.http.get<BasicValueModel[]>(getLanguageLevelsUrl);
   }
 
-  getLanguageTypes(): Observable<SelectOptionsType[]> {
-    return this.http.get<SelectOptionsType[]>(getLanguageTypesUrl);
+  getLanguageTypes(): Observable<BasicValueModel[]> {
+    return this.http.get<BasicValueModel[]>(getLanguageTypesUrl);
   }
 }

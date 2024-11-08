@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Education } from '../models/cv/education';
-import { SelectOptionsType } from '../../models/select-options-type';
+import { BasicValueModel } from '../../core/models';
 
 
 const baseUrl = 'https://localhost:44357/api/cvs/Educations';
@@ -17,7 +17,7 @@ export class EducationsService {
 
   create = (cvId: string, data: Education[]) => this.http.post(baseUrl + `/${cvId}`, data);
 
-  get = (cvId: string): Observable<Education[]> => this.http.get<Education[]>(baseUrl);
+  get = (): Observable<Education[]> => this.http.get<Education[]>(baseUrl);
 
-  getEducationLevels = (): Observable<SelectOptionsType[]> => this.http.get<SelectOptionsType[]>(getEducationLevelsUrl);
+  getEducationLevels = (): Observable<BasicValueModel[]> => this.http.get<BasicValueModel[]>(getEducationLevelsUrl);
 }

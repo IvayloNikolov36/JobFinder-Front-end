@@ -11,7 +11,7 @@ export class CollapseDirective {
     private renderer: Renderer2
   ) { }
 
-  @HostListener('click') clickHandler() {
+  @HostListener('click') clickHandler(): void {
 
     const divElement: any = this.renderer.nextSibling(this.button.nativeElement);
 

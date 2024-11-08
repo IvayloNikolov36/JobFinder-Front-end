@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { JobAdvertisementsService } from '../services/job-advertisements.service';
-import { BasicModel } from '../models/basic-model';
+import { BasicModel } from '../models/basic.model';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -23,7 +24,8 @@ export class CreateJobAdvertisementComponent {
   constructor(
     private jobAdsService: JobAdvertisementsService,
     private fb: FormBuilder,
-    private router: Router) {
+    private router: Router,
+    private toastr: ToastrService) {
 
     this.jobCategories$ = this.jobAdsService.getCategories();
     this.jobEngagements$ = this.jobAdsService.getEngagements();
@@ -41,24 +43,25 @@ export class CreateJobAdvertisementComponent {
     });
   }
 
-  changeJobCategory(event: any) {
-    const selectedValue = event.target.value;
-    const val = selectedValue.split(':')[0];
-    this.chosedCategory = parseInt(val, 10);
+  changeJobCategory(event: any): void {
+    const selectedValue: any = event.target.value;
+    const value: string = selectedValue.split(':')[0];
+    this.chosedCategory = parseInt(value, 10);
   }
 
-  changeJobEngagement(event: any) {
-    const selectedValue = event.target.value;
-    const val = selectedValue.split(':')[0];
-    this.chosedEngagement = parseInt(val, 10);
+  changeJobEngagement(event: any): void {
+    const selectedValue: any = event.target.value;
+    const value: string = selectedValue.split(':')[0];
+    this.chosedEngagement = parseInt(value, 10);
   }
 
-  createOffer() {
+  createOffer(): void {
     this.form.controls['jobCategoryId'].setValue(this.chosedCategory);
     this.form.controls['jobEngagementId'].setValue(this.chosedEngagement);
 
     this.jobAdsService.createjobAd(this.form.value)
       .subscribe(() => {
+        this.toastr.success("Job Advertisement is created.", "Success");
         this.router.navigate(['/home']);
       });
   }

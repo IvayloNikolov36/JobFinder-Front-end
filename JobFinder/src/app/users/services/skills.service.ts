@@ -15,7 +15,7 @@ export class SkillsService {
 
   constructor(private http: HttpClient) { }
 
-  create = (cvId: string, data: SkillsInfo) => {
+  create(cvId: string, data: SkillsInfo): Observable<Object> {
     data.cvId = cvId;
     return this.http.post(baseUrl, data);
   }

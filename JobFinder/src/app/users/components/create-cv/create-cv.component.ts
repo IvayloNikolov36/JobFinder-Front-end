@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ViewChild, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { EMPTY, Observable, Subscription } from 'rxjs';
-import { SelectOptionsType } from '../../../models/select-options-type';
 import { CvInfoComponent } from '../cv-info/cv-info.component';
 import { FormGroup } from '@angular/forms';
 import { PersonalDetailsComponent } from '../personal-details/personal-details.component';
@@ -11,6 +10,7 @@ import { SkillsInfoComponent } from '../skills-info/skills-info.component';
 import { CoursesCertificatesComponent } from '../courses-certificates/courses-certificates.component';
 import { CourseSertificate, CvCreate, CvCreateResult, DrivingCategory, Education, LanguageInfo, PersonalDetails, SkillsInfo, WorkExperience } from '../../models/cv';
 import { CoursesService, CurriculumVitaesService, EducationsService, LanguagesInfoService, PersonalDetailsService, SkillsService, WorkExperiencesService } from '../../services';
+import { BasicValueModel } from '../../../core/models';
 
 
 @Component({
@@ -36,12 +36,12 @@ export class CreateCvComponent implements OnInit, AfterViewInit, OnDestroy {
   coursesCertificatesForm!: FormGroup<any>;
 
   subscriptions: Subscription[] = [];
-  countries!: SelectOptionsType[];
-  businessSectors!: SelectOptionsType[];
+  countries!: BasicValueModel[];
+  businessSectors!: BasicValueModel[];
 
-  educationLevels$!: Observable<SelectOptionsType[]>;
-  languageTypes$!: Observable<SelectOptionsType[]>;
-  languageLevels$!: Observable<SelectOptionsType[]>;
+  educationLevels$!: Observable<BasicValueModel[]>;
+  languageTypes$!: Observable<BasicValueModel[]>;
+  languageLevels$!: Observable<BasicValueModel[]>;
   drivingCategories: Observable<DrivingCategory[]> = EMPTY; // remove
   // drivingCategories$!: Observable<DrivingCategory[]>;
 
@@ -65,7 +65,7 @@ export class CreateCvComponent implements OnInit, AfterViewInit, OnDestroy {
     ) { }
 
     // TODO: refactor the hook
-  ngOnInit() {
+  ngOnInit(): void {
     this.subscriptions.push(this.pDetailsService.getCountries().subscribe((data: any[]) => {
       this.countries = data;
     }));
@@ -79,7 +79,7 @@ export class CreateCvComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.drivingCategories$ = this.skillsService.getDrivingCategories();
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.cvInfoForm = this.cvInfoComponent.cvInfoForm;
     this.personalDetailsForm = this.personalDetailsComponent.personalInfoForm;
     this.workExperiencesForm = this.workExperiencesComponent.workExpForm;
@@ -90,7 +90,7 @@ export class CreateCvComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cdref.detectChanges();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscriptions.forEach(s => s.unsubscribe());
   }
 
@@ -103,7 +103,7 @@ export class CreateCvComponent implements OnInit, AfterViewInit, OnDestroy {
   onPassedCoursesData = (data: CourseSertificate[]) => this.coursesCertificates = data;
 
   sendCVdata() {
-    // TODO: refactor the method and redirect to a page
+    // TODO: refactor the method - avoid nesting subscribe and redirect to a page
     this.subscriptions.push(this.cvService.createCv(this.cvInfo).subscribe((data: CvCreateResult) => {
 
       console.log('cvId: ' + data.cvId);

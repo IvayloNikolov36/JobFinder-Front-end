@@ -14,7 +14,7 @@ export class PaginationComponent implements OnChanges {
 
   pages: number[] = [];
 
-  ngOnChanges() {
+  ngOnChanges(): void {
     const pageCount = this.getPageCount();
     this.pages = this.getArrayOfPage(pageCount);
   }
@@ -34,7 +34,7 @@ export class PaginationComponent implements OnChanges {
   }
 
   private getPageCount(): number {
-    let totalPage = 0;
+    let totalPage: number = 0;
 
     if (this.totalRecords > 0 && this.recordsPerPage > 0) {
       const pageCount: number = this.totalRecords / this.recordsPerPage;

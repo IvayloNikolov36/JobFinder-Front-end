@@ -1,7 +1,7 @@
 import { JobAdvertisementsService } from './../services/job-advertisements.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription, tap } from 'rxjs';
-import { BasicModel } from '../models/basic-model';
+import { BasicModel } from '../models/basic.model';
 import { JobAd } from '../models/job-ad';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -14,7 +14,6 @@ export class JobAdvertisementsComponent implements OnInit, OnDestroy {
 
   categories$!: Observable<BasicModel[]>;
   engagements$!: Observable<BasicModel[]>;
-  // allAdsResolved: AllAdsResolved;
   jobAds!: JobAd[];
   totalCount!: number;
 
@@ -62,13 +61,13 @@ export class JobAdvertisementsComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getJobAds();
     this.categories$ = this.jobAdsService.getCategories();
     this.engagements$ = this.jobAdsService.getEngagements();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.jobAdsSubscription.unsubscribe();
   }
 
@@ -83,15 +82,10 @@ export class JobAdvertisementsComponent implements OnInit, OnDestroy {
         this.engagement,
         this.sortBy ?? '',
         this.isAscending)
-      .pipe(
-        tap((data) => console.log(data))
-      )
       .subscribe((data: any) => {
         this.totalCount = data.totalCount;
         this.jobAds = data.data;
       });
-
-    // this.allAdsResolved = this.route.snapshot.data['allAdsResolved'];
   }
 
   searchJob(): void {

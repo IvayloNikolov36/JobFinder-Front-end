@@ -15,5 +15,5 @@ export class CoursesService {
 
   create = (cvId: string, data: CourseSertificate[]) => this.http.post(baseUrl + `/${cvId}`, data);
 
-  get = (cvId: string): Observable<CourseSertificate[]> => this.http.get<CourseSertificate[]>(baseUrl);
+  get = (): Observable<CourseSertificate[]> => this.http.get<CourseSertificate[]>(baseUrl);
 }

@@ -1,7 +1,13 @@
 import { Observable } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse } from '@angular/common/http';
+import {
+  HttpInterceptor,
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpResponse
+} from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
@@ -12,19 +18,16 @@ import { ToastrService } from 'ngx-toastr';
 export class ResponseHandlerInterceptorService implements HttpInterceptor {
 
   constructor(
-    public toastr: ToastrService,
-    private router: Router) {
+    private toastr: ToastrService,
+    private router: Router) { }
 
-  }
-
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     return next
-      .handle(req)
+      .handle(request)
       .pipe(tap((success: HttpEvent<any>) => {
 
         if (success instanceof HttpResponse) {
-
           if (success?.url?.endsWith('login') || success?.url?.includes('register')
             || success?.url?.includes('create') || success?.url?.includes('delete')
             || success.url?.includes('edit')) {
@@ -33,26 +36,24 @@ export class ResponseHandlerInterceptorService implements HttpInterceptor {
           }
         }
       }), catchError((err: any) => {
+        let errorMessage: string = err.error.title;
 
-        let errMsg = err.error.title;
-
-        const hasErrors = err.error.errors !== undefined;
+        const errors: any = err.error.errors;
+        const hasErrors: boolean = errors !== undefined;
 
         if (hasErrors) {
-
-          for (const errType of Object.values(err.error.errors)) {
-
-            const arrayOfErrors = errType as string[];
+          for (const errType of Object.values(errors)) {
+            const arrayOfErrors: string[] = errType as string[];
 
             arrayOfErrors.forEach((value: string) => {
-              errMsg = errMsg.concat(' ' + value);
+              errorMessage = errorMessage.concat(' ' + value);
             });
           }
         }
 
-        console.log('Error message: ' + errMsg);
+        console.log('Error message: ' + errorMessage);
 
-        this.toastr.error(errMsg, 'Error');
+        this.toastr.error(errorMessage, 'Error');
 
         this.router.navigate(['/home']);
 
