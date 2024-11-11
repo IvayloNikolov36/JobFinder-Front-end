@@ -1,7 +1,8 @@
 <div class="container-fluid">
   <div class="d-flex justify-content-center mt-5">
     <h4>
-      Hello {{username}}!
+      @let greeting = username ? 'Hello, ' + username + '!' : 'Hello!';
+      {{ greeting }}
     </h4>
   </div>
 </div>

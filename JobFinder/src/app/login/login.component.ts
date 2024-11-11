@@ -35,17 +35,14 @@ export class LoginComponent implements OnInit {
     this.authService
       .login(this.form.value)
       .subscribe((data: any) => {
-        const token: string = data['token'];
-        localStorage.setItem('token', token);
-
-        const name: string = data['username'];
-        localStorage.setItem('username', name);
-
+        localStorage.setItem('token', data['token']);
+        localStorage.setItem('username', data['username']);
         const isAdmin: boolean = data['role'] === 'Admin' ? true : false;
         localStorage.setItem('isAdmin', String(isAdmin));
-
         const isCompany: boolean = data['role'] === 'Company' ? true : false;
         localStorage.setItem('isCompany', String(isCompany));
+
+        this.authService.isLoggedIn.next(true);
 
         this.router.navigate(['/home']);
       });

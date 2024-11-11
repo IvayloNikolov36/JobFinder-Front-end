@@ -5,16 +5,16 @@ import { HomeComponent } from './home/home.component';
 import { RegisterCompanyComponent } from './register-company/register-company.component';
 import { RegisterUserComponent } from './register-user/register-user.component';
 import { CreateJobAdvertisementComponent } from './create-job-advertisement/create-job-advertisement.component';
-import { AuthGuard } from './core/guards/auth.guard';
+import { AuthGuard, IsSignedInGuard } from './core/guards';
 import { JobAdvertisementsComponent } from './job-advertisements/job-advertisements.component';
 import { JobAdvertisementDetailsComponent } from './job-advertisement-details/job-advertisement-details.component';
 
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
-  { path: 'login', component: LoginComponent },
-  { path: 'register-company', component: RegisterCompanyComponent },
-  { path: 'register-user', component: RegisterUserComponent },
+  { path: 'login', component: LoginComponent, canActivate: [IsSignedInGuard] },
+  { path: 'register-company', component: RegisterCompanyComponent, canActivate: [IsSignedInGuard] },
+  { path: 'register-user', component: RegisterUserComponent, canActivate: [IsSignedInGuard] },
   { path: 'home', component: HomeComponent },
   { path: 'job-advertisement-create', component: CreateJobAdvertisementComponent, canActivate: [AuthGuard] },
   { path: 'jobs-all', component: JobAdvertisementsComponent, canActivate: [AuthGuard] },

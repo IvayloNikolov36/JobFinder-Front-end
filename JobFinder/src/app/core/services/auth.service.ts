@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 
 @Injectable({
@@ -14,6 +14,8 @@ export class AuthService {
   private readonly registerBaseUrl = this.apiUrl + 'register/';
   private readonly registerCompanyUrl = this.registerBaseUrl + 'company';
   private readonly registerUserUrl = this.registerBaseUrl + 'user';
+
+  isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient) {  }
 
@@ -31,6 +33,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.clear();
+    this.isLoggedIn.next(false);
   }
 
   isAuthenticated(): boolean {
