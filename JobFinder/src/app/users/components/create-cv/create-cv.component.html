@@ -1,50 +1,57 @@
-<mat-stepper orientation="vertical" [linear]="true" #stepper>
+<div class="container-fluid">
 
-  <mat-step [stepControl]="cvInfoForm">
-    <ng-template matStepLabel>CV Info Details</ng-template>
-    <jf-cv-info (emitCvInfoData)="onPassedCvInfoData($event)" />
-  </mat-step>
+  <div class="d-flex my-3 ms-3">
+    <button mat-button routerLink="/profile">Back to Profile</button>
+  </div>
 
-  <mat-step [stepControl]="personalDetailsForm">
-    <ng-template matStepLabel>Personal Info</ng-template>
-    <jf-personal-details [countries]="countries" (passFormData)="onPassedPersonalDetailsData($event)" />
-  </mat-step>
+  <mat-stepper orientation="vertical" [linear]="true" #stepper>
 
-  <mat-step [stepControl]="workExperiencesForm">
-    <ng-template matStepLabel>Work Experience</ng-template>
-    <jf-work-experiences [businessSectors]="businessSectors"
-      (emitWorkExperiencesData)="onPassedWorkExperiencesData($event)" />
-  </mat-step>
+    <mat-step [stepControl]="cvInfoForm">
+      <ng-template matStepLabel>CV Info Details</ng-template>
+      <jf-cv-info (emitCvInfoData)="onPassedCvInfoData($event)" />
+    </mat-step>
 
-  <mat-step [stepControl]="educationsForm">
-    <ng-template matStepLabel>Education</ng-template>
-    <jf-educations [educationLevels]="educationLevels$" (emitEducationData)="onPassedEducationData($event)" />
-  </mat-step>
+    <mat-step [stepControl]="personalDetailsForm">
+      <ng-template matStepLabel>Personal Info</ng-template>
+      <jf-personal-details [countries]="countries" (passFormData)="onPassedPersonalDetailsData($event)" />
+    </mat-step>
 
-  <mat-step [stepControl]="languagesInfoForm">
-    <ng-template matStepLabel>Languages Info</ng-template>
-    <jf-languages-info [languageTypes]="languageTypes$" [languageLevels]="languageLevels$"
-      (emitLanguagesInfo)="onPassedLanguagesInfo($event)" />
-  </mat-step>
+    <mat-step [stepControl]="workExperiencesForm">
+      <ng-template matStepLabel>Work Experience</ng-template>
+      <jf-work-experiences [businessSectors]="businessSectors"
+        (emitWorkExperiencesData)="onPassedWorkExperiencesData($event)" />
+    </mat-step>
 
-  <mat-step [stepControl]="skillsInfoForm">
-    <ng-template matStepLabel>Skills</ng-template>
-    <jf-skills-info [drivingCategories]="drivingCategories" (emitSkillsData)="onPassedSkillsInfoData($event)" />
-  </mat-step>
+    <mat-step [stepControl]="educationsForm">
+      <ng-template matStepLabel>Education</ng-template>
+      <jf-educations [educationLevels]="educationLevels$" (emitEducationData)="onPassedEducationData($event)" />
+    </mat-step>
 
-  <mat-step [stepControl]="coursesCertificatesForm">
-    <ng-template matStepLabel>Courses and certificates</ng-template>
-    <jf-courses-certificates (emitCoursesData)="onPassedCoursesData($event)" />
-  </mat-step>
+    <mat-step [stepControl]="languagesInfoForm">
+      <ng-template matStepLabel>Languages Info</ng-template>
+      <jf-languages-info [languageTypes]="languageTypes$" [languageLevels]="languageLevels$"
+        (emitLanguagesInfo)="onPassedLanguagesInfo($event)" />
+    </mat-step>
 
-  <mat-step>
-    <ng-template matStepLabel>Submit your data</ng-template>
-    You are now done.
-    <div>
-      <button mat-button color="success" (click)="sendCVdata()">Create</button>
-      <button mat-button color="primary" matStepperPrevious>Back</button>
-      <button mat-button color="danger" (click)="stepper.reset()">Reset</button>
-    </div>
-  </mat-step>
+    <mat-step [stepControl]="skillsInfoForm">
+      <ng-template matStepLabel>Skills</ng-template>
+      <jf-skills-info [drivingCategories]="drivingCategories" (emitSkillsData)="onPassedSkillsInfoData($event)" />
+    </mat-step>
 
-</mat-stepper>
+    <mat-step [stepControl]="coursesCertificatesForm">
+      <ng-template matStepLabel>Courses and certificates</ng-template>
+      <jf-courses-certificates (emitCoursesData)="onPassedCoursesData($event)" />
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Submit your data</ng-template>
+      You are now done.
+      <div class="d-flex justify-content-start gap-3 mt-3">
+        <button mat-button color="success" (click)="sendCVdata()">Create</button>
+        <button mat-button color="primary" matStepperPrevious>Back</button>
+        <button mat-button color="danger" (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+
+  </mat-stepper>
+</div>

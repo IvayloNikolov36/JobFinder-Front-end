@@ -1,24 +1,29 @@
-<h3>Your CVs</h3>
+<div class="container-fluid">
 
-<a routerLink="create" class="btn btn-primary">Create new</a>
+  <div class="d-flex justify-content-center">
+    <h4>Your CVs</h4>
+  </div>
 
-<div class="table-responsive">
-  <table class="table mb-0" *ngIf="cvs$ | async as cvs">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>CreatedOn</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody *ngFor="let cv of cvs">
-      <tr>
-        <td>{{ cv.name }}</td>
-        <td>{{ cv.createdOn | date: 'shortDate' }}</td>
-        <td>
-          <a routerLink="details/{{cv.id}}" class="btn btn-primary">Edit</a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <a routerLink="/create-cv" class="btn btn-primary mx-3">Create new</a>
+
+  <div class="table-responsive mt-5 mx-5">
+    <table class="table mb-0" *ngIf="cvs$ | async as cvs">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>CreatedOn</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let cv of cvs">
+        <tr>
+          <td>{{ cv.name }}</td>
+          <td>{{ cv.createdOn | date: 'shortDate' }}</td>
+          <td>
+            <a routerLink="details/{{cv.id}}" class="btn btn-primary">Edit</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

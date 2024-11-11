@@ -21,10 +21,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    debugger;
-
     this.subscription = this.authService.isLoggedIn.subscribe((isLogged: boolean) => {
-      debugger;
       this.isAuthenticated = isLogged;
       this.isCompany = this.authService.isCompany();
       this.userName = this.authService.getUserName();
@@ -32,7 +29,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    debugger;
     this.subscription.unsubscribe();
   }
 

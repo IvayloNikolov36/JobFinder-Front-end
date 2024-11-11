@@ -26,11 +26,6 @@
         <a class="nav-link" routerLink="/login">Login</a>
       </li>
       <li *ngIf="isAuthenticated && !isCompany" class="nav-item">
-        <a class="nav-link" routerLink="users/create-cv">
-          Create CV
-        </a>
-      </li>
-      <li *ngIf="isAuthenticated && !isCompany" class="nav-item">
         <a class="nav-link" routerLink="users/profile">
           <strong>{{ userName }}</strong>
         </a>

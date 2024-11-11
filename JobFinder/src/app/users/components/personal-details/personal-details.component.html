@@ -1,128 +1,139 @@
 <form [formGroup]="personalInfoForm">
-  <mat-form-field>
-    <input matInput type="text" placeholder="First Name" formControlName="firstName">
-    <mat-hint>Enter first name.</mat-hint>
-    <mat-error
-      *ngIf="personalInfoForm.get('firstName')?.touched && personalInfoForm.get('firstName')?.errors?.['required']">First
-      name is required!</mat-error>
-    <mat-error *ngIf="personalInfoForm.get('firstName')?.errors?.['minlength']">
-      First name length must be at least {{personalInfoForm.get('firstName')?.errors?.['minlength']['requiredLength']}}
-      characters!
-    </mat-error>
-    <mat-error *ngIf="personalInfoForm.get('firstName')?.errors?.['maxlength']">
-      First name length must be no more than
-      {{personalInfoForm.get('firstName')?.errors?.['maxlength']['requiredLength']}} characters!
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput type="text" placeholder="Middle Name" formControlName="middleName">
-    <mat-hint>Enter middle name.</mat-hint>
-    <mat-error
-      *ngIf="personalInfoForm.get('middleName')?.touched && personalInfoForm.get('middleName')?.errors?.['required']">Middle
-      name is required!
-    </mat-error>
-    <mat-error *ngIf="personalInfoForm.get('middleName')?.errors?.['minlength']">
-      Middle name length must be at least
-      {{personalInfoForm.get('middleName')?.errors?.['minlength']['requiredLength']}} characters!
-    </mat-error>
-    <mat-error *ngIf="personalInfoForm.get('middleName')?.errors?.['maxlength']">
-      Middle name length must be no more than
-      {{personalInfoForm.get('middleName')?.errors?.['maxlength']['requiredLength']}} characters!
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput type="text" placeholder="Last Name" formControlName="lastName">
-    <mat-hint>Enter last name.</mat-hint>
-    <mat-error
-      *ngIf="personalInfoForm.get('lastName')?.touched && personalInfoForm.get('lastName')?.errors?.['required']">Last
-      name is required!</mat-error>
-    <mat-error *ngIf="personalInfoForm.get('lastName')?.errors?.['minlength']">
-      Last name length must be at least {{personalInfoForm.get('lastName')?.errors?.['minlength']['requiredLength']}}
-      characters!
-    </mat-error>
-    <mat-error *ngIf="personalInfoForm.get('lastName')?.errors?.['maxlength']">
-      Last name length must be no more than
-      {{personalInfoForm.get('lastName')?.errors?.['maxlength']['requiredLength']}} characters!
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput type="text" placeholder="Email" formControlName="email">
-    <mat-hint>Enter email.</mat-hint>
-    <mat-error
-      *ngIf="personalInfoForm.get('email')?.touched && personalInfoForm.get('email')?.errors?.['required']">Email is
-      required!</mat-error>
-    <mat-error *ngIf="personalInfoForm.get('email')?.errors?.['pattern']">
-      Email is invalid!
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput type="text" placeholder="Phone" formControlName="phone">
-    <mat-hint>Enter phone.</mat-hint>
-    <mat-error
-      *ngIf="personalInfoForm.get('phone')?.touched && personalInfoForm.get('phone')?.errors?.['required']">Phone is
-      required!</mat-error>
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput [matDatepicker]="birthdatePicker" placeholder="Bithdate" formControlName="birthDate">
-    <mat-datepicker-toggle matSuffix [for]="birthdatePicker"></mat-datepicker-toggle>
-    <mat-datepicker #birthdatePicker></mat-datepicker>
-    <mat-hint>Select birthdate.</mat-hint>
-    <mat-error
-      *ngIf="personalInfoForm.get('birthDate')?.touched && personalInfoForm.get('birthDate')?.errors?.['required']">
-      Birthdate is required!
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput type="text" placeholder="Current City" formControlName="city">
-    <mat-hint>Enter city.</mat-hint>
-    <mat-error *ngIf="personalInfoForm.get('city')?.touched && personalInfoForm.get('city')?.errors?.['required']">City
-      is required!</mat-error>
-    <mat-error *ngIf="personalInfoForm.get('city')?.errors?.['minlength']">
-      City length must be at least {{personalInfoForm.get('city')?.errors?.['minlength']['requiredLength']}} characters!
-    </mat-error>
-    <mat-error *ngIf="personalInfoForm.get('city')?.errors?.['maxlength']">
-      City length must be no more than {{personalInfoForm.get('city')?.errors?.['maxlength']['requiredLength']}}
-      characters!
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Gender</mat-label>
-    <mat-select formControlName="gender">
-      <mat-option *ngFor="let gender of genderOptions" [value]="gender.value">
-        {{gender.viewValue}}
-      </mat-option>
-    </mat-select>
-    <mat-hint>Select gender.</mat-hint>
-    <mat-error
-      *ngIf="personalInfoForm.get('gender')?.touched && personalInfoForm.get('gender')?.errors?.['required']">Gender is
-      required!</mat-error>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Citizenship</mat-label>
-    <mat-select formControlName="citizenShip">
-      <mat-option *ngFor="let c of countries" [value]="c.value">
-        {{c.viewValue}}
-      </mat-option>
-    </mat-select>
-    <mat-hint>Select citizenship.</mat-hint>
-    <mat-error
-      *ngIf="personalInfoForm.get('gender')?.touched && personalInfoForm.get('gender')?.errors?.['required']">Citizenship
-      is required!</mat-error>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Country</mat-label>
-    <mat-select formControlName="country">
-      <mat-option *ngFor="let c of countries" [value]="c.value">
-        {{c.viewValue}}
-      </mat-option>
-    </mat-select>
-    <mat-hint>Select country.</mat-hint>
-    <mat-error
-      *ngIf="personalInfoForm.get('country')?.touched && personalInfoForm.get('country')?.errors?.['required']">Country
-      is required!</mat-error>
-  </mat-form-field>
-  <div>
-    <button type="submit" mat-button color="primary" matStepperNext (click)="emitData()"
-      [disabled]="!personalInfoForm.valid">Next</button>
+
+  <div class="d-flex justify-content-start gap-3 mt-3">
+    <mat-form-field>
+      <input matInput type="text" placeholder="First Name" formControlName="firstName">
+      <mat-hint>Enter first name.</mat-hint>
+      <mat-error
+        *ngIf="personalInfoForm.get('firstName')?.touched && personalInfoForm.get('firstName')?.errors?.['required']">First
+        name is required!</mat-error>
+      <mat-error *ngIf="personalInfoForm.get('firstName')?.errors?.['minlength']">
+        First name length must be at least
+        {{personalInfoForm.get('firstName')?.errors?.['minlength']['requiredLength']}}
+        characters!
+      </mat-error>
+      <mat-error *ngIf="personalInfoForm.get('firstName')?.errors?.['maxlength']">
+        First name length must be no more than
+        {{personalInfoForm.get('firstName')?.errors?.['maxlength']['requiredLength']}} characters!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" placeholder="Middle Name" formControlName="middleName">
+      <mat-hint>Enter middle name.</mat-hint>
+      <mat-error
+        *ngIf="personalInfoForm.get('middleName')?.touched && personalInfoForm.get('middleName')?.errors?.['required']">Middle
+        name is required!
+      </mat-error>
+      <mat-error *ngIf="personalInfoForm.get('middleName')?.errors?.['minlength']">
+        Middle name length must be at least
+        {{personalInfoForm.get('middleName')?.errors?.['minlength']['requiredLength']}} characters!
+      </mat-error>
+      <mat-error *ngIf="personalInfoForm.get('middleName')?.errors?.['maxlength']">
+        Middle name length must be no more than
+        {{personalInfoForm.get('middleName')?.errors?.['maxlength']['requiredLength']}} characters!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" placeholder="Last Name" formControlName="lastName">
+      <mat-hint>Enter last name.</mat-hint>
+      <mat-error
+        *ngIf="personalInfoForm.get('lastName')?.touched && personalInfoForm.get('lastName')?.errors?.['required']">Last
+        name is required!</mat-error>
+      <mat-error *ngIf="personalInfoForm.get('lastName')?.errors?.['minlength']">
+        Last name length must be at least {{personalInfoForm.get('lastName')?.errors?.['minlength']['requiredLength']}}
+        characters!
+      </mat-error>
+      <mat-error *ngIf="personalInfoForm.get('lastName')?.errors?.['maxlength']">
+        Last name length must be no more than
+        {{personalInfoForm.get('lastName')?.errors?.['maxlength']['requiredLength']}} characters!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" placeholder="Email" formControlName="email">
+      <mat-hint>Enter email.</mat-hint>
+      <mat-error
+        *ngIf="personalInfoForm.get('email')?.touched && personalInfoForm.get('email')?.errors?.['required']">Email is
+        required!</mat-error>
+      <mat-error *ngIf="personalInfoForm.get('email')?.errors?.['pattern']">
+        Email is invalid!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" placeholder="Phone" formControlName="phone">
+      <mat-hint>Enter phone.</mat-hint>
+      <mat-error
+        *ngIf="personalInfoForm.get('phone')?.touched && personalInfoForm.get('phone')?.errors?.['required']">Phone is
+        required!</mat-error>
+    </mat-form-field>
   </div>
+
+  <div class="d-flex justify-content-start gap-3 mt-3">
+    <mat-form-field>
+      <input matInput [matDatepicker]="birthdatePicker" placeholder="Bithdate" formControlName="birthDate">
+      <mat-datepicker-toggle matSuffix [for]="birthdatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #birthdatePicker></mat-datepicker>
+      <mat-hint>Select birthdate.</mat-hint>
+      <mat-error
+        *ngIf="personalInfoForm.get('birthDate')?.touched && personalInfoForm.get('birthDate')?.errors?.['required']">
+        Birthdate is required!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" placeholder="Current City" formControlName="city">
+      <mat-hint>Enter city.</mat-hint>
+      <mat-error
+        *ngIf="personalInfoForm.get('city')?.touched && personalInfoForm.get('city')?.errors?.['required']">City
+        is required!</mat-error>
+      <mat-error *ngIf="personalInfoForm.get('city')?.errors?.['minlength']">
+        City length must be at least {{personalInfoForm.get('city')?.errors?.['minlength']['requiredLength']}}
+        characters!
+      </mat-error>
+      <mat-error *ngIf="personalInfoForm.get('city')?.errors?.['maxlength']">
+        City length must be no more than {{personalInfoForm.get('city')?.errors?.['maxlength']['requiredLength']}}
+        characters!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Gender</mat-label>
+      <mat-select formControlName="gender">
+        <mat-option *ngFor="let gender of genderOptions" [value]="gender.value">
+          {{gender.viewValue}}
+        </mat-option>
+      </mat-select>
+      <mat-hint>Select gender.</mat-hint>
+      <mat-error
+        *ngIf="personalInfoForm.get('gender')?.touched && personalInfoForm.get('gender')?.errors?.['required']">Gender
+        is
+        required!</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Citizenship</mat-label>
+      <mat-select formControlName="citizenShip">
+        <mat-option *ngFor="let c of countries" [value]="c.value">
+          {{c.viewValue}}
+        </mat-option>
+      </mat-select>
+      <mat-hint>Select citizenship.</mat-hint>
+      <mat-error
+        *ngIf="personalInfoForm.get('gender')?.touched && personalInfoForm.get('gender')?.errors?.['required']">Citizenship
+        is required!</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Country</mat-label>
+      <mat-select formControlName="country">
+        <mat-option *ngFor="let c of countries" [value]="c.value">
+          {{c.viewValue}}
+        </mat-option>
+      </mat-select>
+      <mat-hint>Select country.</mat-hint>
+      <mat-error
+        *ngIf="personalInfoForm.get('country')?.touched && personalInfoForm.get('country')?.errors?.['required']">Country
+        is required!</mat-error>
+    </mat-form-field>
+  </div>
+
+  <button type="submit" mat-button class="mt-3" color="primary" matStepperNext (click)="emitData()"
+    [disabled]="!personalInfoForm.valid">
+    Next
+  </button>
 </form>
