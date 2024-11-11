@@ -5,7 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { RegisterCompanyComponent } from './register-company/register-company.component';
 import { RegisterUserComponent } from './register-user/register-user.component';
 import { CreateJobAdvertisementComponent } from './create-job-advertisement/create-job-advertisement.component';
-import { AuthGuard, IsSignedInGuard } from './core/guards';
+import { AuthGuard, CompanyGuard, IsSignedInGuard } from './core/guards';
 import { JobAdvertisementsComponent } from './job-advertisements/job-advertisements.component';
 import { JobAdvertisementDetailsComponent } from './job-advertisement-details/job-advertisement-details.component';
 
@@ -16,9 +16,9 @@ const routes: Routes = [
   { path: 'register-company', component: RegisterCompanyComponent, canActivate: [IsSignedInGuard] },
   { path: 'register-user', component: RegisterUserComponent, canActivate: [IsSignedInGuard] },
   { path: 'home', component: HomeComponent },
-  { path: 'job-advertisement-create', component: CreateJobAdvertisementComponent, canActivate: [AuthGuard] },
+  { path: 'job-advertisement/create', component: CreateJobAdvertisementComponent, canActivate: [CompanyGuard] },
   { path: 'jobs-all', component: JobAdvertisementsComponent, canActivate: [AuthGuard] },
-  { path: 'job-details/:id', component: JobAdvertisementDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'job-details/:id', component: JobAdvertisementDetailsComponent },
   { path: 'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule) }
 ];
 

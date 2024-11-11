@@ -8,14 +8,14 @@
 
   <form [formGroup]="form" (ngSubmit)="onSubmit(form)" class="w-50 mx-auto">
     <div class="mb-3">
-      <label class="form-control-label" for="username">Username</label>
+      <label class="form-label" for="username">Username</label>
       <input class="form-control" id="username" formControlName="username" type="text">
     </div>
     <div *ngIf="form.get('username')?.touched && form.get('username')?.errors?.['required']" class="alert alert-danger">
       This field is required!
     </div>
     <div class="mb-3">
-      <label class="form-control-label" for="password">Password</label>
+      <label class="form-label" for="password">Password</label>
       <input class="form-control" id="password" formControlName="password" type="password">
     </div>
     <div *ngIf="form.get('password')?.touched && form.get('password')?.errors?.['required']" class="alert alert-danger">

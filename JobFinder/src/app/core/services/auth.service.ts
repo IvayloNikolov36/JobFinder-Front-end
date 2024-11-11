@@ -15,7 +15,7 @@ export class AuthService {
   private readonly registerCompanyUrl = this.registerBaseUrl + 'company';
   private readonly registerUserUrl = this.registerBaseUrl + 'user';
 
-  isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.isAuthenticated());
 
   constructor(private http: HttpClient) {  }
 

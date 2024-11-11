@@ -12,7 +12,7 @@
 
       <div class="mb-3 w-25">
         <div class="mb-3">
-          <label class="form-control-label" for="username">Username</label>
+          <label class="form-label" for="username">Username</label>
           <input class="form-control" id="username" formControlName="username" type="text">
         </div>
         <div class="alert alert-danger" *ngIf="form.get('username')?.touched && form.get('username')?.errors?.['required']">
@@ -28,7 +28,7 @@
 
       <div class="mb-3 w-25">
         <div class="mb-3">
-          <label class="form-control-label" for="email">Email</label>
+          <label class="form-label" for="email">Email</label>
           <input class="form-control" id="email" formControlName="email" type="text">
         </div>
         <div class="alert alert-danger" *ngIf="form.get('email')?.touched && form.get('email')?.errors?.['required']">
@@ -43,7 +43,7 @@
     <div class="d-flex justify-content-around">
       <div class="mb-3 w-25">
         <div class="mb-3">
-          <label class="form-control-label" for="password">Password</label>
+          <label class="form-label" for="password">Password</label>
           <input class="form-control" id="password" formControlName="password" type="password">
         </div>
         <div class="alert alert-danger" *ngIf="form.get('password')?.touched && form.get('password')?.errors?.['required']">
@@ -56,7 +56,7 @@
       <div class="mb-3 w-25">
 
         <div class="mb-3">
-          <label class="form-control-label" for="confirmPassword">Confirm Password</label>
+          <label class="form-label" for="confirmPassword">Confirm Password</label>
           <input class="form-control" id="confirmPassword" formControlName="confirmPassword" type="password">
         </div>
         <div class="alert alert-danger" *ngIf="form.get('confirmPassword')?.touched && form.get('confirmPassword')?.errors?.['required']">
@@ -74,7 +74,7 @@
     <div class="d-flex justify-content-around">
       <div class="mb-3 w-25">
         <div class="mb-3">
-          <label class="form-control-label" for="firstName">First Name</label>
+          <label class="form-label" for="firstName">First Name</label>
           <input class="form-control" id="firstName" formControlName="firstName" type="text">
         </div>
         <div class="alert alert-danger"
@@ -90,7 +90,7 @@
       </div>
       <div class="mb-3 w-25">
         <div class="mb-3">
-          <label class="form-control-label" for="middleName">Middle Name</label>
+          <label class="form-label" for="middleName">Middle Name</label>
           <input class="form-control" id="middleName" formControlName="middleName" type="text">
         </div>
         <div class="alert alert-danger"
@@ -106,7 +106,7 @@
       </div>
       <div class="mb-3 w-25">
         <div class="mb-3">
-          <label class="form-control-label" for="lastName">Last Name</label>
+          <label class="form-label" for="lastName">Last Name</label>
           <input class="form-control" id="lastName" formControlName="lastName" type="text">
         </div>
         <div class="alert alert-danger" *ngIf="form.get('lastName')?.touched && form.get('lastName')?.errors?.['required']">
@@ -124,7 +124,7 @@
     <div class="d-flex justify-content-around">
       <div class="mb-3 w-25">
         <div class="mb-3">
-          <label class="form-control-label" for="companyName">Company name</label>
+          <label class="form-label" for="companyName">Company name</label>
           <input class="form-control" id="companyName" formControlName="companyName" type="text">
         </div>
         <div class="alert alert-danger"
@@ -140,7 +140,7 @@
       </div>
 
       <div class="mb-3 w-25">
-        <label class="form-control-label" for="companyLogoUrl">Company Logo Url</label>
+        <label class="form-label" for="companyLogoUrl">Company Logo Url</label>
         <input class="form-control" id="companyLogoUrl" formControlName="companyLogo" type="text">
         <div class="alert alert-danger" *ngIf="form.get('companyLogo')?.touched && form.get('companyLogo')?.errors?.['required']">
           This field is required!
@@ -149,7 +149,7 @@
 
       <div class="mb-3 w-25">
         <div class="mb-3">
-          <label class="form-control-label" for="bulstat">Bulstat</label>
+          <label class="form-label" for="bulstat">Bulstat</label>
           <input class="form-control" id="bulstat" formControlName="bulstat" type="text">
         </div>
         <div class="alert alert-danger" *ngIf="form.get('bulstat')?.touched && form.get('bulstat')?.errors?.['required']">

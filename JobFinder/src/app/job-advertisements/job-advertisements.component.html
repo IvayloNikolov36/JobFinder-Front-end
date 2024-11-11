@@ -3,16 +3,16 @@
   <h3 class="text-center text-primary">Job Advertisements</h3>
 
   <div class="d-flex justify-content-around" *ngIf="showFiltersArea">
-    <div class="form-group">
-      <label class="form-control-label" for="itemsCount">Items:</label>
+    <div class="mb-3">
+      <label class="form-label" for="itemsCount">Items:</label>
       <select id="itemsCount" class="form-control" [(ngModel)]="itemsCount"
         (ngModelChange)="changeItemsCount($event.target.value)">
         <option *ngFor="let count of itemsCountArray" [value]="count">{{count}}</option>
       </select>
     </div>
 
-    <div class="form-group">
-      <label class="form-control-label" for="filterLocation">Filter by Location:</label>
+    <div class="mb-3">
+      <label class="form-label" for="filterLocation">Filter by Location:</label>
       <select id="filterLocation" class="form-control" [(ngModel)]="location"
         (ngModelChange)="changeFilterLocation($event.target.value)">
         <option value="All">All</option>
@@ -20,8 +20,8 @@
       </select>
     </div>
 
-    <div class="form-group">
-      <label class="form-control-label" for="filterCategory">Filter by Category:</label>
+    <div class="mb-3">
+      <label class="form-label" for="filterCategory">Filter by Category:</label>
       <select id="filterCategory" class="form-control" [(ngModel)]="category"
         (ngModelChange)="changeFilterCategory($event.target.value)">
         <option value="0">All</option>
@@ -29,8 +29,8 @@
       </select>
     </div>
 
-    <div class="form-group">
-      <label class="form-control-label" for="filterEngagement">Filter by Engagement:</label>
+    <div class="mb-3">
+      <label class="form-label" for="filterEngagement">Filter by Engagement:</label>
       <select id="filterEngagement" class="form-control" [(ngModel)]="engagement"
         (ngModelChange)="changeFilterEngagement($event.target.value)">
         <option value="0">All</option>
@@ -38,16 +38,16 @@
       </select>
     </div>
 
-    <div class="form-group">
-      <label class="form-control-label" for="sortBy">Sort by:</label>
+    <div class="mb-3">
+      <label class="form-label" for="sortBy">Sort by:</label>
       <select id="sortBy" class="form-control" [(ngModel)]="sortBy" (ngModelChange)="changeSortBy($event.target.value)">
         <option value="Salary">Salary</option>
         <option value="Published" selected>Published</option>
       </select>
     </div>
 
-    <div class="form-group">
-      <label class="form-control-label" for="order">Order:</label>
+    <div class="mb-3">
+      <label class="form-label" for="order">Order:</label>
       <select id="order" class="form-control" [(ngModel)]="isAscending"
         (ngModelChange)="changeSortingOrder($event.target.value)">
         <option value="true">Asc</option>

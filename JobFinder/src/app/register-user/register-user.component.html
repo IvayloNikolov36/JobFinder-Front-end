@@ -11,7 +11,7 @@
 
       <div class="mb-3 w-25">
         <div class="mb-3">
-          <label class="form-control-label" for="username">Username</label>
+          <label class="form-label" for="username">Username</label>
           <input class="form-control" id="username" formControlName="username" type="text">
         </div>
         <div *ngIf="form.get('username')?.touched && form.get('username')?.errors?.['required']"
@@ -28,7 +28,7 @@
 
       <div class="mb-3 w-25">
         <div class="mb-3">
-          <label class="form-control-label" for="email">Email</label>
+          <label class="form-label" for="email">Email</label>
           <input class="form-control" id="email" formControlName="email" type="text">
         </div>
         <div *ngIf="form.get('email')?.touched && form.get('email')?.errors?.['required']" class="alert alert-danger">
@@ -45,7 +45,7 @@
       <div class="mb-3 w-25">
 
         <div class="mb-3">
-          <label class="form-control-label" for="password">Password</label>
+          <label class="form-label" for="password">Password</label>
           <input class="form-control" id="password" formControlName="password" type="password">
         </div>
         <div *ngIf="form.get('password')?.touched && form.get('password')?.errors?.['required']"
@@ -59,7 +59,7 @@
       <div class="mb-3 w-25">
 
         <div class="mb-3">
-          <label class="form-control-label" for="confirmPassword">Confirm Password</label>
+          <label class="form-label" for="confirmPassword">Confirm Password</label>
           <input class="form-control" id="confirmPassword" formControlName="confirmPassword" type="password">
         </div>
         <div class="alert alert-danger"
@@ -79,7 +79,7 @@
       <div class="mb-3 w-25">
 
         <div class="mb-3">
-          <label class="form-control-label" for="firstName">First Name</label>
+          <label class="form-label" for="firstName">First Name</label>
           <input class="form-control" id="firstName" formControlName="firstName" type="text">
         </div>
         <div class="alert alert-danger" *ngIf="form.get('firstName')?.touched && form.get('firstName')?.errors?.['required']">
@@ -96,7 +96,7 @@
       <div class="mb-3 w-25">
 
         <div class="mb-3">
-          <label class="form-control-label" for="middleName">Middle Name</label>
+          <label class="form-label" for="middleName">Middle Name</label>
           <input class="form-control" id="middleName" formControlName="middleName" type="text">
         </div>
         <div class="alert alert-danger" *ngIf="form.get('middleName')?.touched && form.get('middleName')?.errors?.['required']">
@@ -109,9 +109,9 @@
           Length must up to {{form.get('middleName')?.errors?.['maxlength']['requiredLength']}} characters!
         </div>
       </div>
-      <div class="form-group w-25">
-        <div class="form-group">
-          <label class="form-control-label" for="lastName">Last Name</label>
+      <div class="mb-3 w-25">
+        <div class="mb-3">
+          <label class="form-label" for="lastName">Last Name</label>
           <input class="form-control" id="lastName" formControlName="lastName" type="text">
         </div>
         <div class="alert alert-danger" *ngIf="form.get('lastName')?.touched && form.get('lastName')?.errors?.['required']">
