@@ -3,10 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Education } from '../models/cv/education';
 import { BasicValueModel } from '../../core/models';
-
-
-const baseUrl = 'https://localhost:44357/api/cvs/Educations';
-const getEducationLevelsUrl = baseUrl + '/levels';
+import { getCvEducationLevels, getCvEducationsUrl } from '../../core/controllers';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +12,9 @@ export class EducationsService {
 
   constructor(private http: HttpClient) { }
 
-  create = (cvId: string, data: Education[]) => this.http.post(baseUrl + `/${cvId}`, data);
+  create = (cvId: string, data: Education[]) => this.http.post(getCvEducationsUrl() + `/${cvId}`, data);
 
-  get = (): Observable<Education[]> => this.http.get<Education[]>(baseUrl);
+  get = (): Observable<Education[]> => this.http.get<Education[]>(getCvEducationsUrl());
 
-  getEducationLevels = (): Observable<BasicValueModel[]> => this.http.get<BasicValueModel[]>(getEducationLevelsUrl);
+  getEducationLevels = (): Observable<BasicValueModel[]> => this.http.get<BasicValueModel[]>(getCvEducationLevels());
 }

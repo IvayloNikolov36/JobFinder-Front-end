@@ -4,11 +4,7 @@ import { Observable } from 'rxjs';
 import { BasicModel } from '../models/basic.model';
 import { JobAd } from '../models/job-ad';
 import { JobDetails } from '../models/job-details';
-
-
-const baseUrl = 'https://localhost:44357/api/ads';
-const getEngagementsUrl = 'https://localhost:44357/api/jobEngagements';
-const getCategoriesUrl = 'https://localhost:44357/api/jobCategories';
+import { createAd, getAd, getAds, getCategoriesUrl, getEngagementsUrl } from '../core/controllers';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +14,7 @@ export class JobAdvertisementsService {
   constructor(private http: HttpClient) { }
 
   createjobAd(data: JobAd): Observable<Object> {
-    return this.http.post(baseUrl + "/create", data);
+    return this.http.post(createAd(), data);
   }
 
   all(page: number, items: number, searchText: string, location: string, category: number,
@@ -33,18 +29,18 @@ export class JobAdvertisementsService {
       .set('categoryId', category.toString())
       .set('engagementId', engagement.toString());
 
-    return this.http.get<JobAd[]>(baseUrl, { params });
+    return this.http.get<JobAd[]>(getAds(), { params });
   }
 
   details(id: number): Observable<JobDetails> {
-    return this.http.get<JobDetails>(baseUrl + '/' + id);
+    return this.http.get<JobDetails>(getAd(id));
   }
 
   getEngagements(): Observable<BasicModel[]> {
-    return this.http.get<BasicModel[]>(getEngagementsUrl);
+    return this.http.get<BasicModel[]>(getEngagementsUrl());
   }
 
   getCategories(): Observable<BasicModel[]> {
-    return this.http.get<BasicModel[]>(getCategoriesUrl);
+    return this.http.get<BasicModel[]>(getCategoriesUrl());
   }
 }

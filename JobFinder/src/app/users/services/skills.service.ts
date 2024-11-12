@@ -3,10 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SkillsInfo } from '../models/cv/skills-info';
 import { DrivingCategory } from '../models/cv/driving-category';
-
-
-const baseUrl = 'https://localhost:44357/api/cvs/Skills';
-const getDrivingCategoriesUrl = baseUrl + '/driving-categories';
+import { getCvSkillsUrl, getDrivingCategoriesUrl } from '../../core/controllers';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +14,10 @@ export class SkillsService {
 
   create(cvId: string, data: SkillsInfo): Observable<Object> {
     data.cvId = cvId;
-    return this.http.post(baseUrl, data);
+    return this.http.post(getCvSkillsUrl(), data);
   }
 
-  get = (cvId: string): Observable<SkillsInfo> => this.http.get<SkillsInfo>(baseUrl);
+  get = (cvId: string): Observable<SkillsInfo> => this.http.get<SkillsInfo>(getCvSkillsUrl() + `/${cvId}`);
 
-  getDrivingCategories = (): Observable<DrivingCategory[]> => this.http.get<DrivingCategory[]>(getDrivingCategoriesUrl);
+  getDrivingCategories = (): Observable<DrivingCategory[]> => this.http.get<DrivingCategory[]>(getDrivingCategoriesUrl());
 }
