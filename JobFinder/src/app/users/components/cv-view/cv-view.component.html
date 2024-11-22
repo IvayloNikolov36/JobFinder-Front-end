@@ -1,0 +1,113 @@
+<div class="container-fluid pb-3">
+  @if (cv) {
+
+  <div class="card my-3 w-50 mx-auto">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img [src]="'https://forum.gtsofia.info/index.php?action=dlattach;attach=62583;type=avatar'"
+          class="img-fluid rounded m-1" alt="cv picture">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{ fullName }}</h5>
+          <div class="card-text">
+            <div>
+              <span class="fw-medium">Birth Date: </span>
+              <span class="card-text">{{ cv.personalDetails.birthdate | date }}</span>
+            </div>
+            <div>
+              <span class="fw-medium">Citizenship: </span>
+              <span class="card-text">{{ cv.personalDetails.citizenShip }}</span>
+            </div>
+            <div>
+              <span class="fw-medium">I live in: </span>
+              <span class="card-text">{{ cv.personalDetails.city }}</span>
+            </div>
+            <span class="fs-5 fw-medium">Contacts:</span>
+            <div>
+              <span class="fw-medium">Email: </span>
+              <span class="card-text">{{ cv.personalDetails.email }}</span>
+            </div>
+            <div>
+              <i class="bi bi-phone"></i>
+              <span class="fw-medium">Phone: </span>
+              <span class="card-text">{{ cv.personalDetails.phone }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card my-3 w-75 mx-auto">
+    <h6 class="card-header">Work Experience</h6>
+    <div class="card-body">
+      @for (item of cv.workExperiences; track item.id) {
+      <div>
+        <h6>{{ item.organization }}</h6>
+        <small class="fw-bold">{{ item.fromDate | date }} - {{ item.toDate | date}}</small>
+        <small>{{ item.location }} Bussiness Sector: {{ item.businessSector }}</small>
+        <div class="fs-5">{{ item.jobTitle }}</div>
+        <span class="card-text">{{ item.additionalDetails }}</span>
+      </div>
+      }
+    </div>
+  </div>
+
+  <div class="card my-3 w-75 mx-auto">
+    <h6 class="card-header">Education</h6>
+    <div class="card-body">
+      @for (item of cv.educations; track item.id) {
+      <div>
+        <h6>{{ item.organization }}</h6>
+        <span>{{ item.fromDate | date}} - {{ item.toDate | date}}</span>
+        <div class="fs-5">{{ item.location }}</div>
+        <div class="fs-5">Level: {{ item.educationLevel }}</div>
+        <div class="fs-5">{{ item.major }}: </div>
+        <span class="card-text">Main subjects: {{ item.mainSubjects }}</span>
+      </div>
+      }
+    </div>
+  </div>
+
+  <div class="card my-3 w-75 mx-auto">
+    <h5 class="card-header">Languages</h5>
+    <div class="card-body">
+      @for (item of cv.languagesInfo; track item.languageType) {
+      <div>
+        <span class="fw-bold">{{ item.languageType }}: </span>
+        <span class="card-text">
+          Comprehension: {{ item.comprehension }}, Speaking: {{ item.speaking }}, Writing: {{ item.writing }}
+        </span>
+      </div>
+      }
+    </div>
+  </div>
+
+  <div class="card my-3 w-75 mx-auto">
+    <h5 class="card-header">Skills</h5>
+    <div class="card-body">
+      <span class="card-text">Computer skills:</span>
+      <p>{{ cv.skills.computerSkills }}</p>
+      <span class="card-text">Other skills:</span>
+      <p>{{ cv.skills.skills }}</p>
+    </div>
+  </div>
+
+  <div class="card my-3 w-75 mx-auto">
+    <h5 class="card-header">Courses and Certificates</h5>
+    <div class="card-body">
+      @for (item of cv.courseCertificates; track item.id) {
+      <div>
+        <p>
+          <span class="card-text fw-bold">{{ item.courseName}}: </span>
+          <a class="link-opacity-50-hover" [href]="item.certificateUrl">
+            {{ item.certificateUrl }}
+          </a>
+        </p>
+      </div>
+      }
+    </div>
+  </div>
+  }
+</div>

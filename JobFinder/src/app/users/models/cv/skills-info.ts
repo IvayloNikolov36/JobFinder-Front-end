@@ -3,5 +3,5 @@ export interface SkillsInfo {
   computerSkills: string;
   skills: string;
   hasManagedPeople: boolean;
-  hasDrivingLicenseL: boolean;
+  hasDrivingLicense: boolean;
 }

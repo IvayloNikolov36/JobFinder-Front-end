@@ -21,7 +21,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UsersRoutingModule } from './users-routing.module';
-
+import { CvViewComponent } from './components/cv-view/cv-view.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +35,7 @@ import { UsersRoutingModule } from './users-routing.module';
     LanguagesInfoComponent,
     SkillsInfoComponent,
     CoursesCertificatesComponent,
+    CvViewComponent,
   ],
   imports: [
     CommonModule,

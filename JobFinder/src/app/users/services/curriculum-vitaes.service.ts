@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { CvListing } from '../models/cv/cv-listing';
 import { CvCreate } from '../models/cv/cv-create';
 import { CvCreateResult } from '../models/cv/cv-create-result';
-import { getCvsUrl, getCvUrl } from '../../core/controllers';
-
+import { getCvData, getCvsUrl } from '../../core/controllers';
+import { CvListingData } from '../models/cv/cv-listing-data';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,7 @@ export class CurriculumVitaesService {
 
   getUserCVs = (): Observable<CvListing[]> => this.http.get<CvListing[]>(getCvsUrl());
 
-  getCV = (cvId: string): Observable<object> => this.http.get<object>(getCvUrl(cvId));
+  getCvListingData = (cvId: string): Observable<CvListingData> => this.http.get<CvListingData>(getCvData(cvId));
 
   createCv = (data: CvCreate): Observable<CvCreateResult> => this.http.post<CvCreateResult>(getCvsUrl(), data);
 }

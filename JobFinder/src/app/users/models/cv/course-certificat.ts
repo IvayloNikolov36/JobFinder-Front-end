@@ -1,5 +1,5 @@
 export interface CourseSertificate {
-  cvId: string;
+  id: number;
   courseName: string;
   certificateUrl: string;
 }
