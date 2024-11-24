@@ -7,4 +7,5 @@ export * from './education';
 export * from './language-info';
 export * from './personal-details';
 export * from './skills-info';
-export * from  './work-experience';
+export * from './work-experience';
+export * from './cv-listing-data';

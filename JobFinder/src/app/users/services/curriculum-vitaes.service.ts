@@ -1,11 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CvListing } from '../models/cv/cv-listing';
-import { CvCreate } from '../models/cv/cv-create';
+import { CvListing, CvListingData, CvCreate } from '../models/cv/';
 import { CvCreateResult } from '../models/cv/cv-create-result';
-import { getCvData, getCvsUrl } from '../../core/controllers';
-import { CvListingData } from '../models/cv/cv-listing-data';
+import { getCreateCvUrl, getCvData, getCvsUrl } from '../../core/controllers';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +12,15 @@ export class CurriculumVitaesService {
 
   constructor(private http: HttpClient) { }
 
-  getUserCVs = (): Observable<CvListing[]> => this.http.get<CvListing[]>(getCvsUrl());
+  getUserCVs = (): Observable<CvListing[]> => {
+    return this.http.get<CvListing[]>(getCvsUrl());
+  }
 
-  getCvListingData = (cvId: string): Observable<CvListingData> => this.http.get<CvListingData>(getCvData(cvId));
+  getCvListingData = (cvId: string): Observable<CvListingData> => {
+    return this.http.get<CvListingData>(getCvData(cvId));
+  }
 
-  createCv = (data: CvCreate): Observable<CvCreateResult> => this.http.post<CvCreateResult>(getCvsUrl(), data);
+  createCv = (data: CvCreate): Observable<CvCreateResult> => {
+    return this.http.post<CvCreateResult>(getCreateCvUrl(), data);
+  }
 }

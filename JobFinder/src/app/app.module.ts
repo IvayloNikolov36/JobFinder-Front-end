@@ -7,7 +7,11 @@ import { ToastrModule } from 'ngx-toastr';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi
+} from '@angular/common/http';
 import { RegisterUserComponent } from './register-user/register-user.component';
 import { RegisterCompanyComponent } from './register-company/register-company.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -21,7 +25,6 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { JwtInterceptorService } from './core/interceptors/jwt-interceptor.service';
 import { UsersModule } from './users/users.module';
 import { ResponseHandlerInterceptorService } from './core/interceptors/response-handler-interceptor.service';
-
 
 @NgModule({
   declarations: [

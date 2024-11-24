@@ -22,6 +22,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UsersRoutingModule } from './users-routing.module';
 import { CvViewComponent } from './components/cv-view/cv-view.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { CvViewComponent } from './components/cv-view/cv-view.component';
   imports: [
     CommonModule,
     RouterModule,
+    ToastrModule.forRoot(), // TODO: remove it when Shared module is created
     UsersRoutingModule,
     ReactiveFormsModule,
     FormsModule,

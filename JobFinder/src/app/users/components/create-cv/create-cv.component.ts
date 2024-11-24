@@ -8,10 +8,25 @@ import { EducationsComponent } from '../educations/educations.component';
 import { LanguagesInfoComponent } from '../languages-info/languages-info.component';
 import { SkillsInfoComponent } from '../skills-info/skills-info.component';
 import { CoursesCertificatesComponent } from '../courses-certificates/courses-certificates.component';
-import { CourseSertificate, CvCreate, CvCreateResult, DrivingCategory, Education, LanguageInfo, PersonalDetails, SkillsInfo, WorkExperience } from '../../models/cv';
-import { CoursesService, CurriculumVitaesService, EducationsService, LanguagesInfoService, PersonalDetailsService, SkillsService, WorkExperiencesService } from '../../services';
+import {
+  CourseSertificate,
+  CvCreate,
+  DrivingCategory,
+  Education,
+  LanguageInfo,
+  PersonalDetails,
+  SkillsInfo,
+  WorkExperience
+} from '../../models/cv';
+import {
+  CurriculumVitaesService,
+  EducationsService,
+  LanguagesInfoService,
+  PersonalDetailsService,
+  WorkExperiencesService
+} from '../../services';
 import { BasicValueModel } from '../../../core/models';
-
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'jf-create-cv',
@@ -45,13 +60,7 @@ export class CreateCvComponent implements OnInit, AfterViewInit, OnDestroy {
   drivingCategories: Observable<DrivingCategory[]> = EMPTY; // remove
   // drivingCategories$!: Observable<DrivingCategory[]>;
 
-  cvInfo!: CvCreate;
-  personalDetails!: PersonalDetails;
-  workExperiences!: WorkExperience[];
-  educations!: Education[];
-  languagesInfo!: LanguageInfo[];
-  skillsInfo!: SkillsInfo;
-  coursesCertificates!: CourseSertificate[];
+  cvModel: CvCreate = {} as CvCreate;
 
   constructor(
     private cdref: ChangeDetectorRef,
@@ -60,16 +69,15 @@ export class CreateCvComponent implements OnInit, AfterViewInit, OnDestroy {
     private educationsService: EducationsService,
     private workExpService: WorkExperiencesService,
     private languagesService: LanguagesInfoService,
-    private skillsService: SkillsService,
-    private coursesService: CoursesService
-    ) { }
+    private toastr: ToastrService
+  ) { }
 
-    // TODO: refactor the hook
+  // TODO: refactor the hook
   ngOnInit(): void {
-    this.subscriptions.push(this.pDetailsService.getCountries().subscribe((data: any[]) => {
+    this.subscriptions.push(this.pDetailsService.getCountries().subscribe((data: BasicValueModel[]) => {
       this.countries = data;
     }));
-    this.subscriptions.push(this.workExpService.getBusinessSectors().subscribe((data: any[]) => {
+    this.subscriptions.push(this.workExpService.getBusinessSectors().subscribe((data: BasicValueModel[]) => {
       this.businessSectors = data;
     }));
     this.educationLevels$ = this.educationsService.getEducationLevels();
@@ -94,26 +102,39 @@ export class CreateCvComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscriptions.forEach(s => s.unsubscribe());
   }
 
-  onPassedCvInfoData = (data: CvCreate) => this.cvInfo = data;
-  onPassedPersonalDetailsData = (data: PersonalDetails) => this.personalDetails = data;
-  onPassedWorkExperiencesData = (data: WorkExperience[]) => this.workExperiences = data;
-  onPassedEducationData = (data: Education[]) => this.educations = data;
-  onPassedLanguagesInfo = (data: LanguageInfo[]) => this.languagesInfo = data;
-  onPassedSkillsInfoData = (data: SkillsInfo) => this.skillsInfo = data;
-  onPassedCoursesData = (data: CourseSertificate[]) => this.coursesCertificates = data;
+  onPassedCvInfoData = (data: { name: string, pictureUrl: string }): void => {
+    this.cvModel.name = data.name;
+    this.cvModel.pictureUrl = data.pictureUrl;
+  };
 
-  sendCVdata() {
-    // TODO: refactor the method - avoid nesting subscribe and redirect to a page
-    this.subscriptions.push(this.cvService.createCv(this.cvInfo).subscribe((data: CvCreateResult) => {
+  onPassedPersonalDetailsData = (data: PersonalDetails): void => {
+    this.cvModel.personalDetails = data;
+  }
 
-      console.log('cvId: ' + data.cvId);
+  onPassedWorkExperiencesData = (data: WorkExperience[]): void => {
+    this.cvModel.workExperiences = data;
+  }
 
-      this.subscriptions.push(this.pDetailsService.create(data.cvId, this.personalDetails).subscribe());
-      this.subscriptions.push(this.workExpService.create(data.cvId, this.workExperiences).subscribe());
-      this.subscriptions.push(this.educationsService.create(data.cvId, this.educations).subscribe());
-      this.subscriptions.push(this.languagesService.create(data.cvId, this.languagesInfo).subscribe());
-      this.subscriptions.push(this.skillsService.create(data.cvId, this.skillsInfo).subscribe());
-      this.subscriptions.push(this.coursesService.create(data.cvId, this.coursesCertificates).subscribe());
-    }));
+  onPassedEducationData = (data: Education[]): void => {
+    this.cvModel.educations = data;
+  }
+
+  onPassedLanguagesInfo = (data: LanguageInfo[]): void => {
+    this.cvModel.languagesInfo = data;
+  }
+
+  onPassedSkillsInfoData = (data: SkillsInfo): void => {
+    this.cvModel.skills = data;
+  }
+
+  onPassedCoursesData = (data: CourseSertificate[]): void => {
+    this.cvModel.courseCertificates = data;
+  }
+
+  sendCVdata = (): void => {
+    this.cvService.createCv(this.cvModel)
+      .subscribe(() => {
+        this.toastr.success(`${this.cvModel.name} cv is successfully created.`);
+      });
   }
 }
