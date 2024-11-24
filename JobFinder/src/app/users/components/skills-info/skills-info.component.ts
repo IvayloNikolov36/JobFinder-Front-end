@@ -1,8 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { DrivingCategory, SkillsInfo } from '../../models/cv';
-
 
 @Component({
   selector: 'jf-skills-info',
@@ -10,7 +8,7 @@ import { DrivingCategory, SkillsInfo } from '../../models/cv';
 })
 export class SkillsInfoComponent implements OnInit {
 
-  @Input() drivingCategories!: Observable<DrivingCategory[]>;
+  drivingCategories = input.required<DrivingCategory[]>();
   @Output() emitSkillsData = new EventEmitter<SkillsInfo>();
 
   skillsForm!: FormGroup;

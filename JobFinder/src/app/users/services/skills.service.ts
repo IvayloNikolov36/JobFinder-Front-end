@@ -1,8 +1,7 @@
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SkillsInfo } from '../models/cv/skills-info';
-import { DrivingCategory } from '../models/cv/driving-category';
+import { DrivingCategory, SkillsInfo } from '../models/cv';
 import { getCvSkillsUrl, getDrivingCategoriesUrl } from '../../core/controllers';
 
 @Injectable({
@@ -17,7 +16,11 @@ export class SkillsService {
     return this.http.post(getCvSkillsUrl(), data);
   }
 
-  get = (cvId: string): Observable<SkillsInfo> => this.http.get<SkillsInfo>(getCvSkillsUrl() + `/${cvId}`);
+  get = (cvId: string): Observable<SkillsInfo> => {
+    return this.http.get<SkillsInfo>(getCvSkillsUrl() + `/${cvId}`);
+  }
 
-  getDrivingCategories = (): Observable<DrivingCategory[]> => this.http.get<DrivingCategory[]>(getDrivingCategoriesUrl());
+  getDrivingCategories = (): Observable<DrivingCategory[]> => {
+    return this.http.get<DrivingCategory[]>(getDrivingCategoriesUrl());
+  }
 }

@@ -8,7 +8,7 @@
         <mat-form-field>
           <mat-label>Language</mat-label>
           <mat-select formControlName="languageType">
-            <mat-option *ngFor="let l of languageTypes | async" [value]="l.value">
+            <mat-option *ngFor="let l of languageTypes()" [value]="l.value">
               {{l.viewValue}}
             </mat-option>
           </mat-select>
@@ -21,7 +21,7 @@
         <mat-form-field>
           <mat-label>Comprehension level</mat-label>
           <mat-select formControlName="comprehension">
-            <mat-option *ngFor="let l of languageLevels | async" [value]="l.value">
+            <mat-option *ngFor="let l of languageLevels()" [value]="l.value">
               {{l.viewValue}}
             </mat-option>
           </mat-select>
@@ -34,7 +34,7 @@
         <mat-form-field>
           <mat-label>Speaking level</mat-label>
           <mat-select formControlName="speaking">
-            <mat-option *ngFor="let l of languageLevels | async" [value]="l.value">
+            <mat-option *ngFor="let l of languageLevels()" [value]="l.value">
               {{l.viewValue}}
             </mat-option>
           </mat-select>
@@ -47,7 +47,7 @@
         <mat-form-field>
           <mat-label>Wiring level</mat-label>
           <mat-select formControlName="writing">
-            <mat-option *ngFor="let l of languageLevels | async" [value]="l.value">
+            <mat-option *ngFor="let l of languageLevels()" [value]="l.value">
               {{l.viewValue}}
             </mat-option>
           </mat-select>

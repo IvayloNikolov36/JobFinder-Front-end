@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { LanguageInfo } from '../../models/cv';
@@ -11,8 +11,8 @@ import { BasicValueModel } from '../../../core/models';
 })
 export class LanguagesInfoComponent implements OnInit {
 
-  @Input() languageTypes!: Observable<BasicValueModel[]>;
-  @Input() languageLevels!: Observable<BasicValueModel[]>;
+  languageTypes = input.required<BasicValueModel[]>();
+  languageLevels = input.required<BasicValueModel[]>();
   @Output() emitLanguagesInfo = new EventEmitter<LanguageInfo[]>();
 
   languagesForm!: FormGroup;

@@ -58,7 +58,7 @@
         <mat-form-field>
           <mat-label>Business sector</mat-label>
           <mat-select formControlName="businessSector">
-            <mat-option *ngFor="let s of businessSectors" [value]="s.value">
+            <mat-option *ngFor="let s of businessSectors()" [value]="s.value">
               {{s.viewValue}}
             </mat-option>
           </mat-select>

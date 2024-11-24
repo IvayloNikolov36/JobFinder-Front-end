@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, ViewChild, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { EMPTY, Observable, Subscription } from 'rxjs';
+import { SkillsService } from './../../services/skills.service';
+import { AfterViewInit, Component, ViewChild, ChangeDetectorRef, Signal, signal } from '@angular/core';
 import { CvInfoComponent } from '../cv-info/cv-info.component';
 import { FormGroup } from '@angular/forms';
 import { PersonalDetailsComponent } from '../personal-details/personal-details.component';
@@ -27,12 +27,13 @@ import {
 } from '../../services';
 import { BasicValueModel } from '../../../core/models';
 import { ToastrService } from 'ngx-toastr';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'jf-create-cv',
   templateUrl: './create-cv.component.html'
 })
-export class CreateCvComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CreateCvComponent implements AfterViewInit {
 
   @ViewChild(CvInfoComponent) cvInfoComponent!: CvInfoComponent;
   @ViewChild(PersonalDetailsComponent) personalDetailsComponent!: PersonalDetailsComponent;
@@ -50,15 +51,12 @@ export class CreateCvComponent implements OnInit, AfterViewInit, OnDestroy {
   skillsInfoForm!: FormGroup<any>;
   coursesCertificatesForm!: FormGroup<any>;
 
-  subscriptions: Subscription[] = [];
-  countries!: BasicValueModel[];
-  businessSectors!: BasicValueModel[];
-
-  educationLevels$!: Observable<BasicValueModel[]>;
-  languageTypes$!: Observable<BasicValueModel[]>;
-  languageLevels$!: Observable<BasicValueModel[]>;
-  drivingCategories: Observable<DrivingCategory[]> = EMPTY; // remove
-  // drivingCategories$!: Observable<DrivingCategory[]>;
+  countries!: Signal<BasicValueModel[]>;
+  businessSectors!: Signal<BasicValueModel[]>;
+  educationLevels!: Signal<BasicValueModel[]>;
+  languageTypes!: Signal<BasicValueModel[]>;
+  languageLevels!: Signal<BasicValueModel[]>;
+  drivingCategories!: Signal<DrivingCategory[]>;
 
   cvModel: CvCreate = {} as CvCreate;
 
@@ -69,22 +67,10 @@ export class CreateCvComponent implements OnInit, AfterViewInit, OnDestroy {
     private educationsService: EducationsService,
     private workExpService: WorkExperiencesService,
     private languagesService: LanguagesInfoService,
+    private skillsService: SkillsService,
     private toastr: ToastrService
-  ) { }
-
-  // TODO: refactor the hook
-  ngOnInit(): void {
-    this.subscriptions.push(this.pDetailsService.getCountries().subscribe((data: BasicValueModel[]) => {
-      this.countries = data;
-    }));
-    this.subscriptions.push(this.workExpService.getBusinessSectors().subscribe((data: BasicValueModel[]) => {
-      this.businessSectors = data;
-    }));
-    this.educationLevels$ = this.educationsService.getEducationLevels();
-    this.languageTypes$ = this.languagesService.getLanguageTypes();
-    this.languageLevels$ = this.languagesService.getLanguageLevels();
-    // TODO: fix the driving categories
-    // this.drivingCategories$ = this.skillsService.getDrivingCategories();
+  ) {
+    this.getData();
   }
 
   ngAfterViewInit(): void {
@@ -96,10 +82,6 @@ export class CreateCvComponent implements OnInit, AfterViewInit, OnDestroy {
     this.skillsInfoForm = this.skillsInfoComponent.skillsForm;
     this.coursesCertificatesForm = this.coursesCertificatesComponent.coursesForm;
     this.cdref.detectChanges();
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(s => s.unsubscribe());
   }
 
   onPassedCvInfoData = (data: { name: string, pictureUrl: string }): void => {
@@ -135,6 +117,28 @@ export class CreateCvComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cvService.createCv(this.cvModel)
       .subscribe(() => {
         this.toastr.success(`${this.cvModel.name} cv is successfully created.`);
+        // TODO: redirect to all cvs
       });
+  }
+
+  private getData = (): void => {
+    this.countries = toSignal(
+      this.pDetailsService.getCountries(),
+      { initialValue: [] as BasicValueModel[] });
+    this.businessSectors = toSignal(
+      this.workExpService.getBusinessSectors(),
+      { initialValue: [] as BasicValueModel[] });
+    this.educationLevels = toSignal(
+      this.educationsService.getEducationLevels(),
+      { initialValue: [] as BasicValueModel[] });
+    this.languageTypes = toSignal(
+      this.languagesService.getLanguageTypes(),
+      { initialValue: [] as BasicValueModel[] });
+    this.languageLevels = toSignal(
+      this.languagesService.getLanguageLevels(),
+      { initialValue: [] as BasicValueModel[] });
+
+    this.drivingCategories = signal<DrivingCategory[]>([] as DrivingCategory[]);
+    // this.drivingCategories = toSignal(this.skillsService.getDrivingCategories(), { initialValue: [] as DrivingCategory[] });
   }
 }

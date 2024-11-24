@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { WorkExperience } from '../../models/cv';
 import { BasicValueModel } from '../../../core/models';
-
 
 @Component({
   selector: 'jf-work-experiences',
@@ -10,7 +9,7 @@ import { BasicValueModel } from '../../../core/models';
 })
 export class WorkExperiencesComponent implements OnInit {
 
-  @Input() businessSectors: BasicValueModel[] = [];
+  businessSectors = input.required<BasicValueModel[]>();
   @Output() emitWorkExperiencesData: EventEmitter<WorkExperience[]> = new EventEmitter<WorkExperience[]>();
 
   workExpForm!: FormGroup;

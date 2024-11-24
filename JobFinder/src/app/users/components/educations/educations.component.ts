@@ -1,9 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { Education } from '../../models/cv';
 import { BasicValueModel } from '../../../core/models';
-
 
 @Component({
   selector: 'jf-educations',
@@ -11,7 +9,7 @@ import { BasicValueModel } from '../../../core/models';
 })
 export class EducationsComponent implements OnInit {
 
-  @Input() educationLevels!: Observable<BasicValueModel[]>;
+  educationLevels = input.required<BasicValueModel[]>();
   @Output() emitEducationData = new EventEmitter<Education[]>();
 
   educationsForm!: FormGroup;

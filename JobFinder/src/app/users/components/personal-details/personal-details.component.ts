@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PersonalDetails } from '../../models/cv';
 import { BasicValueModel } from '../../../core/models';
-
 
 @Component({
   selector: 'jf-personal-details',
@@ -10,7 +9,7 @@ import { BasicValueModel } from '../../../core/models';
 })
 export class PersonalDetailsComponent implements OnInit {
 
-  @Input() countries: BasicValueModel[] = [];
+  countries = input.required<BasicValueModel[]>();
   @Output() passFormData: EventEmitter<PersonalDetails> = new EventEmitter<PersonalDetails>();
 
   personalInfoForm!: FormGroup;
