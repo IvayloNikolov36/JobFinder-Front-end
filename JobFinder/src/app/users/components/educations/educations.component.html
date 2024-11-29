@@ -1,7 +1,9 @@
 <form [formGroup]="educationsForm">
   <div *ngFor="let e of ed.controls; let i = index" class="mt-2">
 
-    <h5>Education details {{i + 1}}</h5>
+    <div *ngIf="!isEditMode">
+      <h5>Education details {{i + 1}}</h5>
+    </div>
 
     <div [formGroup]="e">
 
@@ -116,8 +118,15 @@
   <div class="d-flex justify-content-start gap-2 mt-3">
     <button mat-button (click)="addNewEducationForm()">Add another</button>
     <button mat-button (click)="removeLastEducationForm()">Remove last</button>
+    <button *ngIf="isEditMode" type="submit" [disabled]="!educationsForm.valid" mat-button class="mt-3"
+      (click)="emitData()">
+      Update
+    </button>
   </div>
-  <button type="submit" [disabled]="!educationsForm.valid" mat-button class="mt-3" matStepperNext (click)="emitData()">
+
+  <button *ngIf="!isEditMode" type="submit" [disabled]="!educationsForm.valid" mat-button class="mt-3" matStepperNext
+    (click)="emitData()">
     Next
   </button>
+
 </form>

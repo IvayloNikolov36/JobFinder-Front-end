@@ -1,3 +1,5 @@
+import { BasicValueModel } from "../../../core/models";
+
 export interface Education {
   id: number;
   cvId: string;
@@ -5,7 +7,7 @@ export interface Education {
   fromDate: string;
   toDate: string;
   location: string;
-  educationLevel: string;
+  educationLevel: BasicValueModel;
   major: string;
   mainSubjects: string;
 }

@@ -1,4 +1,4 @@
 export interface BasicValueModel {
-  value: string;
+  value: number;
   viewValue: string;
 }

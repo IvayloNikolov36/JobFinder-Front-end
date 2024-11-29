@@ -62,11 +62,14 @@
         <h6>{{ item.organization }}</h6>
         <span>{{ item.fromDate | date}} - {{ item.toDate | date}}</span>
         <div class="fs-5">{{ item.location }}</div>
-        <div class="fs-5">Level: {{ item.educationLevel }}</div>
+        <div class="fs-5">Level: {{ item.educationLevel.viewValue }}</div>
         <div class="fs-5">{{ item.major }}: </div>
         <span class="card-text">Main subjects: {{ item.mainSubjects }}</span>
       </div>
       }
+    </div>
+    <div class="card-footer text-muted text-center">
+      <a (click)="editEducations(modal)">edit</a>
     </div>
   </div>
 
@@ -109,5 +112,25 @@
       }
     </div>
   </div>
+
   }
+
+  <div #modal class="modal fade" id="myModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6>{{ editCvSectionTitle }}</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <ng-container #editCvSectionComponent></ng-container>
+        </div>
+        <div class="modal-footer">
+          <button (click)="onCloseModal()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>

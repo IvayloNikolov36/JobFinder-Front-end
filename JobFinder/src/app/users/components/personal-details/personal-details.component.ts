@@ -31,9 +31,9 @@ export class PersonalDetailsComponent implements OnInit {
 
   private initializeGenderOptions(): void {
     this.genderOptions = [
-      { value: '0', viewValue: 'Not specified' },
-      { value: '1', viewValue: 'Male' },
-      { value: '2', viewValue: 'Female' }
+      { value: 0, viewValue: 'Not specified' },
+      { value: 1, viewValue: 'Male' },
+      { value: 2, viewValue: 'Female' }
     ];
   }
 

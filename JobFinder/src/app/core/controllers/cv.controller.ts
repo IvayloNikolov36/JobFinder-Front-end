@@ -8,6 +8,7 @@ export const getCvsUrl = (): string => route + 'cvs/all';
 export const getCvData = (cvId: string) => route + `cvs/${cvId}`;
 export const getCreateCvUrl = () => route + `cvs/create`;
 export const getCvEducationsUrl = (): string => route + 'cvs/Educations';
+export const getCvEducationsEditUrl = (cvId: string) => route + 'cvs/Educations' + `/${cvId}/update`;
 export const getCvEducationLevels = (): string => getCvEducationsUrl() + '/levels';
 export const getCvLanguagesUrl = (): string => route + 'cvs/Languages';
 export const getLanguageLevelsUrl = (): string => getCvLanguagesUrl() + '/levels';
