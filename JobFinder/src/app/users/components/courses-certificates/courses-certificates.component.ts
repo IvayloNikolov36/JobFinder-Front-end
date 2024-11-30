@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CourseSertificate } from '../../models/cv';
 
@@ -9,6 +9,7 @@ import { CourseSertificate } from '../../models/cv';
 })
 export class CoursesCertificatesComponent implements OnInit {
 
+  @Input() isEditMode: boolean = false;
   @Output() emitCoursesData: EventEmitter<CourseSertificate[]> = new EventEmitter<CourseSertificate[]>();
 
   coursesForm!: FormGroup;

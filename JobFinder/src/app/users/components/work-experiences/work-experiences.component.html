@@ -109,9 +109,13 @@
     <button mat-button color="primary" (click)="removeWorkExperienceForm()">Remove last</button>
   </div>
 
-  <button type="submit" mat-button class="mt-2" color="primary" matStepperNext (click)="emitData()"
+  <button *ngIf="!isEditMode" type="submit" mat-button class="mt-2" color="primary" matStepperNext (click)="emitData()"
     [disabled]="!workExpForm.valid">
     Next
   </button>
 
+  <button *ngIf="isEditMode" type="submit" mat-button class="mt-2" color="primary" (click)="emitData()"
+    [disabled]="!workExpForm.valid">
+    Update
+  </button>
 </form>

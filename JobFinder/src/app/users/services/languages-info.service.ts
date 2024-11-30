@@ -3,7 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LanguageInfo } from '../models/cv/language-info';
 import { BasicValueModel } from '../../core/models';
-import { getCvLanguagesUrl, getLanguageLevelsUrl, getLanguageTypesUrl } from '../../core/controllers';
+import {
+  getCvLanguagesUrl,
+  getLanguageLevelsUrl,
+  getLanguageTypesUrl,
+  getUpdateLanguageInfoUrl
+} from '../../core/controllers';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +23,10 @@ export class LanguagesInfoService {
 
   get(): Observable<LanguageInfo[]> {
     return this.http.get<LanguageInfo[]>(getCvLanguagesUrl());
+  }
+
+  update(cvId: string, data: LanguageInfo[]) {
+    return this.http.put(getUpdateLanguageInfoUrl(cvId), data);
   }
 
   getLanguageLevels(): Observable<BasicValueModel[]> {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { WorkExperience } from '../../models/cv';
 import { BasicValueModel } from '../../../core/models';
@@ -10,6 +10,8 @@ import { BasicValueModel } from '../../../core/models';
 export class WorkExperiencesComponent implements OnInit {
 
   businessSectors = input.required<BasicValueModel[]>();
+
+  @Input() isEditMode: boolean = false;
   @Output() emitWorkExperiencesData: EventEmitter<WorkExperience[]> = new EventEmitter<WorkExperience[]>();
 
   workExpForm!: FormGroup;

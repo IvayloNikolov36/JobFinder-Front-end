@@ -33,7 +33,10 @@
     <button mat-button color="primary" (click)="addNewCoursesFrom()">Add another</button>
     <button mat-button color="primary" (click)="removeLastCoursesForm()">Remove last</button>
   </div>
-  <button type="submit" [disabled]="!coursesForm.valid" mat-button class="mt-2" matStepperNext (click)="emitData()">
+  <button *ngIf="!isEditMode" type="submit" [disabled]="!coursesForm.valid" mat-button class="mt-2" matStepperNext (click)="emitData()">
     Next
+  </button>
+  <button *ngIf="isEditMode" type="submit" [disabled]="!coursesForm.valid" mat-button class="mt-2" matStepperNext (click)="emitData()">
+    Update
   </button>
 </form>
