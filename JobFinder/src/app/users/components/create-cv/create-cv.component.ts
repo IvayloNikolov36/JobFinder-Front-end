@@ -13,7 +13,7 @@ import {
   CvCreate,
   DrivingCategory,
   Education,
-  LanguageInfo,
+  LanguageInfoInput,
   PersonalDetails,
   SkillsInfo,
   WorkExperience
@@ -101,7 +101,7 @@ export class CreateCvComponent implements AfterViewInit {
     this.cvModel.educations = data;
   }
 
-  onPassedLanguagesInfo = (data: LanguageInfo[]): void => {
+  onPassedLanguagesInfo = (data: LanguageInfoInput[]): void => {
     this.cvModel.languagesInfo = data;
   }
 

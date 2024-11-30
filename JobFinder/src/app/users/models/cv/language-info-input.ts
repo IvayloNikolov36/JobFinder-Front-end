@@ -1,6 +1,6 @@
 import { BasicValueModel } from "../../../core/models";
 
-export interface LanguageInfo {
+export interface LanguageInfoInput {
   id: number;
   cvId: string;
   languageType: BasicValueModel;

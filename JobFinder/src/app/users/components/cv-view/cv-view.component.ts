@@ -13,7 +13,7 @@ import {
 import { CoursesService, CurriculumVitaesService, EducationsService } from '../../services';
 import { ActivatedRoute } from '@angular/router';
 import { CvListingData } from '../../models/cv/cv-listing-data';
-import { CourseSertificate, Education, LanguageInfo, PersonalDetails, WorkExperience } from '../../models/cv';
+import { CourseSertificate, Education, LanguageInfoInput, LanguageInfoOutput, PersonalDetails, WorkExperience } from '../../models/cv';
 import { EducationsComponent } from '../educations/educations.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BasicValueModel } from '../../../core/models';
@@ -54,7 +54,6 @@ export class CvViewComponent implements OnInit {
 
     this.cvId = this.route.snapshot.params['id'];
 
-    // TODO: refactor and think about how to avoid loading that data in every case
     this.educationLevels = toSignal(this.educationsService.getEducationLevels(), { initialValue: [] as BasicValueModel[] });
     this.languageTypes = toSignal(this.languagesService.getLanguageTypes(), { initialValue: [] as BasicValueModel[] });
     this.languageLevels = toSignal(this.languagesService.getLanguageLevels(), { initialValue: [] as BasicValueModel[] });
@@ -68,7 +67,7 @@ export class CvViewComponent implements OnInit {
 
   editEducations = (modalElement: any): void => {
     const modal = new Modal(modalElement);
-    this.editCvSectionTitle = "Edit Education section"
+    this.editCvSectionTitle = "Edit Educations info"
     modal.show();
     this.onCreateEducationModalComponent();
   }
@@ -133,39 +132,22 @@ export class CvViewComponent implements OnInit {
   }
 
   private onCreateLanguagesInfoComponent = (): void => {
-    const createdComponentRef: ComponentRef<LanguagesInfoComponent> = this.cvSectionComponentRef
-      .createComponent(LanguagesInfoComponent);
-
+    const createdComponentRef: ComponentRef<LanguagesInfoComponent> = this.cvSectionComponentRef.createComponent(LanguagesInfoComponent);
     this.createdComponentRef = createdComponentRef;
-
     const component: LanguagesInfoComponent = createdComponentRef.instance;
-
     component.isEditMode = true;
     component.languagesInfoData = this.cv.languagesInfo;
     component.languageTypes = this.languageTypes as InputSignal<BasicValueModel[]>;
     component.languageLevels = this.languageLevels as InputSignal<BasicValueModel[]>;
 
-    component.emitLanguagesInfo
-      .subscribe((data: LanguageInfo[]) => {
-        this.languagesService.update(this.cv.id, data).subscribe(() => {
-          // TODO: if new language is added it is with id 0 - find way to get the new id
-
-          // TODO: set the BasicValueModel and cvId
-
-          // const mappedData = data.map((item: LanguageInfo) => {
-          //   const languageTypes = this.languageTypes();
-          //   item.languageType = this.languageTypes().filter(lt => lt.value === item.languageType.value)[0];
-          //   item.comprehension = this.languageLevels().filter(ll => ll.value === item.comprehension.value)[0];
-          //   item.speaking = this.languageLevels().filter(ll => ll.value === item.speaking.value)[0];
-          //   item.writing = this.languageLevels().filter(ll => ll.value === item.writing.value)[0];
-          //   return item;
-          // });
-          // this.cv.languagesInfo = mappedData;
-
-
-          // TODO: add toaster and show success and also close the modal
-        });
+    component.emitLanguagesInfo.subscribe((data: LanguageInfoInput[]) => {
+      const requestData: LanguageInfoOutput[] = this.mapLanguageInfoData(data);
+      this.languagesService.update(this.cv.id, requestData).subscribe(() => {
+        // TODO: if new language is added it is with id 0 - find way to get the new id
+        this.cv.languagesInfo = data;
+        // TODO: add toaster and show success and also close the modal
       });
+    });
   }
 
   private onCreateEducationModalComponent = (): void => {
@@ -197,5 +179,18 @@ export class CvViewComponent implements OnInit {
         const details: PersonalDetails = this.cv.personalDetails;
         this.fullName = `${details.firstName} ${details.middleName} ${details.lastName}`;
       });
+  }
+
+  private mapLanguageInfoData = (data: LanguageInfoInput[]): LanguageInfoOutput[] => {
+    return data.map((element: LanguageInfoInput) => {
+      const result: LanguageInfoOutput = {} as LanguageInfoOutput;
+      result.id = element.id;
+      result.cvId = element.cvId;
+      result.comprehension = element.comprehension.value;
+      result.writing = element.writing.value;
+      result.speaking = element.speaking.value;
+      result.languageType = element.languageType.value;
+      return result;
+    });
   }
 }

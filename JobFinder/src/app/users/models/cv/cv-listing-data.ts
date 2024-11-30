@@ -1,7 +1,7 @@
 import {
   CourseSertificate,
   Education,
-  LanguageInfo,
+  LanguageInfoInput,
   PersonalDetails,
   SkillsInfo,
   WorkExperience
@@ -12,7 +12,7 @@ export interface CvListingData {
   name: string;
   createdOn: Date;
   personalDetails: PersonalDetails;
-  languagesInfo: LanguageInfo[];
+  languagesInfo: LanguageInfoInput[];
   workExperiences: WorkExperience[];
   educations: Education[];
   courseCertificates: CourseSertificate[];

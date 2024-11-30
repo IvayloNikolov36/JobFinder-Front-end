@@ -79,7 +79,7 @@
   <div class="card my-3 w-75 mx-auto">
     <h5 class="card-header">Languages</h5>
     <div class="card-body">
-      @for (item of cv.languagesInfo; track item.languageType) {
+      @for (item of cv.languagesInfo; track item.id) {
       <div>
         <span class="fw-bold">{{ item.languageType.viewValue }}: </span>
         <span class="card-text">

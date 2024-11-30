@@ -1,9 +1,7 @@
 <form [formGroup]="educationsForm">
   <div *ngFor="let e of ed.controls; let i = index" class="mt-2">
 
-    <div *ngIf="!isEditMode">
-      <h5>Education details {{i + 1}}</h5>
-    </div>
+    <h5>Education details {{i + 1}}</h5>
 
     <div [formGroup]="e">
 
