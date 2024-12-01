@@ -1,6 +1,3 @@
-import { WorkExperiencesService } from './../../services/work-experiences.service';
-import { LanguagesInfoService } from './../../services/languages-info.service';
-import { PersonalDetailsService } from './../../services/personal-details.service';
 import {
   Component,
   ComponentRef,
@@ -10,10 +7,19 @@ import {
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
-import { CoursesService, CurriculumVitaesService, EducationsService } from '../../services';
+import { CoursesService, CurriculumVitaesService, EducationsService, LanguagesInfoService, PersonalDetailsService, WorkExperiencesService } from '../../services';
 import { ActivatedRoute } from '@angular/router';
 import { CvListingData } from '../../models/cv/cv-listing-data';
-import { CourseSertificate, Education, LanguageInfoInput, LanguageInfoOutput, PersonalDetails, WorkExperience } from '../../models/cv';
+import {
+  CourseCertificate,
+  Education,
+  LanguageInfoInput,
+  LanguageInfoOutput,
+  PersonalDetails,
+  PersonalDetailsOutput,
+  WorkExperience,
+  WorkExperienceOutput
+} from '../../models/cv';
 import { EducationsComponent } from '../educations/educations.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BasicValueModel } from '../../../core/models';
@@ -21,6 +27,8 @@ import { Modal } from 'bootstrap';
 import { LanguagesInfoComponent } from '../languages-info/languages-info.component';
 import { CoursesCertificatesComponent } from '../courses-certificates/courses-certificates.component';
 import { WorkExperiencesComponent } from '../work-experiences/work-experiences.component';
+import { ToastrService } from 'ngx-toastr';
+import { PersonalDetailsComponent } from '../personal-details/personal-details.component';
 
 @Component({
   selector: 'jf-cv-view',
@@ -45,6 +53,7 @@ export class CvViewComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private toaster: ToastrService,
     private cvService: CurriculumVitaesService,
     private educationsService: EducationsService,
     private languagesService: LanguagesInfoService,
@@ -63,6 +72,24 @@ export class CvViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCvData();
+  }
+
+  onCloseEditSectionModal = (): void => {
+    this.createdComponentRef.destroy();
+  }
+
+  editPersonalDetails = (modalElement: any): void => {
+    const modal = new Modal(modalElement);
+    this.editCvSectionTitle = "Edit Personal Details"
+    modal.show();
+    this.onCreatePersonalDetailsModalComponent();
+  }
+
+  editSkillsInfo = (modalElement: any): void => {
+    const modal = new Modal(modalElement);
+    this.editCvSectionTitle = "Edit Skills Info"
+    modal.show();
+    this.onCreatePersonalDetailsModalComponent();
   }
 
   editEducations = (modalElement: any): void => {
@@ -101,13 +128,17 @@ export class CvViewComponent implements OnInit {
 
     const component: WorkExperiencesComponent = createdComponentRef.instance;
     component.businessSectors = this.bussinessSectors as InputSignal<BasicValueModel[]>;
+    component.workExperienceInfoData = this.cv.workExperiences;
     component.isEditMode = true;
 
     component.emitWorkExperiencesData
       .subscribe((data: WorkExperience[]) => {
-        this.workExperiencesService.update(this.cv.id, data).subscribe(() => {
+        const requestData: WorkExperienceOutput[] = data.map((element: WorkExperience) => {
+          return { ...element, businessSector: element.businessSector.value }
+        });
+        this.workExperiencesService.update(this.cv.id, requestData).subscribe(() => {
           this.cv.workExperiences = data;
-          // TODO: add toaster and show success and also close the modal
+          this.toaster.success("Work Experience info successfuly updated.");
         });
       });
   }
@@ -121,12 +152,13 @@ export class CvViewComponent implements OnInit {
     const component: CoursesCertificatesComponent = createdComponentRef.instance;
 
     component.isEditMode = true;
+    component.coursesInfoData = this.cv.courseCertificates;
 
     component.emitCoursesData
-      .subscribe((data: CourseSertificate[]) => {
+      .subscribe((data: CourseCertificate[]) => {
         this.coursesService.update(this.cv.id, data).subscribe(() => {
           this.cv.courseCertificates = data;
-          // TODO: add toaster and show success and also close the modal
+          this.toaster.success("Courses info successfuly updated.");
         });
       });
   }
@@ -143,9 +175,9 @@ export class CvViewComponent implements OnInit {
     component.emitLanguagesInfo.subscribe((data: LanguageInfoInput[]) => {
       const requestData: LanguageInfoOutput[] = this.mapLanguageInfoData(data);
       this.languagesService.update(this.cv.id, requestData).subscribe(() => {
-        // TODO: if new language is added it is with id 0 - find way to get the new id
+        // TODO: if new element is added it is with id 0 - find way to get the new id
         this.cv.languagesInfo = data;
-        // TODO: add toaster and show success and also close the modal
+        this.toaster.success("Languages info successfuly updated.");
       });
     });
   }
@@ -163,13 +195,9 @@ export class CvViewComponent implements OnInit {
       .subscribe((data: Education[]) => {
         this.educationsService.update(this.cv.id, data).subscribe(() => {
           this.cv.educations = data;
-          // TODO: add toaster and show success and also close the modal
+          this.toaster.success("Education info successfuly updated.");
         });
       });
-  }
-
-  onCloseModal = (): void => {
-    this.createdComponentRef.destroy();
   }
 
   private loadCvData = (): void => {
@@ -192,5 +220,30 @@ export class CvViewComponent implements OnInit {
       result.languageType = element.languageType.value;
       return result;
     });
+  }
+
+  private onCreatePersonalDetailsModalComponent = (): void => {
+    const createdComponentRef: ComponentRef<PersonalDetailsComponent> = this.cvSectionComponentRef
+      .createComponent(PersonalDetailsComponent);
+    this.createdComponentRef = createdComponentRef;
+    const component: PersonalDetailsComponent = createdComponentRef.instance;
+    component.isEditMode = true;
+    component.personalDetailsData = this.cv.personalDetails;
+    component.countries = this.countries as InputSignal<BasicValueModel[]>;
+
+    component.emitPersonalDetails
+      .subscribe((data: PersonalDetails) => {
+        const requestData: PersonalDetailsOutput = {
+          ...data,
+          gender: data.gender.value,
+          country: data.country.value,
+          citizenShip: data.citizenShip.value
+        };
+
+        this.pDetailsService.update(this.cv.id, requestData).subscribe(() => {
+          this.cv.personalDetails = data;
+          this.toaster.success("Personal Details successfuly updated.");
+        });
+      });
   }
 }

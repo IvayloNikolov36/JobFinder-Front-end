@@ -1,3 +1,5 @@
+import { BasicValueModel } from "../../../core/models";
+
 export interface PersonalDetails {
   cvId: string;
   firstName: string;
@@ -5,9 +7,9 @@ export interface PersonalDetails {
   lastName: string;
   phone: string;
   email: string;
-  gender: string;
+  gender: BasicValueModel;
   birthdate: string;
-  citizenShip: string;
-  country: string;
+  citizenShip: BasicValueModel;
+  country: BasicValueModel;
   city: string;
 }

@@ -1,12 +1,14 @@
 <div class="container-fluid">
 
   <div class="d-flex justify-content-center">
-    <h4>Your CVs</h4>
+    <h4>All CVs</h4>
   </div>
 
-  <a routerLink="/create-cv" class="btn btn-primary mx-3">Create new</a>
+  <div class="d-flex justify-content-end me-5">
+    <a routerLink="/create-cv" class="btn btn-primary mx-3">Create new</a>
+  </div>
 
-  <div class="table-responsive mt-5 mx-5">
+  <div class="table-responsive mt-2 mx-auto w-75">
     <table class="table mb-0" *ngIf="cvs$ | async as cvs">
       <thead>
         <tr>
@@ -15,16 +17,20 @@
           <th></th>
         </tr>
       </thead>
-      <tbody *ngFor="let cv of cvs">
+      @for(cv of cvs;track cv.id) {
+      <tbody>
         <tr>
           <td>{{ cv.name }}</td>
-          <td>{{ cv.createdOn | date: 'shortDate' }}</td>
+          <td>{{ cv.createdOn | date }}</td>
           <td>
-            <a routerLink="details/{{cv.id}}" class="btn btn-outline-secondary">View</a>
-            <button (click)="deleteCv(cv.id)" class="btn btn-danger">Delete</button>
+            <div class="d-flex gap-2">
+              <a routerLink="details/{{cv.id}}" class="btn btn-outline-secondary">View</a>
+              <button (click)="deleteCv(cv.id, cv.name)" class="btn btn-danger">Delete</button>
+            </div>
           </td>
         </tr>
       </tbody>
+      }
     </table>
   </div>
 </div>

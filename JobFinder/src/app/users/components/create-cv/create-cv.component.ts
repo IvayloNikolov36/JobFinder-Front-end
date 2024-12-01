@@ -9,7 +9,7 @@ import { LanguagesInfoComponent } from '../languages-info/languages-info.compone
 import { SkillsInfoComponent } from '../skills-info/skills-info.component';
 import { CoursesCertificatesComponent } from '../courses-certificates/courses-certificates.component';
 import {
-  CourseSertificate,
+  CourseCertificate,
   CvCreate,
   DrivingCategory,
   Education,
@@ -109,12 +109,12 @@ export class CreateCvComponent implements AfterViewInit {
     this.cvModel.skills = data;
   }
 
-  onPassedCoursesData = (data: CourseSertificate[]): void => {
+  onPassedCoursesData = (data: CourseCertificate[]): void => {
     this.cvModel.courseCertificates = data;
   }
 
   sendCVdata = (): void => {
-    this.cvService.createCv(this.cvModel)
+    this.cvService.create(this.cvModel)
       .subscribe(() => {
         this.toastr.success(`${this.cvModel.name} cv is successfully created.`);
         // TODO: redirect to all cvs

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, input, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PersonalDetails } from '../../models/cv';
 import { BasicValueModel } from '../../../core/models';
@@ -10,7 +10,9 @@ import { BasicValueModel } from '../../../core/models';
 export class PersonalDetailsComponent implements OnInit {
 
   countries = input.required<BasicValueModel[]>();
-  @Output() passFormData: EventEmitter<PersonalDetails> = new EventEmitter<PersonalDetails>();
+  @Input() isEditMode: boolean = false;
+  @Input() personalDetailsData: PersonalDetails | null = null;
+  @Output() emitPersonalDetails: EventEmitter<PersonalDetails> = new EventEmitter<PersonalDetails>();
 
   personalInfoForm!: FormGroup;
   countryControl: FormControl<any> = new FormControl();
@@ -26,7 +28,7 @@ export class PersonalDetailsComponent implements OnInit {
   }
 
   emitData(): void {
-    this.passFormData.emit(this.personalInfoForm.value);
+    this.emitPersonalDetails.emit(this.personalInfoForm.value);
   }
 
   private initializeGenderOptions(): void {
@@ -38,17 +40,37 @@ export class PersonalDetailsComponent implements OnInit {
   }
 
   private initializeForm(): void {
-    this.personalInfoForm = this.formBuilder.group({
+    const controlls = {
+      id: ['', []],
       firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       middleName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
       phone: ['', [Validators.required]],
       gender: ['', [Validators.required]],
-      birthDate: ['', [Validators.required]],
+      birthdate: ['', [Validators.required]],
       citizenShip: ['', [Validators.required]],
       country: ['', [Validators.required]],
       city: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(30)]]
-    });
+    };
+
+    this.personalInfoForm = this.formBuilder.group(controlls);
+
+    if (this.personalDetailsData) {
+      this.setFormData(this.personalInfoForm, this.personalDetailsData);
+    }
+  }
+
+  private setFormData = (form: FormGroup<any>, data: PersonalDetails): void => {
+    form.controls['firstName'].setValue(data.firstName);
+    form.controls['middleName'].setValue(data.middleName);
+    form.controls['lastName'].setValue(data.lastName);
+    form.controls['email'].setValue(data.email);
+    form.controls['phone'].setValue(data.phone);
+    form.controls['gender'].setValue(data.gender);
+    form.controls['birthdate'].setValue(data.birthdate);
+    form.controls['citizenShip'].setValue(data.citizenShip);
+    form.controls['country'].setValue(data.country);
+    form.controls['city'].setValue(data.city);
   }
 }

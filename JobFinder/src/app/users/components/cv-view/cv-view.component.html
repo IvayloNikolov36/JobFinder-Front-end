@@ -17,7 +17,7 @@
             </div>
             <div>
               <span class="fw-medium">Citizenship: </span>
-              <span class="card-text">{{ cv.personalDetails.citizenShip }}</span>
+              <span class="card-text">{{ cv.personalDetails.citizenShip.viewValue }}</span>
             </div>
             <div>
               <span class="fw-medium">I live in: </span>
@@ -35,6 +35,9 @@
             </div>
           </div>
         </div>
+        <div class="card-footer text-muted text-center">
+          <a (click)="editPersonalDetails(modal)">edit</a>
+        </div>
       </div>
     </div>
   </div>
@@ -46,7 +49,7 @@
       <div>
         <h6>{{ item.organization }}</h6>
         <small class="fw-bold">{{ item.fromDate | date }} - {{ item.toDate | date}}</small>
-        <small>{{ item.location }} Bussiness Sector: {{ item.businessSector }}</small>
+        <small>{{ item.location }} Bussiness Sector: {{ item.businessSector.viewValue }}</small>
         <div class="fs-5">{{ item.jobTitle }}</div>
         <span class="card-text">{{ item.additionalDetails }}</span>
       </div>
@@ -66,7 +69,7 @@
         <span>{{ item.fromDate | date}} - {{ item.toDate | date}}</span>
         <div class="fs-5">{{ item.location }}</div>
         <div class="fs-5">Level: {{ item.educationLevel.viewValue }}</div>
-        <div class="fs-5">{{ item.major }}: </div>
+        <div class="fs-5">Major: {{ item.major }}</div>
         <span class="card-text">Main subjects: {{ item.mainSubjects }}</span>
       </div>
       }
@@ -100,6 +103,9 @@
       <p>{{ cv.skills.computerSkills }}</p>
       <span class="card-text">Other skills:</span>
       <p>{{ cv.skills.skills }}</p>
+    </div>
+    <div class="card-footer text-muted text-center">
+      <a (click)="editSkillsInfo(modal)">edit</a>
     </div>
   </div>
 
@@ -136,7 +142,7 @@
           <ng-container #editCvSectionComponent></ng-container>
         </div>
         <div class="modal-footer">
-          <button (click)="onCloseModal()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button (click)="onCloseEditSectionModal()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
     </div>

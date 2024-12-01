@@ -69,12 +69,12 @@
 
   <div class="d-flex justify-content-start gap-3 mt-3">
     <mat-form-field>
-      <input matInput [matDatepicker]="birthdatePicker" placeholder="Bithdate" formControlName="birthDate">
+      <input matInput [matDatepicker]="birthdatePicker" placeholder="Bithdate" formControlName="birthdate">
       <mat-datepicker-toggle matSuffix [for]="birthdatePicker"></mat-datepicker-toggle>
       <mat-datepicker #birthdatePicker></mat-datepicker>
       <mat-hint>Select birthdate.</mat-hint>
       <mat-error
-        *ngIf="personalInfoForm.get('birthDate')?.touched && personalInfoForm.get('birthDate')?.errors?.['required']">
+        *ngIf="personalInfoForm.get('birthdate')?.touched && personalInfoForm.get('birthdate')?.errors?.['required']">
         Birthdate is required!
       </mat-error>
     </mat-form-field>
@@ -132,8 +132,14 @@
     </mat-form-field>
   </div>
 
-  <button type="submit" mat-button class="mt-3" color="primary" matStepperNext (click)="emitData()"
+  <button *ngIf="!isEditMode" type="submit" mat-button class="mt-3" color="primary" matStepperNext (click)="emitData()"
     [disabled]="!personalInfoForm.valid">
     Next
   </button>
+
+  <button *ngIf="isEditMode" type="submit" mat-button class="mt-3" color="primary" (click)="emitData()"
+    [disabled]="!personalInfoForm.valid">
+    Update
+  </button>
+
 </form>

@@ -1,13 +1,11 @@
-import { BasicValueModel } from "../../../core/models";
-
-export interface WorkExperience {
+export interface WorkExperienceOutput {
   id: number;
   cvId: string;
   fromDate: string;
   toDate: string;
   jobTitle: string;
   organization: string;
-  businessSector: BasicValueModel;
+  businessSector: number;
   location: string;
   additionalDetails: string;
 }

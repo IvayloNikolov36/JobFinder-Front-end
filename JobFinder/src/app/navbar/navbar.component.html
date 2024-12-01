@@ -3,7 +3,7 @@
 
     <ul class="nav nav-underline justify-content-start">
       <li class="nav-item">
-        <a class="navbar-brand" routerLink="/home">JobFinder</a>
+        <a class="navbar-brand" routerLink="/home">JF</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="/jobs-all">Jobs</a>
@@ -27,7 +27,7 @@
       </li>
       <li *ngIf="isAuthenticated && !isCompany" class="nav-item">
         <a class="nav-link" routerLink="users/profile">
-          <strong>{{ userName }}</strong>
+          <i>{{ userName }}</i>
         </a>
       </li>
       <li *ngIf="isAuthenticated" class="nav-item">
