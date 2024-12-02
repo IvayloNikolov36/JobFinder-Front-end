@@ -17,6 +17,7 @@ export const getUpdateLanguageInfoUrl = (cvId: string) => getCvLanguagesUrl() + 
 export const getLanguageLevelsUrl = (): string => getCvLanguagesUrl() + '/levels';
 export const getLanguageTypesUrl = (): string => getCvLanguagesUrl() + '/types';
 export const getCvSkillsUrl = (): string => route + 'cvs/Skills';
+export const getUpdateCvSkillsUrl = (cvId: string) => getCvSkillsUrl() + `/${cvId}/update`;
 export const getDrivingCategoriesUrl = (): string => getCvSkillsUrl() + '/driving-categories';
 export const getCvPersonalDetailsUrl = (): string => route + 'cvs/PersonalDetails';
 export const getCvPersonalDetailsUpdateUrl = (cvId: string): string => route + `cvs/PersonalDetails/${cvId}/update`;

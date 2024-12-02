@@ -1,6 +1,7 @@
 import { BasicValueModel } from "../../../core/models";
 
 export interface PersonalDetails {
+  id: number;
   cvId: string;
   firstName: string;
   middleName: string;

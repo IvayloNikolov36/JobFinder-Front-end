@@ -42,6 +42,7 @@ export class PersonalDetailsComponent implements OnInit {
   private initializeForm(): void {
     const controlls = {
       id: ['', []],
+      cvId: ['', []],
       firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       middleName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
@@ -62,6 +63,8 @@ export class PersonalDetailsComponent implements OnInit {
   }
 
   private setFormData = (form: FormGroup<any>, data: PersonalDetails): void => {
+    form.controls['id'].setValue(data.id);
+    form.controls['cvId'].setValue(data.cvId);
     form.controls['firstName'].setValue(data.firstName);
     form.controls['middleName'].setValue(data.middleName);
     form.controls['lastName'].setValue(data.lastName);

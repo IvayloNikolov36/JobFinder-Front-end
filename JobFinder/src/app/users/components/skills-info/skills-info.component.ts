@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DrivingCategory, SkillsInfo } from '../../models/cv';
 
@@ -9,6 +9,8 @@ import { DrivingCategory, SkillsInfo } from '../../models/cv';
 export class SkillsInfoComponent implements OnInit {
 
   drivingCategories = input.required<DrivingCategory[]>();
+  @Input() isEditMode = false;
+  @Input() skillsInfoData: SkillsInfo | null = null;
   @Output() emitSkillsData = new EventEmitter<SkillsInfo>();
 
   skillsForm!: FormGroup;
@@ -29,11 +31,28 @@ export class SkillsInfoComponent implements OnInit {
   }
 
   private initializeForm(): void {
-    this.skillsForm = this.formBuilder.group({
+    const controllsObject = {
+      id: ['', []],
+      cvId: ['', []],
       computerSkills: ['', [Validators.minLength(10), Validators.maxLength(1000)]],
       skills: ['', [Validators.minLength(10), Validators.maxLength(500)]],
       hasManagedPeople: ['', []],
       drivingCategoryType: ['', []]
-    });
+    };
+
+    this.skillsForm = this.formBuilder.group(controllsObject);
+
+    if (this.skillsInfoData) {
+      this.setFormData(this.skillsForm, this.skillsInfoData);
+    }
+  }
+
+  private setFormData = (form: FormGroup<any>, data: SkillsInfo): void => {
+    form.controls['id'].setValue(data.id);
+    form.controls['cvId'].setValue(data.cvId);
+    form.controls['computerSkills'].setValue(data.computerSkills);
+    form.controls['skills'].setValue(data.skills);
+    form.controls['hasManagedPeople'].setValue(data.hasManagedPeople);
+    form.controls['hasDrivingLicense'].setValue(data.hasDrivingLicense);
   }
 }

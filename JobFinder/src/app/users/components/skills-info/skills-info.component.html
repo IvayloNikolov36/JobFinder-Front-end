@@ -35,7 +35,12 @@
       Managed People?
     </mat-checkbox>
   </div>
-  <button type="submit" [disabled]="!skillsForm.valid" mat-button class="mt-2" matStepperNext (click)="emitData()">
+
+  <button *ngIf="!isEditMode" type="submit" [disabled]="!skillsForm.valid" mat-button class="mt-2" matStepperNext (click)="emitData()">
+    Next
+  </button>
+
+  <button *ngIf="isEditMode" type="submit" [disabled]="!skillsForm.valid" mat-button class="mt-2" (click)="emitData()">
     Next
   </button>
 </form>

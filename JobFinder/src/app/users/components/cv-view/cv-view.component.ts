@@ -1,3 +1,4 @@
+import { SkillsService } from './../../services/skills.service';
 import {
   Component,
   ComponentRef,
@@ -17,6 +18,7 @@ import {
   LanguageInfoOutput,
   PersonalDetails,
   PersonalDetailsOutput,
+  SkillsInfo,
   WorkExperience,
   WorkExperienceOutput
 } from '../../models/cv';
@@ -29,6 +31,7 @@ import { CoursesCertificatesComponent } from '../courses-certificates/courses-ce
 import { WorkExperiencesComponent } from '../work-experiences/work-experiences.component';
 import { ToastrService } from 'ngx-toastr';
 import { PersonalDetailsComponent } from '../personal-details/personal-details.component';
+import { SkillsInfoComponent } from '../skills-info/skills-info.component';
 
 @Component({
   selector: 'jf-cv-view',
@@ -58,6 +61,7 @@ export class CvViewComponent implements OnInit {
     private educationsService: EducationsService,
     private languagesService: LanguagesInfoService,
     private coursesService: CoursesService,
+    private skillsServie: SkillsService,
     private workExperiencesService: WorkExperiencesService,
     private pDetailsService: PersonalDetailsService) {
 
@@ -89,7 +93,7 @@ export class CvViewComponent implements OnInit {
     const modal = new Modal(modalElement);
     this.editCvSectionTitle = "Edit Skills Info"
     modal.show();
-    this.onCreatePersonalDetailsModalComponent();
+    this.onCreateSkillsModalComponent();
   }
 
   editEducations = (modalElement: any): void => {
@@ -118,6 +122,25 @@ export class CvViewComponent implements OnInit {
     this.editCvSectionTitle = "Edit Work Experience info"
     modal.show();
     this.onCreateWorkExperienceInfoComponent();
+  }
+
+  private onCreateSkillsModalComponent = (): void => {
+    const createdComponentRef: ComponentRef<SkillsInfoComponent> = this.cvSectionComponentRef
+      .createComponent(SkillsInfoComponent);
+
+    this.createdComponentRef = createdComponentRef;
+
+    const component: SkillsInfoComponent = createdComponentRef.instance;
+    component.isEditMode = true;
+
+    component.emitSkillsData
+      .subscribe((data: SkillsInfo) => {
+        const requestData: SkillsInfo = {} as SkillsInfo;
+        this.skillsServie.update(this.cv.id, requestData).subscribe(() => {
+          this.cv.skills = data;
+          this.toaster.success("Skills info successfuly updated.");
+        });
+      });
   }
 
   private onCreateWorkExperienceInfoComponent = (): void => {
