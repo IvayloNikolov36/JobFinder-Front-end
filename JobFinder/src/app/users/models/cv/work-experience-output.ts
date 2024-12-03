@@ -5,7 +5,7 @@ export interface WorkExperienceOutput {
   toDate: string;
   jobTitle: string;
   organization: string;
-  businessSector: number;
+  businessSectorId: number;
   location: string;
   additionalDetails: string;
 }

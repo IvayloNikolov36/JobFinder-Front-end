@@ -1,7 +1,7 @@
 import { Component, effect, EventEmitter, Input, input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { WorkExperience } from '../../models/cv';
-import { BasicValueModel } from '../../../core/models';
+import { BasicModel } from '../../../models';
 
 @Component({
   selector: 'jf-work-experiences',
@@ -9,14 +9,14 @@ import { BasicValueModel } from '../../../core/models';
 })
 export class WorkExperiencesComponent implements OnInit {
 
-  businessSectors = input.required<BasicValueModel[]>();
+  businessSectors = input.required<BasicModel[]>();
 
   @Input() isEditMode: boolean = false;
   @Input() workExperienceInfoData: WorkExperience[] = [];
   @Output() emitWorkExperiencesData: EventEmitter<WorkExperience[]> = new EventEmitter<WorkExperience[]>();
 
   workExpForm!: FormGroup;
-  businessSectorsData!: BasicValueModel[];
+  businessSectorsData!: BasicModel[];
 
   constructor(private formBuilder: FormBuilder) {
     effect(() => {
@@ -68,7 +68,7 @@ export class WorkExperiencesComponent implements OnInit {
         element.id = 0;
       }
       const correspondingSecor = this.businessSectorsData
-        .filter(bs => bs.value === element.businessSector)[0];
+        .filter(bs => bs.id === element.businessSector)[0];
       element.businessSector = { ...correspondingSecor };
     });
     this.emitWorkExperiencesData.emit(data);
@@ -89,7 +89,7 @@ export class WorkExperiencesComponent implements OnInit {
         formGroup.controls['toDate'].setValue(we.toDate);
         formGroup.controls['jobTitle'].setValue(we.jobTitle);
         formGroup.controls['organization'].setValue(we.organization);
-        formGroup.controls['businessSector'].setValue(we.businessSector.value);
+        formGroup.controls['businessSector'].setValue(we.businessSector.id);
         formGroup.controls['location'].setValue(we.location);
         formGroup.controls['additionalDetails'].setValue(we.additionalDetails);
       });

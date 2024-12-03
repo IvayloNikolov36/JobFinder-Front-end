@@ -8,7 +8,7 @@ import {
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
-import { CoursesService, CurriculumVitaesService, EducationsService, LanguagesInfoService, PersonalDetailsService, WorkExperiencesService } from '../../services';
+import { CoursesService, CurriculumVitaesService, EducationsService, LanguagesInfoService, PersonalDetailsService as PersonalInfoService, WorkExperiencesService } from '../../services';
 import { ActivatedRoute } from '@angular/router';
 import { CvListingData } from '../../models/cv/cv-listing-data';
 import {
@@ -24,7 +24,6 @@ import {
 } from '../../models/cv';
 import { EducationsComponent } from '../educations/educations.component';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { BasicValueModel } from '../../../core/models';
 import { Modal } from 'bootstrap';
 import { LanguagesInfoComponent } from '../languages-info/languages-info.component';
 import { CoursesCertificatesComponent } from '../courses-certificates/courses-certificates.component';
@@ -32,6 +31,8 @@ import { WorkExperiencesComponent } from '../work-experiences/work-experiences.c
 import { ToastrService } from 'ngx-toastr';
 import { PersonalDetailsComponent } from '../personal-details/personal-details.component';
 import { SkillsInfoComponent } from '../skills-info/skills-info.component';
+import { BasicModel } from '../../../models';
+import { NomenclatureService } from '../../../core/services';
 
 @Component({
   selector: 'jf-cv-view',
@@ -48,11 +49,11 @@ export class CvViewComponent implements OnInit {
   editCvSectionTitle: string = '';
   createdComponentRef!: ComponentRef<any>;
 
-  educationLevels!: Signal<BasicValueModel[]>;
-  languageTypes!: Signal<BasicValueModel[]>;
-  languageLevels!: Signal<BasicValueModel[]>;
-  bussinessSectors!: Signal<BasicValueModel[]>;
-  countries!: Signal<BasicValueModel[]>;
+  educationLevels!: Signal<BasicModel[]>;
+  languageTypes!: Signal<BasicModel[]>;
+  languageLevels!: Signal<BasicModel[]>;
+  bussinessSectors!: Signal<BasicModel[]>;
+  countries!: Signal<BasicModel[]>;
 
   constructor(
     private route: ActivatedRoute,
@@ -63,15 +64,16 @@ export class CvViewComponent implements OnInit {
     private coursesService: CoursesService,
     private skillsServie: SkillsService,
     private workExperiencesService: WorkExperiencesService,
-    private pDetailsService: PersonalDetailsService) {
+    private personalInfo: PersonalInfoService,
+    private nomenclatureService: NomenclatureService) {
 
     this.cvId = this.route.snapshot.params['id'];
 
-    this.educationLevels = toSignal(this.educationsService.getEducationLevels(), { initialValue: [] as BasicValueModel[] });
-    this.languageTypes = toSignal(this.languagesService.getLanguageTypes(), { initialValue: [] as BasicValueModel[] });
-    this.languageLevels = toSignal(this.languagesService.getLanguageLevels(), { initialValue: [] as BasicValueModel[] });
-    this.bussinessSectors = toSignal(this.workExperiencesService.getBusinessSectors(), { initialValue: [] as BasicValueModel[] });
-    this.countries = toSignal(this.pDetailsService.getCountries(), { initialValue: [] as BasicValueModel[] });
+    this.educationLevels = toSignal(this.nomenclatureService.getEducationLevels(), { initialValue: [] as BasicModel[] });
+    this.languageTypes = toSignal(this.nomenclatureService.getLanguageTypes(), { initialValue: [] as BasicModel[] });
+    this.languageLevels = toSignal(this.nomenclatureService.getLanguageLevels(), { initialValue: [] as BasicModel[] });
+    this.bussinessSectors = toSignal(this.workExperiencesService.getBusinessSectors(), { initialValue: [] as BasicModel[] });
+    this.countries = toSignal(this.nomenclatureService.getCountries(), { initialValue: [] as BasicModel[] });
   }
 
   ngOnInit(): void {
@@ -150,14 +152,14 @@ export class CvViewComponent implements OnInit {
     this.createdComponentRef = createdComponentRef;
 
     const component: WorkExperiencesComponent = createdComponentRef.instance;
-    component.businessSectors = this.bussinessSectors as InputSignal<BasicValueModel[]>;
+    component.businessSectors = this.bussinessSectors as InputSignal<BasicModel[]>;
     component.workExperienceInfoData = this.cv.workExperiences;
     component.isEditMode = true;
 
     component.emitWorkExperiencesData
       .subscribe((data: WorkExperience[]) => {
         const requestData: WorkExperienceOutput[] = data.map((element: WorkExperience) => {
-          return { ...element, businessSector: element.businessSector.value }
+          return { ...element, businessSectorId: element.businessSector.id }
         });
         this.workExperiencesService.update(this.cv.id, requestData).subscribe(() => {
           this.cv.workExperiences = data;
@@ -192,8 +194,8 @@ export class CvViewComponent implements OnInit {
     const component: LanguagesInfoComponent = createdComponentRef.instance;
     component.isEditMode = true;
     component.languagesInfoData = this.cv.languagesInfo;
-    component.languageTypes = this.languageTypes as InputSignal<BasicValueModel[]>;
-    component.languageLevels = this.languageLevels as InputSignal<BasicValueModel[]>;
+    component.languageTypes = this.languageTypes as InputSignal<BasicModel[]>;
+    component.languageLevels = this.languageLevels as InputSignal<BasicModel[]>;
 
     component.emitLanguagesInfo.subscribe((data: LanguageInfoInput[]) => {
       const requestData: LanguageInfoOutput[] = this.mapLanguageInfoData(data);
@@ -212,7 +214,7 @@ export class CvViewComponent implements OnInit {
     const component: EducationsComponent = createdComponentRef.instance;
     component.isEditMode = true;
     component.educationsData = this.cv.educations;
-    component.educationLevels = this.educationLevels as InputSignal<BasicValueModel[]>;
+    component.educationLevels = this.educationLevels as InputSignal<BasicModel[]>;
 
     component.emitEducationData
       .subscribe((data: Education[]) => {
@@ -237,10 +239,10 @@ export class CvViewComponent implements OnInit {
       const result: LanguageInfoOutput = {} as LanguageInfoOutput;
       result.id = element.id;
       result.cvId = element.cvId;
-      result.comprehension = element.comprehension.value;
-      result.writing = element.writing.value;
-      result.speaking = element.speaking.value;
-      result.languageType = element.languageType.value;
+      result.comprehensionId = element.comprehensionLevel.id;
+      result.writingLevelId = element.writingLevel.id;
+      result.speakingLevelId = element.speakingLevel.id;
+      result.languageTypeId = element.languageType.id;
       return result;
     });
   }
@@ -252,18 +254,18 @@ export class CvViewComponent implements OnInit {
     const component: PersonalDetailsComponent = createdComponentRef.instance;
     component.isEditMode = true;
     component.personalDetailsData = this.cv.personalDetails;
-    component.countries = this.countries as InputSignal<BasicValueModel[]>;
+    component.countries = this.countries as InputSignal<BasicModel[]>;
 
     component.emitPersonalDetails
       .subscribe((data: PersonalDetails) => {
         const requestData: PersonalDetailsOutput = {
           ...data,
-          gender: data.gender.value,
-          country: data.country.value,
-          citizenShip: data.citizenShip.value
+          gender: data.gender.id,
+          country: data.country.id,
+          citizenship: data.citizenship.id
         };
 
-        this.pDetailsService.update(this.cv.id, requestData).subscribe(() => {
+        this.personalInfo.update(this.cv.id, requestData).subscribe(() => {
           this.cv.personalDetails = data;
           this.toaster.success("Personal Details successfuly updated.");
         });

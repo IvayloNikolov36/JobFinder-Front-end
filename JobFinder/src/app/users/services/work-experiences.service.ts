@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BasicValueModel } from '../../core/models';
 import { WorkExperience, WorkExperienceOutput } from './../models/cv/';
 import { getCvWorkExperiencesUrl, getUpdateWorkExperienceInfoUrl } from '../../core/controllers';
 import { Observable } from 'rxjs';
+import { BasicModel } from '../../models';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class WorkExperiencesService {
     return this.http.put(getUpdateWorkExperienceInfoUrl(cvId), data);
   }
 
-  getBusinessSectors(): Observable<BasicValueModel[]> {
-    return this.http.get<BasicValueModel[]>(getCvWorkExperiencesUrl());
+  getBusinessSectors(): Observable<BasicModel[]> {
+    return this.http.get<BasicModel[]>(getCvWorkExperiencesUrl());
   }
 }

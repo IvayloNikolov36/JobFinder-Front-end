@@ -1,10 +1,10 @@
-import { BasicValueModel } from "../../../core/models";
+import { BasicModel } from "../../../models";
 
 export interface LanguageInfoInput {
   id: number;
   cvId: string;
-  languageType: BasicValueModel;
-  comprehension: BasicValueModel;
-  speaking: BasicValueModel;
-  writing: BasicValueModel;
+  languageType: BasicModel;
+  comprehensionLevel: BasicModel;
+  speakingLevel: BasicModel;
+  writingLevel: BasicModel;
 }

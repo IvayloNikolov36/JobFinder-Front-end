@@ -17,7 +17,7 @@
             </div>
             <div>
               <span class="fw-medium">Citizenship: </span>
-              <span class="card-text">{{ cv.personalDetails.citizenShip.viewValue }}</span>
+              <span class="card-text">{{ cv.personalDetails.citizenship.name }}</span>
             </div>
             <div>
               <span class="fw-medium">I live in: </span>
@@ -49,7 +49,7 @@
       <div>
         <h6>{{ item.organization }}</h6>
         <small class="fw-bold">{{ item.fromDate | date }} - {{ item.toDate | date}}</small>
-        <small>{{ item.location }} Bussiness Sector: {{ item.businessSector.viewValue }}</small>
+        <small>{{ item.location }} Bussiness Sector: {{ item.businessSector.name }}</small>
         <div class="fs-5">{{ item.jobTitle }}</div>
         <span class="card-text">{{ item.additionalDetails }}</span>
       </div>
@@ -68,7 +68,7 @@
         <h6>{{ item.organization }}</h6>
         <span>{{ item.fromDate | date}} - {{ item.toDate | date}}</span>
         <div class="fs-5">{{ item.location }}</div>
-        <div class="fs-5">Level: {{ item.educationLevel.viewValue }}</div>
+        <div class="fs-5">Level: {{ item.educationLevel.name }}</div>
         <div class="fs-5">Major: {{ item.major }}</div>
         <span class="card-text">Main subjects: {{ item.mainSubjects }}</span>
       </div>
@@ -84,9 +84,9 @@
     <div class="card-body">
       @for (item of cv.languagesInfo; track item.id) {
       <div>
-        <span class="fw-bold">{{ item.languageType.viewValue }}: </span>
+        <span class="fw-bold">{{ item.languageType.name }}: </span>
         <span class="card-text">
-          Comprehension: {{ item.comprehension.viewValue }}, Speaking: {{ item.speaking.viewValue }}, Writing: {{ item.writing.viewValue }}
+          Comprehension: {{ item.comprehensionLevel.name }}, Speaking: {{ item.speakingLevel.name }}, Writing: {{ item.writingLevel.name }}
         </span>
       </div>
       }

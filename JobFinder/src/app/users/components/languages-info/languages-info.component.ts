@@ -1,7 +1,7 @@
 import { Component, effect, EventEmitter, Input, input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LanguageInfoInput } from '../../models/cv';
-import { BasicValueModel } from '../../../core/models';
+import { BasicModel } from '../../../models';
 
 @Component({
   selector: 'jf-languages-info',
@@ -9,15 +9,15 @@ import { BasicValueModel } from '../../../core/models';
 })
 export class LanguagesInfoComponent implements OnInit {
 
-  languageTypes = input.required<BasicValueModel[]>();
-  languageLevels = input.required<BasicValueModel[]>();
+  languageTypes = input.required<BasicModel[]>();
+  languageLevels = input.required<BasicModel[]>();
   @Input() isEditMode: boolean = false;
   @Input() languagesInfoData: LanguageInfoInput[] = [];
   @Output() emitLanguagesInfo = new EventEmitter<LanguageInfoInput[]>();
 
   languagesForm!: FormGroup;
-  languageTypesData!: BasicValueModel[];
-  languageLevelsData!: BasicValueModel[];
+  languageTypesData!: BasicModel[];
+  languageLevelsData!: BasicModel[];
 
   constructor(private formBuilder: FormBuilder) {
     effect(() => {
@@ -75,10 +75,10 @@ export class LanguagesInfoComponent implements OnInit {
         languageInfo.id = 0;
       }
       languageInfo.cvId = element.cvId;
-      languageInfo.languageType = this.languageTypesData.filter(lt => lt.value === element.languageType)[0];
-      languageInfo.comprehension = this.languageLevelsData.filter(ll => ll.value === element.comprehension)[0];
-      languageInfo.speaking = this.languageLevelsData.filter(ll => ll.value === element.speaking)[0];
-      languageInfo.writing = this.languageLevelsData.filter(ll => ll.value === element.writing)[0];
+      languageInfo.languageType = this.languageTypesData.filter(lt => lt.id === element.languageType.id)[0];
+      languageInfo.comprehensionLevel = this.languageLevelsData.filter(ll => ll.id === element.comprehensionLevel.id)[0];
+      languageInfo.speakingLevel = this.languageLevelsData.filter(ll => ll.id === element.speakingLevel.id)[0];
+      languageInfo.writingLevel = this.languageLevelsData.filter(ll => ll.id === element.writingLevel.id)[0];
 
       return languageInfo;
     });
@@ -97,10 +97,10 @@ export class LanguagesInfoComponent implements OnInit {
       this.languagesInfoData.forEach((languagesInfoData: LanguageInfoInput) => {
         const formGroup: FormGroup<any> = this.addNewLanguageInfoForm();
         formGroup.controls['id'].setValue(languagesInfoData.id);
-        formGroup.controls['languageType'].setValue(languagesInfoData.languageType.value);
-        formGroup.controls['comprehension'].setValue(languagesInfoData.comprehension.value);
-        formGroup.controls['speaking'].setValue(languagesInfoData.speaking.value);
-        formGroup.controls['writing'].setValue(languagesInfoData.writing.value);
+        formGroup.controls['languageType'].setValue(languagesInfoData.languageType.id);
+        formGroup.controls['comprehension'].setValue(languagesInfoData.comprehensionLevel.id);
+        formGroup.controls['speaking'].setValue(languagesInfoData.speakingLevel.id);
+        formGroup.controls['writing'].setValue(languagesInfoData.writingLevel.id);
       });
     } else {
       this.addNewLanguageInfoForm();

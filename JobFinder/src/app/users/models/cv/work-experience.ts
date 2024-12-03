@@ -1,4 +1,4 @@
-import { BasicValueModel } from "../../../core/models";
+import { BasicModel } from "../../../models";
 
 export interface WorkExperience {
   id: number;
@@ -7,7 +7,7 @@ export interface WorkExperience {
   toDate: string;
   jobTitle: string;
   organization: string;
-  businessSector: BasicValueModel;
+  businessSector: BasicModel;
   location: string;
   additionalDetails: string;
 }

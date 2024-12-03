@@ -1,7 +1,7 @@
 import { Component, EventEmitter, input, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PersonalDetails } from '../../models/cv';
-import { BasicValueModel } from '../../../core/models';
+import { BasicModel } from '../../../models';
 
 @Component({
   selector: 'jf-personal-details',
@@ -9,14 +9,14 @@ import { BasicValueModel } from '../../../core/models';
 })
 export class PersonalDetailsComponent implements OnInit {
 
-  countries = input.required<BasicValueModel[]>();
+  countries = input.required<BasicModel[]>();
+  genderOptions = input.required<BasicModel[]>();
   @Input() isEditMode: boolean = false;
   @Input() personalDetailsData: PersonalDetails | null = null;
   @Output() emitPersonalDetails: EventEmitter<PersonalDetails> = new EventEmitter<PersonalDetails>();
 
   personalInfoForm!: FormGroup;
   countryControl: FormControl<any> = new FormControl();
-  genderOptions!: BasicValueModel[];
 
   readonly emailPattern: RegExp = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 
@@ -24,19 +24,10 @@ export class PersonalDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
-    this.initializeGenderOptions();
   }
 
   emitData(): void {
     this.emitPersonalDetails.emit(this.personalInfoForm.value);
-  }
-
-  private initializeGenderOptions(): void {
-    this.genderOptions = [
-      { value: 0, viewValue: 'Not specified' },
-      { value: 1, viewValue: 'Male' },
-      { value: 2, viewValue: 'Female' }
-    ];
   }
 
   private initializeForm(): void {
@@ -72,7 +63,7 @@ export class PersonalDetailsComponent implements OnInit {
     form.controls['phone'].setValue(data.phone);
     form.controls['gender'].setValue(data.gender);
     form.controls['birthdate'].setValue(data.birthdate);
-    form.controls['citizenShip'].setValue(data.citizenShip);
+    form.controls['citizenShip'].setValue(data.citizenship);
     form.controls['country'].setValue(data.country);
     form.controls['city'].setValue(data.city);
   }

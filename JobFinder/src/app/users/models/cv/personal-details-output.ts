@@ -7,7 +7,7 @@ export interface PersonalDetailsOutput {
   email: string;
   gender: number;
   birthdate: string;
-  citizenShip: number;
+  citizenship: number;
   country: number;
   city: string;
 }

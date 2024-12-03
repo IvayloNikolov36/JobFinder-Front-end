@@ -1,7 +1,7 @@
 import { Component, EventEmitter, input, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Education } from '../../models/cv';
-import { BasicValueModel } from '../../../core/models';
+import { BasicModel } from '../../../models';
 
 @Component({
   selector: 'jf-educations',
@@ -9,7 +9,7 @@ import { BasicValueModel } from '../../../core/models';
 })
 export class EducationsComponent implements OnInit {
 
-  educationLevels = input.required<BasicValueModel[]>();
+  educationLevels = input.required<BasicModel[]>();
   @Input() isEditMode: boolean = false;
   @Input() educationsData: Education[] = [];
   @Output() emitEducationData = new EventEmitter<Education[]>();
@@ -85,7 +85,7 @@ export class EducationsComponent implements OnInit {
         formGroup.controls['toDate'].setValue(educationData.toDate);
         formGroup.controls['organization'].setValue(educationData.organization);
         formGroup.controls['location'].setValue(educationData.location);
-        formGroup.controls['educationLevel'].setValue(educationData.educationLevel.value);
+        formGroup.controls['educationLevel'].setValue(educationData.educationLevel.id);
         formGroup.controls['major'].setValue(educationData.major);
         formGroup.controls['mainSubjects'].setValue(educationData.mainSubjects);
       });

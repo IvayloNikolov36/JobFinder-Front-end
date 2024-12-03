@@ -25,9 +25,10 @@ import {
   PersonalDetailsService,
   WorkExperiencesService
 } from '../../services';
-import { BasicValueModel } from '../../../core/models';
 import { ToastrService } from 'ngx-toastr';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { BasicModel } from '../../../models';
+import { NomenclatureService } from '../../../core/services';
 
 @Component({
   selector: 'jf-create-cv',
@@ -51,11 +52,12 @@ export class CreateCvComponent implements AfterViewInit {
   skillsInfoForm!: FormGroup<any>;
   coursesCertificatesForm!: FormGroup<any>;
 
-  countries!: Signal<BasicValueModel[]>;
-  businessSectors!: Signal<BasicValueModel[]>;
-  educationLevels!: Signal<BasicValueModel[]>;
-  languageTypes!: Signal<BasicValueModel[]>;
-  languageLevels!: Signal<BasicValueModel[]>;
+  countries!: Signal<BasicModel[]>;
+  genderOptions!: Signal<BasicModel[]>;
+  businessSectors!: Signal<BasicModel[]>;
+  educationLevels!: Signal<BasicModel[]>;
+  languageTypes!: Signal<BasicModel[]>;
+  languageLevels!: Signal<BasicModel[]>;
   drivingCategories!: Signal<DrivingCategory[]>;
 
   cvModel: CvCreate = {} as CvCreate;
@@ -68,6 +70,7 @@ export class CreateCvComponent implements AfterViewInit {
     private workExpService: WorkExperiencesService,
     private languagesService: LanguagesInfoService,
     private skillsService: SkillsService,
+    private nomenclatureService: NomenclatureService,
     private toastr: ToastrService
   ) {
     this.getData();
@@ -123,20 +126,23 @@ export class CreateCvComponent implements AfterViewInit {
 
   private getData = (): void => {
     this.countries = toSignal(
-      this.pDetailsService.getCountries(),
-      { initialValue: [] as BasicValueModel[] });
+      this.nomenclatureService.getCountries(),
+      { initialValue: [] as BasicModel[] });
+    this.genderOptions = toSignal(
+      this.nomenclatureService.getGenderOptions(),
+      { initialValue: [] as BasicModel[] });
     this.businessSectors = toSignal(
       this.workExpService.getBusinessSectors(),
-      { initialValue: [] as BasicValueModel[] });
+      { initialValue: [] as BasicModel[] });
     this.educationLevels = toSignal(
-      this.educationsService.getEducationLevels(),
-      { initialValue: [] as BasicValueModel[] });
+      this.nomenclatureService.getEducationLevels(),
+      { initialValue: [] as BasicModel[] });
     this.languageTypes = toSignal(
-      this.languagesService.getLanguageTypes(),
-      { initialValue: [] as BasicValueModel[] });
+      this.nomenclatureService.getLanguageTypes(),
+      { initialValue: [] as BasicModel[] });
     this.languageLevels = toSignal(
-      this.languagesService.getLanguageLevels(),
-      { initialValue: [] as BasicValueModel[] });
+      this.nomenclatureService.getLanguageLevels(),
+      { initialValue: [] as BasicModel[] });
 
     this.drivingCategories = signal<DrivingCategory[]>([] as DrivingCategory[]);
     // this.drivingCategories = toSignal(this.skillsService.getDrivingCategories(), { initialValue: [] as DrivingCategory[] });

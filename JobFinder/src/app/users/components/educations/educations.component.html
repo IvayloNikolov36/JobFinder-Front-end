@@ -47,8 +47,8 @@
         <mat-form-field>
           <mat-label>Education Level</mat-label>
           <mat-select formControlName="educationLevel">
-            <mat-option *ngFor="let e of educationLevels()" [value]="e.value">
-              {{e.viewValue}}
+            <mat-option *ngFor="let e of educationLevels()" [value]="e.id">
+              {{ e.name }}
             </mat-option>
           </mat-select>
           <mat-hint>Select education level.</mat-hint>

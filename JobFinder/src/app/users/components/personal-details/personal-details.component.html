@@ -96,8 +96,8 @@
     <mat-form-field>
       <mat-label>Gender</mat-label>
       <mat-select formControlName="gender">
-        <mat-option *ngFor="let gender of genderOptions" [value]="gender.value">
-          {{gender.viewValue}}
+        <mat-option *ngFor="let gender of genderOptions()" [value]="gender.id">
+          {{ gender.name }}
         </mat-option>
       </mat-select>
       <mat-hint>Select gender.</mat-hint>
@@ -109,8 +109,8 @@
     <mat-form-field>
       <mat-label>Citizenship</mat-label>
       <mat-select formControlName="citizenShip">
-        <mat-option *ngFor="let c of countries()" [value]="c.value">
-          {{c.viewValue}}
+        <mat-option *ngFor="let c of countries()" [value]="c.id">
+          {{ c.name }}
         </mat-option>
       </mat-select>
       <mat-hint>Select citizenship.</mat-hint>
@@ -121,8 +121,8 @@
     <mat-form-field>
       <mat-label>Country</mat-label>
       <mat-select formControlName="country">
-        <mat-option *ngFor="let c of countries()" [value]="c.value">
-          {{c.viewValue}}
+        <mat-option *ngFor="let c of countries()" [value]="c.id">
+          {{ c.name }}
         </mat-option>
       </mat-select>
       <mat-hint>Select country.</mat-hint>
