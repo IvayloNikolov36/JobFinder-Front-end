@@ -41,7 +41,7 @@ export class PersonalDetailsComponent implements OnInit {
       phone: ['', [Validators.required]],
       gender: ['', [Validators.required]],
       birthdate: ['', [Validators.required]],
-      citizenShip: ['', [Validators.required]],
+      citizenship: ['', [Validators.required]],
       country: ['', [Validators.required]],
       city: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(30)]]
     };
@@ -63,7 +63,7 @@ export class PersonalDetailsComponent implements OnInit {
     form.controls['phone'].setValue(data.phone);
     form.controls['gender'].setValue(data.gender);
     form.controls['birthdate'].setValue(data.birthdate);
-    form.controls['citizenShip'].setValue(data.citizenship);
+    form.controls['citizenship'].setValue(data.citizenship);
     form.controls['country'].setValue(data.country);
     form.controls['city'].setValue(data.city);
   }

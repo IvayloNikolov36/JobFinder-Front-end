@@ -72,7 +72,7 @@ export class CvViewComponent implements OnInit {
     this.educationLevels = toSignal(this.nomenclatureService.getEducationLevels(), { initialValue: [] as BasicModel[] });
     this.languageTypes = toSignal(this.nomenclatureService.getLanguageTypes(), { initialValue: [] as BasicModel[] });
     this.languageLevels = toSignal(this.nomenclatureService.getLanguageLevels(), { initialValue: [] as BasicModel[] });
-    this.bussinessSectors = toSignal(this.workExperiencesService.getBusinessSectors(), { initialValue: [] as BasicModel[] });
+    this.bussinessSectors = toSignal(this.nomenclatureService.getBusinessSectors(), { initialValue: [] as BasicModel[] });
     this.countries = toSignal(this.nomenclatureService.getCountries(), { initialValue: [] as BasicModel[] });
   }
 
@@ -260,9 +260,9 @@ export class CvViewComponent implements OnInit {
       .subscribe((data: PersonalDetails) => {
         const requestData: PersonalDetailsOutput = {
           ...data,
-          gender: data.gender.id,
-          country: data.country.id,
-          citizenship: data.citizenship.id
+          genderId: data.gender.id,
+          countryId: data.country.id,
+          citizenshipId: data.citizenship.id
         };
 
         this.personalInfo.update(this.cv.id, requestData).subscribe(() => {

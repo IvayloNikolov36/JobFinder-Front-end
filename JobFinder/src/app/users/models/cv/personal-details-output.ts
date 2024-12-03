@@ -5,9 +5,9 @@ export interface PersonalDetailsOutput {
   lastName: string;
   phone: string;
   email: string;
-  gender: number;
+  genderId: number;
   birthdate: string;
-  citizenship: number;
-  country: number;
+  citizenshipId: number;
+  countryId: number;
   city: string;
 }

@@ -1,4 +1,3 @@
-import { SkillsService } from './../../services/skills.service';
 import { AfterViewInit, Component, ViewChild, ChangeDetectorRef, Signal, signal } from '@angular/core';
 import { CvInfoComponent } from '../cv-info/cv-info.component';
 import { FormGroup } from '@angular/forms';
@@ -14,17 +13,13 @@ import {
   DrivingCategory,
   Education,
   LanguageInfoInput,
+  LanguageInfoOutput,
   PersonalDetails,
+  PersonalDetailsOutput,
   SkillsInfo,
   WorkExperience
 } from '../../models/cv';
-import {
-  CurriculumVitaesService,
-  EducationsService,
-  LanguagesInfoService,
-  PersonalDetailsService,
-  WorkExperiencesService
-} from '../../services';
+import { CurriculumVitaesService } from '../../services';
 import { ToastrService } from 'ngx-toastr';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BasicModel } from '../../../models';
@@ -65,11 +60,6 @@ export class CreateCvComponent implements AfterViewInit {
   constructor(
     private cdref: ChangeDetectorRef,
     private cvService: CurriculumVitaesService,
-    private pDetailsService: PersonalDetailsService,
-    private educationsService: EducationsService,
-    private workExpService: WorkExperiencesService,
-    private languagesService: LanguagesInfoService,
-    private skillsService: SkillsService,
     private nomenclatureService: NomenclatureService,
     private toastr: ToastrService
   ) {
@@ -93,7 +83,18 @@ export class CreateCvComponent implements AfterViewInit {
   };
 
   onPassedPersonalDetailsData = (data: PersonalDetails): void => {
-    this.cvModel.personalDetails = data;
+    this.cvModel.personalDetails = {
+      firstName: data.firstName,
+      middleName: data.middleName,
+      lastName: data.lastName,
+      phone: data.phone,
+      email: data.email,
+      genderId: data.gender.id,
+      birthdate: data.birthdate,
+      citizenshipId: data.citizenship.id,
+      countryId: data.country.id,
+      city: data.city
+    } as PersonalDetailsOutput;
   }
 
   onPassedWorkExperiencesData = (data: WorkExperience[]): void => {
@@ -105,7 +106,14 @@ export class CreateCvComponent implements AfterViewInit {
   }
 
   onPassedLanguagesInfo = (data: LanguageInfoInput[]): void => {
-    this.cvModel.languagesInfo = data;
+    this.cvModel.languagesInfo = data.map((item: LanguageInfoInput) => {
+      return {
+        languageTypeId: item.languageType.id,
+        comprehensionId: item.comprehensionLevel.id,
+        speakingLevelId: item.speakingLevel.id,
+        writingLevelId: item.writingLevel.id
+      } as LanguageInfoOutput
+    });
   }
 
   onPassedSkillsInfoData = (data: SkillsInfo): void => {
@@ -132,7 +140,7 @@ export class CreateCvComponent implements AfterViewInit {
       this.nomenclatureService.getGenderOptions(),
       { initialValue: [] as BasicModel[] });
     this.businessSectors = toSignal(
-      this.workExpService.getBusinessSectors(),
+      this.nomenclatureService.getBusinessSectors(),
       { initialValue: [] as BasicModel[] });
     this.educationLevels = toSignal(
       this.nomenclatureService.getEducationLevels(),

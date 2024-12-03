@@ -18,6 +18,5 @@ export const getUpdateCvSkillsUrl = (cvId: string) => getCvSkillsUrl() + `/${cvI
 export const getDrivingCategoriesUrl = (): string => getCvSkillsUrl() + '/driving-categories';
 export const getCvPersonalDetailsUrl = (): string => route + 'cvs/PersonalDetails';
 export const getCvPersonalDetailsUpdateUrl = (cvId: string): string => route + `cvs/PersonalDetails/${cvId}/update`;
-export const getCvWorkExperiencesUrl = (): string => route + 'cvs/WorkExperiences/businessSectors';
-export const getCvWorkExperienceUrl = (id: string): string => getCvWorkExperiencesUrl() + `/${id}`;
+export const getCvWorkExperienceUrl = (id: string): string => route + 'cvs/WorkExperiences' + `/${id}`;
 export const getUpdateWorkExperienceInfoUrl = (cvId: string) => route + 'cvs/WorkExperiences' + `/${cvId}/update`;

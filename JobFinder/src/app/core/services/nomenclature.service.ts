@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BasicModel } from "../../models";
-import { getCountriesUrl, getEducationLevelsUrl, getGenderOptionsUrl, getLanguageLevelsUrl, getLanguageTypesUrl } from "../controllers";
+import { getBusinessSectorsUrl, getCountriesUrl, getEducationLevelsUrl, getGenderOptionsUrl, getLanguageLevelsUrl, getLanguageTypesUrl } from "../controllers";
 import { Observable } from "rxjs";
 
 @Injectable({
@@ -13,14 +13,9 @@ export class NomenclatureService {
 
   }
 
-  getGenderOptions(): Observable<BasicModel[]> {
-    return this.http.get<BasicModel[]>(getGenderOptionsUrl());
-  }
-
   getEducationLevels(): Observable<BasicModel[]> {
     return this.http.get<BasicModel[]>(getEducationLevelsUrl());
   }
-
 
   getLanguageLevels(): Observable<BasicModel[]> {
     return this.http.get<BasicModel[]>(getLanguageLevelsUrl());
@@ -32,5 +27,13 @@ export class NomenclatureService {
 
   getCountries(): Observable<BasicModel[]> {
     return this.http.get<BasicModel[]>(getCountriesUrl());
+  }
+
+  getBusinessSectors(): Observable<BasicModel[]> {
+    return this.http.get<BasicModel[]>(getBusinessSectorsUrl());
+  }
+
+  getGenderOptions(): Observable<BasicModel[]> {
+    return this.http.get<BasicModel[]>(getGenderOptionsUrl());
   }
 }

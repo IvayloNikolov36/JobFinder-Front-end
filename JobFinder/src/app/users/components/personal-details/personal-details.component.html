@@ -108,7 +108,7 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Citizenship</mat-label>
-      <mat-select formControlName="citizenShip">
+      <mat-select formControlName="citizenship">
         <mat-option *ngFor="let c of countries()" [value]="c.id">
           {{ c.name }}
         </mat-option>
