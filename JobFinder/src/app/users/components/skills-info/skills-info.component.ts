@@ -32,11 +32,11 @@ export class SkillsInfoComponent implements OnInit {
 
   private initializeForm(): void {
     const controllsObject = {
-      id: ['', []],
+      id: [0, []],
       cvId: ['', []],
       computerSkills: ['', [Validators.minLength(10), Validators.maxLength(1000)]],
       skills: ['', [Validators.minLength(10), Validators.maxLength(500)]],
-      hasManagedPeople: ['', []],
+      hasManagedPeople: [false, []],
       drivingCategoryType: ['', []]
     };
 

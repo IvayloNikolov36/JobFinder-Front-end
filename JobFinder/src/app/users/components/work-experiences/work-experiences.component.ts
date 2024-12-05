@@ -39,7 +39,7 @@ export class WorkExperiencesComponent implements OnInit {
 
   addWorkExperienceForm(): FormGroup<any> {
     const formGroup: FormGroup<any> = this.formBuilder.group({
-      id: ['', []],
+      id: [0, []],
       fromDate: ['', [Validators.required]],
       toDate: ['', []],
       jobTitle: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
@@ -64,9 +64,6 @@ export class WorkExperiencesComponent implements OnInit {
   emitData(): void {
     const data: any[] = this.workExpForm.value.weArray;
     data.forEach(element => {
-      if (!element.id) {
-        element.id = 0;
-      }
       const correspondingSecor = this.businessSectorsData
         .filter(bs => bs.id === element.businessSector)[0];
       element.businessSector = { ...correspondingSecor };

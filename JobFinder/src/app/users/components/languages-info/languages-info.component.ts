@@ -41,12 +41,12 @@ export class LanguagesInfoComponent implements OnInit {
 
   addNewLanguageInfoForm(): FormGroup<any> {
     const formGroup: FormGroup<any> = this.formBuilder.group({
-      id: ['', []],
+      id: [0, []],
       cvId: ['', []],
-      languageType: ['', [Validators.required]],
-      comprehension: ['', [Validators.required]],
-      speaking: ['', [Validators.required]],
-      writing: ['', [Validators.required]]
+      languageTypeId: ['', [Validators.required]],
+      comprehensionLevelId: ['', [Validators.required]],
+      speakingLevelId: ['', [Validators.required]],
+      writingLevelId: ['', [Validators.required]]
     });
 
     this.l.push(formGroup);
@@ -71,14 +71,11 @@ export class LanguagesInfoComponent implements OnInit {
     const langugageInfos = data.map((element: any) => {
       const languageInfo: LanguageInfoInput = {} as LanguageInfoInput;
       languageInfo.id = element.id;
-      if (!element.id) {
-        languageInfo.id = 0;
-      }
       languageInfo.cvId = element.cvId;
-      languageInfo.languageType = this.languageTypesData.filter(lt => lt.id === element.languageType.id)[0];
-      languageInfo.comprehensionLevel = this.languageLevelsData.filter(ll => ll.id === element.comprehensionLevel.id)[0];
-      languageInfo.speakingLevel = this.languageLevelsData.filter(ll => ll.id === element.speakingLevel.id)[0];
-      languageInfo.writingLevel = this.languageLevelsData.filter(ll => ll.id === element.writingLevel.id)[0];
+      languageInfo.languageType = this.languageTypesData.filter(lt => lt.id === element.languageTypeId)[0];
+      languageInfo.comprehensionLevel = this.languageLevelsData.filter(ll => ll.id === element.comprehensionLevelId)[0];
+      languageInfo.speakingLevel = this.languageLevelsData.filter(ll => ll.id === element.speakingLevelId)[0];
+      languageInfo.writingLevel = this.languageLevelsData.filter(ll => ll.id === element.writingLevelId)[0];
 
       return languageInfo;
     });
@@ -97,10 +94,10 @@ export class LanguagesInfoComponent implements OnInit {
       this.languagesInfoData.forEach((languagesInfoData: LanguageInfoInput) => {
         const formGroup: FormGroup<any> = this.addNewLanguageInfoForm();
         formGroup.controls['id'].setValue(languagesInfoData.id);
-        formGroup.controls['languageType'].setValue(languagesInfoData.languageType.id);
-        formGroup.controls['comprehension'].setValue(languagesInfoData.comprehensionLevel.id);
-        formGroup.controls['speaking'].setValue(languagesInfoData.speakingLevel.id);
-        formGroup.controls['writing'].setValue(languagesInfoData.writingLevel.id);
+        formGroup.controls['languageTypeId'].setValue(languagesInfoData.languageType.id);
+        formGroup.controls['comprehensionLevelId'].setValue(languagesInfoData.comprehensionLevel.id);
+        formGroup.controls['speakingLevelId'].setValue(languagesInfoData.speakingLevel.id);
+        formGroup.controls['writingLevelId'].setValue(languagesInfoData.writingLevel.id);
       });
     } else {
       this.addNewLanguageInfoForm();

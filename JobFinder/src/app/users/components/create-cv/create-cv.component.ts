@@ -1,24 +1,8 @@
 import { AfterViewInit, Component, ViewChild, ChangeDetectorRef, Signal, signal } from '@angular/core';
 import { CvInfoComponent } from '../cv-info/cv-info.component';
 import { FormGroup } from '@angular/forms';
-import { PersonalDetailsComponent } from '../personal-details/personal-details.component';
-import { WorkExperiencesComponent } from '../work-experiences/work-experiences.component';
-import { EducationsComponent } from '../educations/educations.component';
-import { LanguagesInfoComponent } from '../languages-info/languages-info.component';
-import { SkillsInfoComponent } from '../skills-info/skills-info.component';
-import { CoursesCertificatesComponent } from '../courses-certificates/courses-certificates.component';
-import {
-  CourseCertificate,
-  CvCreate,
-  DrivingCategory,
-  Education,
-  LanguageInfoInput,
-  LanguageInfoOutput,
-  PersonalDetails,
-  PersonalDetailsOutput,
-  SkillsInfo,
-  WorkExperience
-} from '../../models/cv';
+import { CoursesCertificatesComponent, EducationsComponent, LanguagesInfoComponent, PersonalDetailsComponent, SkillsInfoComponent, WorkExperiencesComponent } from '../index';
+import { CourseCertificate, CvCreate, CvInfo, DrivingCategory, Education, EducationOutput, LanguageInfoInput, LanguageInfoOutput, PersonalDetails, PersonalDetailsOutput, SkillsInfo, WorkExperience, WorkExperienceOutput } from '../../models/cv';
 import { CurriculumVitaesService } from '../../services';
 import { ToastrService } from 'ngx-toastr';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -77,9 +61,9 @@ export class CreateCvComponent implements AfterViewInit {
     this.cdref.detectChanges();
   }
 
-  onPassedCvInfoData = (data: { name: string, pictureUrl: string }): void => {
-    this.cvModel.name = data.name;
-    this.cvModel.pictureUrl = data.pictureUrl;
+  onPassedCvInfoData = (info: CvInfo): void => {
+    this.cvModel.name = info.name;
+    this.cvModel.pictureUrl = info.pictureUrl;
   };
 
   onPassedPersonalDetailsData = (data: PersonalDetails): void => {
@@ -89,27 +73,32 @@ export class CreateCvComponent implements AfterViewInit {
       lastName: data.lastName,
       phone: data.phone,
       email: data.email,
-      genderId: data.gender.id,
+      genderId: data.gender as any,
       birthdate: data.birthdate,
-      citizenshipId: data.citizenship.id,
-      countryId: data.country.id,
+      citizenshipId: data.citizenship as any,
+      countryId: data.country as any,
       city: data.city
     } as PersonalDetailsOutput;
   }
 
   onPassedWorkExperiencesData = (data: WorkExperience[]): void => {
-    this.cvModel.workExperiences = data;
+    this.cvModel.workExperiences = data.map((item: WorkExperience) => {
+      return { ...item, businessSectorId: item.businessSector.id as any } as WorkExperienceOutput
+    });
   }
 
   onPassedEducationData = (data: Education[]): void => {
-    this.cvModel.educations = data;
+    this.cvModel.educations = data.map((item: Education) => {
+      return { ...item, educationLevelId: item.educationLevel as any } as EducationOutput
+    });
   }
 
   onPassedLanguagesInfo = (data: LanguageInfoInput[]): void => {
     this.cvModel.languagesInfo = data.map((item: LanguageInfoInput) => {
       return {
+        id: 0,
         languageTypeId: item.languageType.id,
-        comprehensionId: item.comprehensionLevel.id,
+        comprehensionLevelId: item.comprehensionLevel.id,
         speakingLevelId: item.speakingLevel.id,
         writingLevelId: item.writingLevel.id
       } as LanguageInfoOutput
@@ -126,9 +115,12 @@ export class CreateCvComponent implements AfterViewInit {
 
   sendCVdata = (): void => {
     this.cvService.create(this.cvModel)
-      .subscribe(() => {
-        this.toastr.success(`${this.cvModel.name} cv is successfully created.`);
-        // TODO: redirect to all cvs
+      .subscribe({
+        next: () => {
+          this.toastr.success(`${this.cvModel.name} cv is successfully created.`);
+          // TODO: redirect to all cvs
+        },
+        error: () => this.toastr.error('Sorry, Can not create the CV.')
       });
   }
 

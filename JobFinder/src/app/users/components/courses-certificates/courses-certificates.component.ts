@@ -32,7 +32,7 @@ export class CoursesCertificatesComponent implements OnInit {
 
   addNewCoursesFrom(): FormGroup<any> {
     const formGroup: FormGroup<any> = this.formBuilder.group({
-      id: ['', []],
+      id: [0, []],
       courseName: ['', [Validators.minLength(5), Validators.maxLength(100)]],
       certificateUrl: ['', [Validators.pattern(this.urlPattern)]]
     });
@@ -51,17 +51,7 @@ export class CoursesCertificatesComponent implements OnInit {
 
   emitData(): void {
     const data: CourseCertificate[] = this.coursesForm.value.coursesArray;
-    this.setIdOfNewElements(data);
     this.emitCoursesData.emit(data);
-  }
-
-  private setIdOfNewElements = (data: CourseCertificate[]): void => {
-    data.forEach(element => {
-      if (!element.id) {
-        element.id = 0;
-      }
-      return element;
-    });
   }
 
   private initializeCoursesForm(): void {

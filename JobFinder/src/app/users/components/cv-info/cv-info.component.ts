@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CvCreate } from '../../models/cv';
-
+import { CvInfo } from '../../models/cv';
 
 @Component({
   selector: 'jf-cv-info',
@@ -9,7 +8,7 @@ import { CvCreate } from '../../models/cv';
 })
 export class CvInfoComponent implements OnInit {
 
-  @Output() emitCvInfoData: EventEmitter<CvCreate> = new EventEmitter<CvCreate>();
+  @Output() emitCvInfoData: EventEmitter<CvInfo> = new EventEmitter<CvInfo>();
 
   readonly urlPicPattern: RegExp = /^(http(s)?:\/\/)(.+)\.(jp(e)?g)$/;
   cvInfoForm!: FormGroup;
@@ -21,7 +20,7 @@ export class CvInfoComponent implements OnInit {
   }
 
   emitData(): void {
-    this.emitCvInfoData.emit(this.cvInfoForm.value);
+    this.emitCvInfoData.emit(this.cvInfoForm.value as CvInfo);
   }
 
   private initializeForm(): void {

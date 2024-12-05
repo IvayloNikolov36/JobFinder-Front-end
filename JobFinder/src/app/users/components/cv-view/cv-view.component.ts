@@ -239,7 +239,7 @@ export class CvViewComponent implements OnInit {
       const result: LanguageInfoOutput = {} as LanguageInfoOutput;
       result.id = element.id;
       result.cvId = element.cvId;
-      result.comprehensionId = element.comprehensionLevel.id;
+      result.comprehensionLevelId = element.comprehensionLevel.id;
       result.writingLevelId = element.writingLevel.id;
       result.speakingLevelId = element.speakingLevel.id;
       result.languageTypeId = element.languageType.id;

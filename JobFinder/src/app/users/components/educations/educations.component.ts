@@ -34,7 +34,7 @@ export class EducationsComponent implements OnInit {
   addNewEducationForm(): FormGroup<any> {
 
     const formGroup: FormGroup<any> = this.formBuilder.group({
-      id: ['', []],
+      id: [0, []],
       fromDate: ['', [Validators.required]],
       toDate: ['', []],
       location: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
@@ -57,18 +57,9 @@ export class EducationsComponent implements OnInit {
   }
 
   emitData(): void {
-    const educationsData = this.educationsForm.value.educationsArray;
-    this.setNewEducationsDataId(educationsData);
-    this.emitEducationData.emit(educationsData);
+    this.emitEducationData.emit(this.educationsForm.value.educationsArray);
   }
 
-  private setNewEducationsDataId = (educationsData: Education[]): void => {
-    educationsData.forEach((element: Education) => {
-      if (!element.id) {
-        element.id = 0;
-      }
-    });
-  }
 
   private initializeForm(): void {
     this.educationsForm = this.formBuilder.group({
