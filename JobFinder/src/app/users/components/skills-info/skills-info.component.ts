@@ -8,7 +8,7 @@ import { DrivingCategory, SkillsInfo } from '../../models/cv';
 })
 export class SkillsInfoComponent implements OnInit {
 
-  drivingCategories = input.required<DrivingCategory[]>();
+  // drivingCategories = input.required<DrivingCategory[]>();
   @Input() isEditMode = false;
   @Input() skillsInfoData: SkillsInfo | null = null;
   @Output() emitSkillsData = new EventEmitter<SkillsInfo>();
@@ -33,7 +33,6 @@ export class SkillsInfoComponent implements OnInit {
   private initializeForm(): void {
     const controllsObject = {
       id: [0, []],
-      cvId: ['', []],
       computerSkills: ['', [Validators.minLength(10), Validators.maxLength(1000)]],
       skills: ['', [Validators.minLength(10), Validators.maxLength(500)]],
       hasManagedPeople: [false, []],
@@ -49,10 +48,9 @@ export class SkillsInfoComponent implements OnInit {
 
   private setFormData = (form: FormGroup<any>, data: SkillsInfo): void => {
     form.controls['id'].setValue(data.id);
-    form.controls['cvId'].setValue(data.cvId);
     form.controls['computerSkills'].setValue(data.computerSkills);
     form.controls['skills'].setValue(data.skills);
     form.controls['hasManagedPeople'].setValue(data.hasManagedPeople);
-    form.controls['hasDrivingLicense'].setValue(data.hasDrivingLicense);
+    // form.controls['hasDrivingLicense'].setValue(data.hasDrivingLicense);
   }
 }

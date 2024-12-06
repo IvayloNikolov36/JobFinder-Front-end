@@ -1,4 +1,4 @@
-import { Component, effect, EventEmitter, Input, input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { WorkExperience } from '../../models/cv';
 import { BasicModel } from '../../../models';
@@ -10,19 +10,13 @@ import { BasicModel } from '../../../models';
 export class WorkExperiencesComponent implements OnInit {
 
   businessSectors = input.required<BasicModel[]>();
-
   @Input() isEditMode: boolean = false;
   @Input() workExperienceInfoData: WorkExperience[] = [];
   @Output() emitWorkExperiencesData: EventEmitter<WorkExperience[]> = new EventEmitter<WorkExperience[]>();
 
   workExpForm!: FormGroup;
-  businessSectorsData!: BasicModel[];
 
-  constructor(private formBuilder: FormBuilder) {
-    effect(() => {
-      this.businessSectorsData = this.businessSectors();
-    });
-  }
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -40,11 +34,12 @@ export class WorkExperiencesComponent implements OnInit {
   addWorkExperienceForm(): FormGroup<any> {
     const formGroup: FormGroup<any> = this.formBuilder.group({
       id: [0, []],
+      cvId: ['', []],
       fromDate: ['', [Validators.required]],
       toDate: ['', []],
       jobTitle: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
       organization: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
-      businessSector: ['', [Validators.required]],
+      businessSector: [{} as BasicModel, [Validators.required]],
       location: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       additionalDetails: ['', [Validators.minLength(20), Validators.maxLength(3000)]]
     });
@@ -62,13 +57,7 @@ export class WorkExperiencesComponent implements OnInit {
   }
 
   emitData(): void {
-    const data: any[] = this.workExpForm.value.weArray;
-    data.forEach(element => {
-      const correspondingSecor = this.businessSectorsData
-        .filter(bs => bs.id === element.businessSector)[0];
-      element.businessSector = { ...correspondingSecor };
-    });
-    this.emitWorkExperiencesData.emit(data);
+    this.emitWorkExperiencesData.emit(this.workExpForm.value.weArray as WorkExperience[]);
   }
 
   private initializeForm(): void {
@@ -82,11 +71,12 @@ export class WorkExperiencesComponent implements OnInit {
       this.workExperienceInfoData.forEach((we: WorkExperience) => {
         const formGroup: FormGroup<any> = this.addWorkExperienceForm();
         formGroup.controls['id'].setValue(we.id);
+        formGroup.controls['cvId'].setValue(we.cvId);
         formGroup.controls['fromDate'].setValue(we.fromDate);
         formGroup.controls['toDate'].setValue(we.toDate);
         formGroup.controls['jobTitle'].setValue(we.jobTitle);
         formGroup.controls['organization'].setValue(we.organization);
-        formGroup.controls['businessSector'].setValue(we.businessSector.id);
+        formGroup.controls['businessSector'].setValue(we.businessSector);
         formGroup.controls['location'].setValue(we.location);
         formGroup.controls['additionalDetails'].setValue(we.additionalDetails);
       });

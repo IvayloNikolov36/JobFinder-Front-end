@@ -5,57 +5,62 @@
 
     <div [formGroup]="lInfo">
       <div class="d-flex justify-content-start gap-3 mt-3">
+
         <mat-form-field>
           <mat-label>Language</mat-label>
-          <mat-select formControlName="languageTypeId">
-            <mat-option *ngFor="let l of languageTypes()" [value]="l.id">
+          <mat-select formControlName="languageType">
+            <mat-option *ngFor="let l of languageTypes()" [value]="l">
               {{ l.name }}
             </mat-option>
           </mat-select>
           <mat-hint>Select education level.</mat-hint>
           <mat-error
-            *ngIf="lInfo['controls']['languageTypeId']?.touched && lInfo['controls']['languageTypeId'].errors?.['required']">
+            *ngIf="lInfo['controls']['languageType']?.touched && lInfo['controls']['languageType'].errors?.['required']">
             Language is required!
           </mat-error>
         </mat-form-field>
+
         <mat-form-field>
           <mat-label>Comprehension level</mat-label>
-          <mat-select formControlName="comprehensionLevelId">
-            <mat-option *ngFor="let l of languageLevels()" [value]="l.id">
+          <mat-select formControlName="comprehensionLevel">
+            <mat-option *ngFor="let l of languageLevels()" [value]="l">
               {{ l.name }}
             </mat-option>
           </mat-select>
           <mat-hint>Select comprehension level.</mat-hint>
           <mat-error
-            *ngIf="lInfo['controls']['comprehensionLevelId']?.touched && lInfo['controls']['comprehensionLevelId'].errors?.['required']">
+            *ngIf="lInfo['controls']['comprehensionLevel']?.touched && lInfo['controls']['comprehensionLevel'].errors?.['required']">
             Comprehension level is required!
           </mat-error>
         </mat-form-field>
+
         <mat-form-field>
           <mat-label>Speaking level</mat-label>
-          <mat-select formControlName="speakingLevelId">
-            <mat-option *ngFor="let l of languageLevels()" [value]="l.id">
+          <mat-select formControlName="speakingLevel">
+            <mat-option *ngFor="let l of languageLevels()" [value]="l">
               {{ l.name }}
             </mat-option>
           </mat-select>
           <mat-hint>Select speaking level.</mat-hint>
           <mat-error
-            *ngIf="lInfo['controls']['speakingLevelId']?.touched && lInfo['controls']['speakingLevelId'].errors?.['required']">
+            *ngIf="lInfo['controls']['speakingLevel']?.touched && lInfo['controls']['speakingLevel'].errors?.['required']">
             Speaking level is required!
           </mat-error>
         </mat-form-field>
+
         <mat-form-field>
           <mat-label>Wiring level</mat-label>
-          <mat-select formControlName="writingLevelId">
-            <mat-option *ngFor="let l of languageLevels()" [value]="l.id">
+          <mat-select formControlName="writingLevel">
+            <mat-option *ngFor="let l of languageLevels()" [value]="l">
               {{ l.name }}
             </mat-option>
           </mat-select>
           <mat-hint>Select writing level.</mat-hint>
-          <mat-error *ngIf="lInfo['controls']['writingLevelId']?.touched && lInfo['controls']['writingLevelId'].errors?.['required']">
+          <mat-error *ngIf="lInfo['controls']['writingLevel']?.touched && lInfo['controls']['writingLevel'].errors?.['required']">
             Writing level is required!
           </mat-error>
         </mat-form-field>
+
       </div>
     </div>
   </div>

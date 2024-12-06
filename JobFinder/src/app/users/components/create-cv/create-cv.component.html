@@ -13,7 +13,7 @@
 
     <mat-step [stepControl]="personalDetailsForm">
       <ng-template matStepLabel>Personal Info</ng-template>
-      <jf-personal-details [countries]="countries()" [genderOptions]="genderOptions()" (emitPersonalDetails)="onPassedPersonalDetailsData($event)" />
+      <jf-personal-details [countries]="countries()" [citizenships]="citizenships()" [genderOptions]="genderOptions()" (emitPersonalDetails)="onPassedPersonalDetailsData($event)" />
     </mat-step>
 
     <mat-step [stepControl]="workExperiencesForm">
@@ -37,7 +37,7 @@
 
     <mat-step [stepControl]="skillsInfoForm">
       <ng-template matStepLabel>Skills</ng-template>
-      <jf-skills-info [drivingCategories]="drivingCategories()" (emitSkillsData)="onPassedSkillsInfoData($event)" />
+      <jf-skills-info (emitSkillsData)="onPassedSkillsInfoData($event)" />
     </mat-step>
 
     <mat-step [stepControl]="coursesCertificatesForm">

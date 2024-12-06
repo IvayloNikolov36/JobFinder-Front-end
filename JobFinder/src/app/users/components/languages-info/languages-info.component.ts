@@ -1,4 +1,4 @@
-import { Component, effect, EventEmitter, Input, input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LanguageInfoInput } from '../../models/cv';
 import { BasicModel } from '../../../models';
@@ -16,15 +16,8 @@ export class LanguagesInfoComponent implements OnInit {
   @Output() emitLanguagesInfo = new EventEmitter<LanguageInfoInput[]>();
 
   languagesForm!: FormGroup;
-  languageTypesData!: BasicModel[];
-  languageLevelsData!: BasicModel[];
 
-  constructor(private formBuilder: FormBuilder) {
-    effect(() => {
-      this.languageTypesData = this.languageTypes();
-      this.languageLevelsData = this.languageLevels();
-    });
-   }
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -43,10 +36,10 @@ export class LanguagesInfoComponent implements OnInit {
     const formGroup: FormGroup<any> = this.formBuilder.group({
       id: [0, []],
       cvId: ['', []],
-      languageTypeId: ['', [Validators.required]],
-      comprehensionLevelId: ['', [Validators.required]],
-      speakingLevelId: ['', [Validators.required]],
-      writingLevelId: ['', [Validators.required]]
+      languageType: [{} as BasicModel, [Validators.required]],
+      comprehensionLevel: [{} as BasicModel, [Validators.required]],
+      speakingLevel: [{} as BasicModel, [Validators.required]],
+      writingLevel: [{} as BasicModel, [Validators.required]]
     });
 
     this.l.push(formGroup);
@@ -62,25 +55,7 @@ export class LanguagesInfoComponent implements OnInit {
   }
 
   emitData(): void {
-    const data: any[] = this.languagesForm.value.languagesInfoArray;
-    const languageInfo: LanguageInfoInput[] = this.transformData(data);
-    this.emitLanguagesInfo.emit(languageInfo);
-  }
-
-  private transformData = (data: any[]): LanguageInfoInput[] => {
-    const langugageInfos = data.map((element: any) => {
-      const languageInfo: LanguageInfoInput = {} as LanguageInfoInput;
-      languageInfo.id = element.id;
-      languageInfo.cvId = element.cvId;
-      languageInfo.languageType = this.languageTypesData.filter(lt => lt.id === element.languageTypeId)[0];
-      languageInfo.comprehensionLevel = this.languageLevelsData.filter(ll => ll.id === element.comprehensionLevelId)[0];
-      languageInfo.speakingLevel = this.languageLevelsData.filter(ll => ll.id === element.speakingLevelId)[0];
-      languageInfo.writingLevel = this.languageLevelsData.filter(ll => ll.id === element.writingLevelId)[0];
-
-      return languageInfo;
-    });
-
-    return langugageInfos;
+    this.emitLanguagesInfo.emit(this.languagesForm.value.languagesInfoArray as LanguageInfoInput[]);
   }
 
   private initializeForm(): void {
@@ -94,10 +69,11 @@ export class LanguagesInfoComponent implements OnInit {
       this.languagesInfoData.forEach((languagesInfoData: LanguageInfoInput) => {
         const formGroup: FormGroup<any> = this.addNewLanguageInfoForm();
         formGroup.controls['id'].setValue(languagesInfoData.id);
-        formGroup.controls['languageTypeId'].setValue(languagesInfoData.languageType.id);
-        formGroup.controls['comprehensionLevelId'].setValue(languagesInfoData.comprehensionLevel.id);
-        formGroup.controls['speakingLevelId'].setValue(languagesInfoData.speakingLevel.id);
-        formGroup.controls['writingLevelId'].setValue(languagesInfoData.writingLevel.id);
+        formGroup.controls['cvId'].setValue(languagesInfoData.cvId);
+        formGroup.controls['languageType'].setValue(languagesInfoData.languageType);
+        formGroup.controls['comprehensionLevel'].setValue(languagesInfoData.comprehensionLevel);
+        formGroup.controls['speakingLevel'].setValue(languagesInfoData.speakingLevel);
+        formGroup.controls['writingLevel'].setValue(languagesInfoData.writingLevel);
       });
     } else {
       this.addNewLanguageInfoForm();

@@ -16,12 +16,23 @@ export class PersonalDetailsService {
     return this.http.get<PersonalDetails>(getCvPersonalDetailsUrl() + `/${cvId}`);
   }
 
-  create(cvId: string, data: PersonalDetails): Observable<Object> {
-    data.cvId = cvId;
-    return this.http.post(getCvPersonalDetailsUrl(), data);
+  update(data: PersonalDetailsOutput): Observable<Object> {
+    return this.http.put(getCvPersonalDetailsUpdateUrl(), data);
   }
 
-  update(cvId: string, data: PersonalDetailsOutput): Observable<Object> {
-    return this.http.put(getCvPersonalDetailsUpdateUrl(cvId), data);
+  mapPersonalInfo = (data: PersonalDetails): PersonalDetailsOutput => {
+    return {
+      id: data.id,
+      firstName: data.firstName,
+      middleName: data.middleName,
+      lastName: data.lastName,
+      phone: data.phone,
+      email: data.email,
+      genderId: data.gender.id,
+      birthdate: data.birthdate,
+      citizenshipId: data.citizenship.id,
+      countryId: data.country.id,
+      city: data.city
+    } as PersonalDetailsOutput;
   }
 }

@@ -35,12 +35,13 @@ export class EducationsComponent implements OnInit {
 
     const formGroup: FormGroup<any> = this.formBuilder.group({
       id: [0, []],
+      cvId: ['', []],
       fromDate: ['', [Validators.required]],
       toDate: ['', []],
       location: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      educationLevel: ['', [Validators.required]],
+      educationLevel: [{} as BasicModel, [Validators.required]],
       major: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
-      mainSubjects: ['', [Validators.minLength(10), Validators.maxLength(1000)]],
+      mainSubjects: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]],
       organization: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]]
     });
 
@@ -57,7 +58,7 @@ export class EducationsComponent implements OnInit {
   }
 
   emitData(): void {
-    this.emitEducationData.emit(this.educationsForm.value.educationsArray);
+    this.emitEducationData.emit(this.educationsForm.value.educationsArray as Education[]);
   }
 
 
@@ -72,11 +73,12 @@ export class EducationsComponent implements OnInit {
       this.educationsData.forEach((educationData: Education) => {
         const formGroup: FormGroup<any> = this.addNewEducationForm();
         formGroup.controls['id'].setValue(educationData.id);
+        formGroup.controls['cvId'].setValue(educationData.cvId);
         formGroup.controls['fromDate'].setValue(educationData.fromDate);
         formGroup.controls['toDate'].setValue(educationData.toDate);
         formGroup.controls['organization'].setValue(educationData.organization);
         formGroup.controls['location'].setValue(educationData.location);
-        formGroup.controls['educationLevel'].setValue(educationData.educationLevel.id);
+        formGroup.controls['educationLevel'].setValue(educationData.educationLevel);
         formGroup.controls['major'].setValue(educationData.major);
         formGroup.controls['mainSubjects'].setValue(educationData.mainSubjects);
       });

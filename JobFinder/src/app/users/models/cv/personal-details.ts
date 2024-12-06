@@ -2,7 +2,6 @@ import { BasicModel } from "../../../models";
 
 export interface PersonalDetails {
   id: number;
-  cvId: string;
   firstName: string;
   middleName: string;
   lastName: string;

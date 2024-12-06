@@ -32,6 +32,7 @@ export class CreateCvComponent implements AfterViewInit {
   coursesCertificatesForm!: FormGroup<any>;
 
   countries!: Signal<BasicModel[]>;
+  citizenships!: Signal<BasicModel[]>;
   genderOptions!: Signal<BasicModel[]>;
   businessSectors!: Signal<BasicModel[]>;
   educationLevels!: Signal<BasicModel[]>;
@@ -128,6 +129,9 @@ export class CreateCvComponent implements AfterViewInit {
     this.countries = toSignal(
       this.nomenclatureService.getCountries(),
       { initialValue: [] as BasicModel[] });
+    this.citizenships = toSignal(
+      this.nomenclatureService.getCitizenships(),
+      { initialValue: [] as BasicModel[] });
     this.genderOptions = toSignal(
       this.nomenclatureService.getGenderOptions(),
       { initialValue: [] as BasicModel[] });
@@ -144,6 +148,7 @@ export class CreateCvComponent implements AfterViewInit {
       this.nomenclatureService.getLanguageLevels(),
       { initialValue: [] as BasicModel[] });
 
+      // TODO: fix driving categories
     this.drivingCategories = signal<DrivingCategory[]>([] as DrivingCategory[]);
     // this.drivingCategories = toSignal(this.skillsService.getDrivingCategories(), { initialValue: [] as DrivingCategory[] });
   }

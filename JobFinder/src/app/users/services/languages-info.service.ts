@@ -16,7 +16,19 @@ export class LanguagesInfoService {
     return this.http.get<LanguageInfoInput[]>(getCvLanguagesUrl());
   }
 
-  update(cvId: string, data: LanguageInfoOutput[]) {
-    return this.http.put(getUpdateLanguageInfoUrl(cvId), data);
+  update(data: LanguageInfoOutput[]) {
+    return this.http.put(getUpdateLanguageInfoUrl(), data);
+  }
+
+  mapLanguageInfoData = (data: LanguageInfoInput[]): LanguageInfoOutput[] => {
+    return data.map((element: LanguageInfoInput) => {
+      const result: LanguageInfoOutput = {} as LanguageInfoOutput;
+      result.id = element.id;
+      result.comprehensionLevelId = element.comprehensionLevel.id;
+      result.writingLevelId = element.writingLevel.id;
+      result.speakingLevelId = element.speakingLevel.id;
+      result.languageTypeId = element.languageType.id;
+      return result;
+    });
   }
 }

@@ -10,6 +10,7 @@ import { BasicModel } from '../../../models';
 export class PersonalDetailsComponent implements OnInit {
 
   countries = input.required<BasicModel[]>();
+  citizenships = input.required<BasicModel[]>();
   genderOptions = input.required<BasicModel[]>();
   @Input() isEditMode: boolean = false;
   @Input() personalDetailsData: PersonalDetails | null = null;
@@ -32,17 +33,16 @@ export class PersonalDetailsComponent implements OnInit {
 
   private initializeForm(): void {
     const controlls = {
-      id: ['', []],
-      cvId: ['', []],
+      id: [0, []],
       firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       middleName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
       phone: ['', [Validators.required]],
-      gender: ['', [Validators.required]],
+      gender: [{} as BasicModel, [Validators.required]],
       birthdate: ['', [Validators.required]],
-      citizenship: ['', [Validators.required]],
-      country: ['', [Validators.required]],
+      citizenship: [{} as BasicModel, [Validators.required]],
+      country: [{} as BasicModel, [Validators.required]],
       city: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(30)]]
     };
 
@@ -55,7 +55,6 @@ export class PersonalDetailsComponent implements OnInit {
 
   private setFormData = (form: FormGroup<any>, data: PersonalDetails): void => {
     form.controls['id'].setValue(data.id);
-    form.controls['cvId'].setValue(data.cvId);
     form.controls['firstName'].setValue(data.firstName);
     form.controls['middleName'].setValue(data.middleName);
     form.controls['lastName'].setValue(data.lastName);

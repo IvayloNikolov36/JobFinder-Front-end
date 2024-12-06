@@ -1,6 +1,6 @@
 export interface SkillsInfo {
-  cvId: string;
   id: number;
+  cvId: string;
   computerSkills: string;
   skills: string;
   hasManagedPeople: boolean;
