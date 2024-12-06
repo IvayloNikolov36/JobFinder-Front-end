@@ -1,9 +1,10 @@
+import { LanguagesInfoService } from './../../services/languages-info.service';
 import { AfterViewInit, Component, ViewChild, ChangeDetectorRef, Signal, signal } from '@angular/core';
 import { CvInfoComponent } from '../cv-info/cv-info.component';
 import { FormGroup } from '@angular/forms';
 import { CoursesCertificatesComponent, EducationsComponent, LanguagesInfoComponent, PersonalDetailsComponent, SkillsInfoComponent, WorkExperiencesComponent } from '../index';
 import { CourseCertificate, CvCreate, CvInfo, DrivingCategory, Education, EducationOutput, LanguageInfoInput, LanguageInfoOutput, PersonalDetails, PersonalDetailsOutput, SkillsInfo, WorkExperience, WorkExperienceOutput } from '../../models/cv';
-import { CurriculumVitaesService } from '../../services';
+import { CurriculumVitaesService, EducationsService, PersonalDetailsService, WorkExperiencesService } from '../../services';
 import { ToastrService } from 'ngx-toastr';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BasicModel } from '../../../models';
@@ -46,6 +47,10 @@ export class CreateCvComponent implements AfterViewInit {
     private cdref: ChangeDetectorRef,
     private cvService: CurriculumVitaesService,
     private nomenclatureService: NomenclatureService,
+    private personalDetailsService: PersonalDetailsService,
+    private workExperiencesService: WorkExperiencesService,
+    private educationsService: EducationsService,
+    private languagesService: LanguagesInfoService,
     private toastr: ToastrService
   ) {
     this.getData();
@@ -68,42 +73,19 @@ export class CreateCvComponent implements AfterViewInit {
   };
 
   onPassedPersonalDetailsData = (data: PersonalDetails): void => {
-    this.cvModel.personalDetails = {
-      firstName: data.firstName,
-      middleName: data.middleName,
-      lastName: data.lastName,
-      phone: data.phone,
-      email: data.email,
-      genderId: data.gender as any,
-      birthdate: data.birthdate,
-      citizenshipId: data.citizenship as any,
-      countryId: data.country as any,
-      city: data.city
-    } as PersonalDetailsOutput;
+    this.cvModel.personalDetails = this.personalDetailsService.mapPersonalInfo(data);
   }
 
   onPassedWorkExperiencesData = (data: WorkExperience[]): void => {
-    this.cvModel.workExperiences = data.map((item: WorkExperience) => {
-      return { ...item, businessSectorId: item.businessSector.id as any } as WorkExperienceOutput
-    });
+    this.cvModel.workExperiences = this.workExperiencesService.mapWorkExperienceInfoData(data);
   }
 
   onPassedEducationData = (data: Education[]): void => {
-    this.cvModel.educations = data.map((item: Education) => {
-      return { ...item, educationLevelId: item.educationLevel as any } as EducationOutput
-    });
+    this.cvModel.educations = this.educationsService.mapEducationInfoData(data);
   }
 
   onPassedLanguagesInfo = (data: LanguageInfoInput[]): void => {
-    this.cvModel.languagesInfo = data.map((item: LanguageInfoInput) => {
-      return {
-        id: 0,
-        languageTypeId: item.languageType.id,
-        comprehensionLevelId: item.comprehensionLevel.id,
-        speakingLevelId: item.speakingLevel.id,
-        writingLevelId: item.writingLevel.id
-      } as LanguageInfoOutput
-    });
+    this.cvModel.languagesInfo = this.languagesService.mapLanguageInfoData(data);
   }
 
   onPassedSkillsInfoData = (data: SkillsInfo): void => {
