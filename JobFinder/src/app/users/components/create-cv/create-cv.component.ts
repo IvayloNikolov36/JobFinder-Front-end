@@ -1,9 +1,9 @@
 import { LanguagesInfoService } from './../../services/languages-info.service';
-import { AfterViewInit, Component, ViewChild, ChangeDetectorRef, Signal, signal } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, ChangeDetectorRef, Signal } from '@angular/core';
 import { CvInfoComponent } from '../cv-info/cv-info.component';
 import { FormGroup } from '@angular/forms';
 import { CoursesCertificatesComponent, EducationsComponent, LanguagesInfoComponent, PersonalDetailsComponent, SkillsInfoComponent, WorkExperiencesComponent } from '../index';
-import { CourseCertificate, CvCreate, CvInfo, DrivingCategory, Education, EducationOutput, LanguageInfoInput, LanguageInfoOutput, PersonalDetails, PersonalDetailsOutput, SkillsInfo, WorkExperience, WorkExperienceOutput } from '../../models/cv';
+import { CourseCertificate, CvCreate, CvInfo, Education, LanguageInfoInput, PersonalDetails, SkillsInfo, WorkExperience } from '../../models/cv';
 import { CurriculumVitaesService, EducationsService, PersonalDetailsService, WorkExperiencesService } from '../../services';
 import { ToastrService } from 'ngx-toastr';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -39,7 +39,7 @@ export class CreateCvComponent implements AfterViewInit {
   educationLevels!: Signal<BasicModel[]>;
   languageTypes!: Signal<BasicModel[]>;
   languageLevels!: Signal<BasicModel[]>;
-  drivingCategories!: Signal<DrivingCategory[]>;
+  drivingCategories!: Signal<BasicModel[]>;
 
   cvModel: CvCreate = {} as CvCreate;
 
@@ -129,9 +129,8 @@ export class CreateCvComponent implements AfterViewInit {
     this.languageLevels = toSignal(
       this.nomenclatureService.getLanguageLevels(),
       { initialValue: [] as BasicModel[] });
-
-      // TODO: fix driving categories
-    this.drivingCategories = signal<DrivingCategory[]>([] as DrivingCategory[]);
-    // this.drivingCategories = toSignal(this.skillsService.getDrivingCategories(), { initialValue: [] as DrivingCategory[] });
+    this.drivingCategories = toSignal(
+      this.nomenclatureService.getDrivingCategories(),
+      { initialValue: [] as BasicModel[] });
   }
 }

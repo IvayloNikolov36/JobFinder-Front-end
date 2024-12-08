@@ -37,7 +37,7 @@
 
     <mat-step [stepControl]="skillsInfoForm">
       <ng-template matStepLabel>Skills</ng-template>
-      <jf-skills-info (emitSkillsData)="onPassedSkillsInfoData($event)" />
+      <jf-skills-info [drivingCategories]="drivingCategories()" (emitSkillsData)="onPassedSkillsInfoData($event)" />
     </mat-step>
 
     <mat-step [stepControl]="coursesCertificatesForm">

@@ -1,8 +1,10 @@
+import { BasicModel } from "../../../models";
+
 export interface SkillsInfo {
   id: number;
   cvId: string;
   computerSkills: string;
-  skills: string;
+  otherSkills: string;
   hasManagedPeople: boolean;
-  hasDrivingLicense: boolean;
+  drivingLicenseCategories: BasicModel[];
 }

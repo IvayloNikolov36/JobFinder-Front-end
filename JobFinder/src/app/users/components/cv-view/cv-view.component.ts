@@ -147,7 +147,7 @@ export class CvViewComponent implements OnInit {
 
     component.emitSkillsData
       .subscribe((data: SkillsInfo) => {
-        const requestData: SkillsInfo = { id: data.id, hasManagedPeople: data.hasManagedPeople, hasDrivingLicense: data.hasDrivingLicense, skills: data.skills, computerSkills: data.computerSkills } as SkillsInfo;
+        const requestData: SkillsInfo = { id: data.id, hasManagedPeople: data.hasManagedPeople, hasDrivingLicense: data.hasDrivingLicense, otherSkills: data.otherSkills, computerSkills: data.computerSkills } as SkillsInfo;
         this.skillsServie.update(this.cv.id, requestData).subscribe(() => {
           this.cv.skills = data;
           this.toaster.success("Skills info successfuly updated.");

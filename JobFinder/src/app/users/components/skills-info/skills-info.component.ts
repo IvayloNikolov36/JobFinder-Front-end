@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { DrivingCategory, SkillsInfo } from '../../models/cv';
+import { SkillsInfo } from '../../models/cv';
+import { BasicModel } from '../../../models';
 
 @Component({
   selector: 'jf-skills-info',
@@ -8,7 +9,7 @@ import { DrivingCategory, SkillsInfo } from '../../models/cv';
 })
 export class SkillsInfoComponent implements OnInit {
 
-  // drivingCategories = input.required<DrivingCategory[]>();
+  drivingCategories = input.required<BasicModel[]>();
   @Input() isEditMode = false;
   @Input() skillsInfoData: SkillsInfo | null = null;
   @Output() emitSkillsData = new EventEmitter<SkillsInfo>();
@@ -49,7 +50,7 @@ export class SkillsInfoComponent implements OnInit {
   private setFormData = (form: FormGroup<any>, data: SkillsInfo): void => {
     form.controls['id'].setValue(data.id);
     form.controls['computerSkills'].setValue(data.computerSkills);
-    form.controls['skills'].setValue(data.skills);
+    form.controls['skills'].setValue(data.otherSkills);
     form.controls['hasManagedPeople'].setValue(data.hasManagedPeople);
     // form.controls['hasDrivingLicense'].setValue(data.hasDrivingLicense);
   }

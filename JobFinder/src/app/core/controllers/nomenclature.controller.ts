@@ -11,3 +11,4 @@ export const getJobEngagementsUrl = (): string => route + '/job-engagements';
 export const getEducationLevelsUrl = (): string => route + '/education-levels';
 export const getLanguageTypesUrl = (): string => route + '/language-types';
 export const getLanguageLevelsUrl = (): string => route + '/language-levels';
+export const getDrivingCategoriesUrl = (): string => route + '/driving-categories';
