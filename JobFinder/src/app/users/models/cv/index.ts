@@ -8,6 +8,7 @@ export * from './language-info-output';
 export * from './personal-details';
 export * from './personal-details-output';
 export * from './skills-info';
+export * from './skills-info-output';
 export * from './work-experience';
 export * from './work-experience-output';
 export * from './cv-listing-data';

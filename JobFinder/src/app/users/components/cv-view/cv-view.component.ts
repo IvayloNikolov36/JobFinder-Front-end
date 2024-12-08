@@ -22,6 +22,7 @@ import {
   PersonalDetails,
   PersonalDetailsOutput,
   SkillsInfo,
+  SkillsInfoOutput,
   WorkExperience,
   WorkExperienceOutput
 } from '../../models/cv';
@@ -59,6 +60,7 @@ export class CvViewComponent implements OnInit {
   countries!: Signal<BasicModel[]>;
   citizenships!: Signal<BasicModel[]>;
   genderOptions!: Signal<BasicModel[]>;
+  drivingCategories!: Signal<BasicModel[]>;
 
   constructor(
     private route: ActivatedRoute,
@@ -67,7 +69,7 @@ export class CvViewComponent implements OnInit {
     private educationsService: EducationsService,
     private languagesService: LanguagesInfoService,
     private coursesService: CoursesService,
-    private skillsServie: SkillsService,
+    private skillsInfoService: SkillsService,
     private workExperiencesService: WorkExperiencesService,
     private personalInfoService: PersonalInfoService,
     private nomenclatureService: NomenclatureService) {
@@ -82,6 +84,7 @@ export class CvViewComponent implements OnInit {
     this.countries = toSignal(this.nomenclatureService.getCountries(), { initialValue });
     this.citizenships = toSignal(this.nomenclatureService.getCitizenships(), { initialValue });
     this.genderOptions = toSignal(this.nomenclatureService.getGenderOptions(), { initialValue });
+    this.drivingCategories = toSignal(this.nomenclatureService.getDrivingCategories(), { initialValue });
   }
 
   ngOnInit(): void {
@@ -142,14 +145,16 @@ export class CvViewComponent implements OnInit {
 
     const component: SkillsInfoComponent = createdComponentRef.instance;
     component.isEditMode = true;
-    // component.drivingCategories = [];
+    component.drivingCategories = this.drivingCategories as InputSignal<BasicModel[]>;
     component.skillsInfoData = this.cv.skills;
 
     component.emitSkillsData
       .subscribe((data: SkillsInfo) => {
-        const requestData: SkillsInfo = { id: data.id, hasManagedPeople: data.hasManagedPeople, hasDrivingLicense: data.hasDrivingLicense, otherSkills: data.otherSkills, computerSkills: data.computerSkills } as SkillsInfo;
-        this.skillsServie.update(this.cv.id, requestData).subscribe(() => {
-          this.cv.skills = data;
+        const requestData: SkillsInfoOutput = this.skillsInfoService.mapSkillsData(data);
+        this.skillsInfoService.update(this.cv.id, requestData).subscribe(() => {
+          this.cv.skills = { ...data };
+          const cvSkills: SkillsInfo = this.cv.skills;
+          cvSkills.licenseCategoriesText = this.getDrivingLicensesText(cvSkills.drivingLicenseCategories);
           this.toaster.success("Skills info successfuly updated.");
         });
       });
@@ -241,7 +246,15 @@ export class CvViewComponent implements OnInit {
         this.cv = data;
         const details: PersonalDetails = this.cv.personalDetails;
         this.fullName = `${details.firstName} ${details.middleName} ${details.lastName}`;
+        const cvSkills: SkillsInfo = this.cv.skills;
+        cvSkills.licenseCategoriesText = this.getDrivingLicensesText(cvSkills.drivingLicenseCategories);
       });
+  }
+
+  private getDrivingLicensesText = (drivingLicenseCategories: BasicModel[]): string => {
+    return drivingLicenseCategories.length > 0
+      ? drivingLicenseCategories.map(x => x.name).join(', ')
+      : 'no driving license';
   }
 
   private onCreatePersonalDetailsModalComponent = (): void => {

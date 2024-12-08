@@ -1,5 +1,6 @@
 <form [formGroup]="skillsForm">
   <div class="d-flex justify-content-start gap-3 mt-3">
+
     <mat-form-field>
       <textarea matInput type="text" placeholder="Computer skills" formControlName="computerSkills"></textarea>
       <mat-hint>Enter computer skills.</mat-hint>
@@ -12,27 +13,29 @@
         characters!
       </mat-error>
     </mat-form-field>
+
     <mat-form-field>
-      <textarea matInput type="text" placeholder="Other skills" formControlName="skills"></textarea>
+      <textarea matInput type="text" placeholder="Other skills" formControlName="otherSkills"></textarea>
       <mat-hint>Enter other skills.</mat-hint>
-      <mat-error *ngIf="sf['skills'].errors?.['minlength']">
-        Skills length must be at least {{sf['skills'].errors?.['minlength']['requiredLength']}} characters!
+      <mat-error *ngIf="sf['otherSkills'].errors?.['minlength']">
+        Skills length must be at least {{sf['otherSkills'].errors?.['minlength']['requiredLength']}} characters!
       </mat-error>
-      <mat-error *ngIf="sf['skills'].errors?.['maxlength']">
-        Skills length must be no more than {{sf['skills'].errors?.['maxlength'].requiredLength}} characters!
+      <mat-error *ngIf="sf['otherSkills'].errors?.['maxlength']">
+        Skills length must be no more than {{sf['otherSkills'].errors?.['maxlength'].requiredLength}} characters!
       </mat-error>
     </mat-form-field>
+
   </div>
+
   <div class="d-flex justify-content-start gap-3 mt-3">
 
     <mat-form-field>
       <mat-label>Driving Categories</mat-label>
-      <mat-select [formControl]="categories" multiple>
-        <mat-option *ngFor="let dc of drivingCategories()" [value]="dc">
-          {{ dc.name }}
-        </mat-option>
+      <mat-select [formControl]="drivingLicenseCategories" multiple>
+        @for (lc of drivingCategories(); track lc.id) {
+        <mat-option [value]="lc">{{ lc.name }}</mat-option>
+        }
       </mat-select>
-      <mat-hint>Check driving categories.</mat-hint>
     </mat-form-field>
 
     <mat-checkbox formControlName="hasManagedPeople">
@@ -41,7 +44,8 @@
 
   </div>
 
-  <button *ngIf="!isEditMode" type="submit" [disabled]="!skillsForm.valid" mat-button class="mt-2" matStepperNext (click)="emitData()">
+  <button *ngIf="!isEditMode" type="submit" [disabled]="!skillsForm.valid" mat-button class="mt-2" matStepperNext
+    (click)="emitData()">
     Next
   </button>
 

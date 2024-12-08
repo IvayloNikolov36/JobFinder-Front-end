@@ -15,7 +15,7 @@ export class SkillsInfoComponent implements OnInit {
   @Output() emitSkillsData = new EventEmitter<SkillsInfo>();
 
   skillsForm!: FormGroup;
-  categories: FormControl<any> = new FormControl();
+  drivingLicenseCategories: FormControl<BasicModel[]> = new FormControl();
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -28,16 +28,20 @@ export class SkillsInfoComponent implements OnInit {
   }
 
   emitData(): void {
-    this.emitSkillsData.emit(this.skillsForm.value);
+    const dataToEmit: SkillsInfo = {
+      ...this.skillsForm.value as SkillsInfo,
+      drivingLicenseCategories: this.drivingLicenseCategories.value
+    } as SkillsInfo;
+
+    this.emitSkillsData.emit(dataToEmit);
   }
 
   private initializeForm(): void {
     const controllsObject = {
       id: [0, []],
       computerSkills: ['', [Validators.minLength(10), Validators.maxLength(1000)]],
-      skills: ['', [Validators.minLength(10), Validators.maxLength(500)]],
-      hasManagedPeople: [false, []],
-      drivingCategoryType: ['', []]
+      otherSkills: ['', [Validators.minLength(10), Validators.maxLength(500)]],
+      hasManagedPeople: [false, []]
     };
 
     this.skillsForm = this.formBuilder.group(controllsObject);
@@ -50,8 +54,8 @@ export class SkillsInfoComponent implements OnInit {
   private setFormData = (form: FormGroup<any>, data: SkillsInfo): void => {
     form.controls['id'].setValue(data.id);
     form.controls['computerSkills'].setValue(data.computerSkills);
-    form.controls['skills'].setValue(data.otherSkills);
+    form.controls['otherSkills'].setValue(data.otherSkills);
     form.controls['hasManagedPeople'].setValue(data.hasManagedPeople);
-    // form.controls['hasDrivingLicense'].setValue(data.hasDrivingLicense);
+    this.drivingLicenseCategories.setValue(data.drivingLicenseCategories);
   }
 }

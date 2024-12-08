@@ -7,4 +7,5 @@ export interface SkillsInfo {
   otherSkills: string;
   hasManagedPeople: boolean;
   drivingLicenseCategories: BasicModel[];
+  licenseCategoriesText: string;
 }
