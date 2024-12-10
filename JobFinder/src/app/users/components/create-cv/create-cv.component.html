@@ -18,7 +18,7 @@
 
     <mat-step [stepControl]="workExperiencesForm">
       <ng-template matStepLabel>Work Experience</ng-template>
-      <jf-work-experiences
+      <jf-work-experience-info
         [businessSectors]="businessSectors()"
         (emitWorkExperiencesData)="onPassedWorkExperiencesData($event)"
       />

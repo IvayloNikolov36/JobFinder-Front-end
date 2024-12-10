@@ -61,6 +61,9 @@ export class EducationsComponent implements OnInit {
     this.emitEducationData.emit(this.educationsForm.value.educationsArray as Education[]);
   }
 
+  compareFn = (first: BasicModel, second: BasicModel): boolean => {
+    return first && second ? first.id === second.id : first === second;
+  }
 
   private initializeForm(): void {
     this.educationsForm = this.formBuilder.group({

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, Input, OnInit, Output } from '@angular/core';
+import { Component, effect, EventEmitter, input, Input, OnInit, Output, signal } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PersonalDetails } from '../../models/cv';
 import { BasicModel } from '../../../models';
@@ -24,11 +24,16 @@ export class PersonalDetailsComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+    console.log(this.personalDetailsData);
     this.initializeForm();
   }
 
   emitData(): void {
     this.emitPersonalDetails.emit(this.personalInfoForm.value);
+  }
+
+  compareFn = (first: BasicModel, second: BasicModel): boolean => {
+    return first && second ? first.id === second.id : first === second;
   }
 
   private initializeForm(): void {

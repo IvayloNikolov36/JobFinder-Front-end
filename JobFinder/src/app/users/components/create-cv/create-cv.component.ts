@@ -2,7 +2,7 @@ import { LanguagesInfoService } from './../../services/languages-info.service';
 import { AfterViewInit, Component, ViewChild, ChangeDetectorRef, Signal } from '@angular/core';
 import { CvInfoComponent } from '../cv-info/cv-info.component';
 import { FormGroup } from '@angular/forms';
-import { CoursesCertificatesComponent, EducationsComponent, LanguagesInfoComponent, PersonalDetailsComponent, SkillsInfoComponent, WorkExperiencesComponent } from '../index';
+import { CoursesCertificatesComponent, EducationsComponent, LanguagesInfoComponent, PersonalDetailsComponent, SkillsInfoComponent, WorkExperienceInfoComponent } from '../index';
 import { CourseCertificate, CvCreate, CvInfo, Education, LanguageInfoInput, PersonalDetails, SkillsInfo, WorkExperience } from '../../models/cv';
 import { CurriculumVitaesService, EducationsService, PersonalDetailsService, WorkExperiencesService } from '../../services';
 import { ToastrService } from 'ngx-toastr';
@@ -18,7 +18,7 @@ export class CreateCvComponent implements AfterViewInit {
 
   @ViewChild(CvInfoComponent) cvInfoComponent!: CvInfoComponent;
   @ViewChild(PersonalDetailsComponent) personalDetailsComponent!: PersonalDetailsComponent;
-  @ViewChild(WorkExperiencesComponent) workExperiencesComponent!: WorkExperiencesComponent;
+  @ViewChild(WorkExperienceInfoComponent) workExperiencesComponent!: WorkExperienceInfoComponent;
   @ViewChild(EducationsComponent) educationsComponent!: EducationsComponent;
   @ViewChild(LanguagesInfoComponent) languagesInfoComponent!: LanguagesInfoComponent;
   @ViewChild(SkillsInfoComponent) skillsInfoComponent!: SkillsInfoComponent;

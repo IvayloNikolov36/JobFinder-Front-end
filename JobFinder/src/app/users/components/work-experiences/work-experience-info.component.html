@@ -1,9 +1,7 @@
 <form [formGroup]="workExpForm">
   <div *ngFor="let workExp of we.controls; let i = index" class="mt-2">
-    <h5>Work Experience {{i + 1}}</h5>
+    <span class="fs-4">Work Experience Info {{ (i + 1 === 1 ? '' : i + 1) }}</span>
     <div [formGroup]="workExp">
-
-
       <div class="d-flex justify-content-start gap-3 mt-3">
         <mat-form-field>
           <input matInput [matDatepicker]="fromDatePicker" placeholder="Choose start date" formControlName="fromDate">
@@ -58,7 +56,7 @@
 
         <mat-form-field>
           <mat-label>Business sector</mat-label>
-          <mat-select formControlName="businessSector">
+          <mat-select formControlName="businessSector" [compareWith]="compareFn">
             <mat-option *ngFor="let bs of businessSectors()" [value]="bs">
               {{ bs.name }}
             </mat-option>

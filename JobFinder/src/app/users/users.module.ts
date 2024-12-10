@@ -3,13 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CreateCvComponent } from './components/create-cv/create-cv.component';
 import { UserAccountComponent } from './components/user-account/user-account.component';
 import { UserCurriculumVitaesComponent } from './components/user-curriculum-vitaes/user-curriculum-vitaes.component';
-import { CvInfoComponent } from './components/cv-info/cv-info.component';
-import { PersonalDetailsComponent } from './components/personal-details/personal-details.component';
-import { WorkExperiencesComponent } from './components/work-experiences/work-experiences.component';
-import { EducationsComponent } from './components/educations/educations.component';
-import { LanguagesInfoComponent } from './components/languages-info/languages-info.component';
-import { SkillsInfoComponent } from './components/skills-info/skills-info.component';
-import { CoursesCertificatesComponent } from './components/courses-certificates/courses-certificates.component';
+import { CoursesCertificatesComponent, CvInfoComponent, EducationsComponent, LanguagesInfoComponent, PersonalDetailsComponent, SkillsInfoComponent, WorkExperienceInfoComponent } from './components/';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -32,7 +26,7 @@ import { CvViewComponent } from './components/cv-view/cv-view.component';
     UserCurriculumVitaesComponent,
     CvInfoComponent,
     PersonalDetailsComponent,
-    WorkExperiencesComponent,
+    WorkExperienceInfoComponent,
     EducationsComponent,
     LanguagesInfoComponent,
     SkillsInfoComponent,

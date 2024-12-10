@@ -4,10 +4,10 @@ import { WorkExperience } from '../../models/cv';
 import { BasicModel } from '../../../models';
 
 @Component({
-  selector: 'jf-work-experiences',
-  templateUrl: './work-experiences.component.html'
+  selector: 'jf-work-experience-info',
+  templateUrl: './work-experience-info.component.html'
 })
-export class WorkExperiencesComponent implements OnInit {
+export class WorkExperienceInfoComponent implements OnInit {
 
   businessSectors = input.required<BasicModel[]>();
   @Input() isEditMode: boolean = false;
@@ -58,6 +58,10 @@ export class WorkExperiencesComponent implements OnInit {
 
   emitData(): void {
     this.emitWorkExperiencesData.emit(this.workExpForm.value.weArray as WorkExperience[]);
+  }
+
+  compareFn = (first: BasicModel, second: BasicModel): boolean => {
+    return first && second ? first.id === second.id : first === second;
   }
 
   private initializeForm(): void {

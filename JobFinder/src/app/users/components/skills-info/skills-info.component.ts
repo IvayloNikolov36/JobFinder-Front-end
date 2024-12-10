@@ -36,6 +36,10 @@ export class SkillsInfoComponent implements OnInit {
     this.emitSkillsData.emit(dataToEmit);
   }
 
+  compareFn = (first: BasicModel, second: BasicModel): boolean => {
+    return first && second ? first.id === second.id : first === second;
+  }
+
   private initializeForm(): void {
     const controllsObject = {
       id: [0, []],

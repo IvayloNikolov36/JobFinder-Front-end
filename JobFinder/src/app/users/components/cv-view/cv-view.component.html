@@ -4,7 +4,7 @@
   <div class="card my-3 w-50 mx-auto">
     <div class="row g-0">
       <div class="col-md-4">
-        <img [src]="'https://forum.gtsofia.info/index.php?action=dlattach;attach=62583;type=avatar'"
+        <img [src]="cv.pictureUrl"
           class="img-fluid rounded m-1" alt="cv picture">
       </div>
       <div class="col-md-8">
@@ -137,13 +137,16 @@
       <div class="modal-content">
         <div class="modal-header">
           <h6>{{ editCvSectionTitle }}</h6>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" (click)="onCloseEditSectionModal()" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          </button>
         </div>
         <div class="modal-body">
           <ng-container #editCvSectionComponent></ng-container>
         </div>
         <div class="modal-footer">
-          <button (click)="onCloseEditSectionModal()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button (click)="onCloseEditSectionModal()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
         </div>
       </div>
     </div>

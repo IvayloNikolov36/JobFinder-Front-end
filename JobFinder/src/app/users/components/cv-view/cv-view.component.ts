@@ -1,5 +1,3 @@
-import { PersonalDetailsService } from './../../services/personal-details.service';
-import { getCitizenshipsUrl } from './../../../core/controllers/nomenclature.controller';
 import { SkillsService } from './../../services/skills.service';
 import {
   Component,
@@ -31,7 +29,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { Modal } from 'bootstrap';
 import { LanguagesInfoComponent } from '../languages-info/languages-info.component';
 import { CoursesCertificatesComponent } from '../courses-certificates/courses-certificates.component';
-import { WorkExperiencesComponent } from '../work-experiences/work-experiences.component';
+import { WorkExperienceInfoComponent } from '../work-experiences/work-experience-info.component';
 import { ToastrService } from 'ngx-toastr';
 import { PersonalDetailsComponent } from '../personal-details/personal-details.component';
 import { SkillsInfoComponent } from '../skills-info/skills-info.component';
@@ -92,14 +90,14 @@ export class CvViewComponent implements OnInit {
   }
 
   onCloseEditSectionModal = (): void => {
-    this.createdComponentRef.destroy();
+    this.createdComponentRef?.destroy();
   }
 
   editPersonalDetails = (modalElement: any): void => {
     const modal = new Modal(modalElement);
     this.editCvSectionTitle = "Edit Personal Details"
-    modal.show();
     this.onCreatePersonalDetailsModalComponent();
+    modal.show();
   }
 
   editSkillsInfo = (modalElement: any): void => {
@@ -161,12 +159,12 @@ export class CvViewComponent implements OnInit {
   }
 
   private onCreateWorkExperienceInfoComponent = (): void => {
-    const createdComponentRef: ComponentRef<WorkExperiencesComponent> = this.cvSectionComponentRef
-      .createComponent(WorkExperiencesComponent);
+    const createdComponentRef: ComponentRef<WorkExperienceInfoComponent> = this.cvSectionComponentRef
+      .createComponent(WorkExperienceInfoComponent);
 
     this.createdComponentRef = createdComponentRef;
 
-    const component: WorkExperiencesComponent = createdComponentRef.instance;
+    const component: WorkExperienceInfoComponent = createdComponentRef.instance;
     component.businessSectors = this.bussinessSectors as InputSignal<BasicModel[]>;
     component.workExperienceInfoData = this.cv.workExperiences;
     component.isEditMode = true;
@@ -245,10 +243,14 @@ export class CvViewComponent implements OnInit {
       .subscribe((data: CvListingData) => {
         this.cv = data;
         const details: PersonalDetails = this.cv.personalDetails;
-        this.fullName = `${details.firstName} ${details.middleName} ${details.lastName}`;
+        this.fullName = this.getFullName(details);
         const cvSkills: SkillsInfo = this.cv.skills;
         cvSkills.licenseCategoriesText = this.getDrivingLicensesText(cvSkills.drivingLicenseCategories);
       });
+  }
+
+  private getFullName = (details: PersonalDetails): string => {
+    return `${details.firstName} ${details.middleName} ${details.lastName}`;
   }
 
   private getDrivingLicensesText = (drivingLicenseCategories: BasicModel[]): string => {
@@ -273,6 +275,7 @@ export class CvViewComponent implements OnInit {
         const requestData: PersonalDetailsOutput = this.personalInfoService.mapPersonalInfo(data);
         this.personalInfoService.update(requestData).subscribe(() => {
           this.cv.personalDetails = { ...data };
+          this.fullName = this.getFullName(this.cv.personalDetails);
           this.toaster.success("Personal Details successfuly updated.");
         });
       });

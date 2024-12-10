@@ -10,6 +10,7 @@ import {
 export interface CvListingData {
   id: string;
   name: string;
+  pictureUrl: string;
   createdOn: Date;
   personalDetails: PersonalDetails;
   languagesInfo: LanguageInfoInput[];

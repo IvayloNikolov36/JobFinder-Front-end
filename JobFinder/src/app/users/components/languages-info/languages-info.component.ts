@@ -58,6 +58,10 @@ export class LanguagesInfoComponent implements OnInit {
     this.emitLanguagesInfo.emit(this.languagesForm.value.languagesInfoArray as LanguageInfoInput[]);
   }
 
+  compareFn = (first: BasicModel, second: BasicModel): boolean => {
+    return first && second ? first.id === second.id : first === second;
+  }
+
   private initializeForm(): void {
     this.languagesForm = this.formBuilder.group({
       languagesInfoArray: new FormArray<FormGroup>([])

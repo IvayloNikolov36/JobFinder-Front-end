@@ -1,6 +1,7 @@
 <form [formGroup]="personalInfoForm">
 
   <div class="d-flex justify-content-start gap-3 mt-3">
+
     <mat-form-field>
       <input matInput type="text" placeholder="First Name" formControlName="firstName">
       <mat-hint>Enter first name.</mat-hint>
@@ -17,6 +18,7 @@
         {{personalInfoForm.get('firstName')?.errors?.['maxlength']['requiredLength']}} characters!
       </mat-error>
     </mat-form-field>
+
     <mat-form-field>
       <input matInput type="text" placeholder="Middle Name" formControlName="middleName">
       <mat-hint>Enter middle name.</mat-hint>
@@ -33,6 +35,7 @@
         {{personalInfoForm.get('middleName')?.errors?.['maxlength']['requiredLength']}} characters!
       </mat-error>
     </mat-form-field>
+
     <mat-form-field>
       <input matInput type="text" placeholder="Last Name" formControlName="lastName">
       <mat-hint>Enter last name.</mat-hint>
@@ -48,6 +51,11 @@
         {{personalInfoForm.get('lastName')?.errors?.['maxlength']['requiredLength']}} characters!
       </mat-error>
     </mat-form-field>
+
+  </div>
+
+  <div class="d-flex justify-content-start gap-3 mt-3">
+
     <mat-form-field>
       <input matInput type="text" placeholder="Email" formControlName="email">
       <mat-hint>Enter email.</mat-hint>
@@ -58,6 +66,7 @@
         Email is invalid!
       </mat-error>
     </mat-form-field>
+
     <mat-form-field>
       <input matInput type="text" placeholder="Phone" formControlName="phone">
       <mat-hint>Enter phone.</mat-hint>
@@ -65,9 +74,7 @@
         *ngIf="personalInfoForm.get('phone')?.touched && personalInfoForm.get('phone')?.errors?.['required']">Phone is
         required!</mat-error>
     </mat-form-field>
-  </div>
 
-  <div class="d-flex justify-content-start gap-3 mt-3">
     <mat-form-field>
       <input matInput [matDatepicker]="birthdatePicker" placeholder="Bithdate" formControlName="birthdate">
       <mat-datepicker-toggle matSuffix [for]="birthdatePicker"></mat-datepicker-toggle>
@@ -78,6 +85,11 @@
         Birthdate is required!
       </mat-error>
     </mat-form-field>
+
+  </div>
+
+  <div class="d-flex justify-content-start gap-3 mt-3">
+
     <mat-form-field>
       <input matInput type="text" placeholder="Current City" formControlName="city">
       <mat-hint>Enter city.</mat-hint>
@@ -93,11 +105,12 @@
         characters!
       </mat-error>
     </mat-form-field>
+
     <mat-form-field>
       <mat-label>Gender</mat-label>
-      <mat-select formControlName="gender">
-        <mat-option *ngFor="let gender of genderOptions()" [value]="gender">
-          {{ gender.name }}
+      <mat-select formControlName="gender" [compareWith]="compareFn">
+        <mat-option *ngFor="let g of genderOptions()" [value]="g">
+          {{ g.name }}
         </mat-option>
       </mat-select>
       <mat-hint>Select gender.</mat-hint>
@@ -106,9 +119,10 @@
         is
         required!</mat-error>
     </mat-form-field>
+
     <mat-form-field>
       <mat-label>Citizenship</mat-label>
-      <mat-select formControlName="citizenship">
+      <mat-select formControlName="citizenship" [compareWith]="compareFn">
         <mat-option *ngFor="let c of citizenships()" [value]="c">
           {{ c.name }}
         </mat-option>
@@ -120,7 +134,7 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Country</mat-label>
-      <mat-select formControlName="country">
+      <mat-select formControlName="country" [compareWith]="compareFn">
         <mat-option *ngFor="let c of countries()" [value]="c">
           {{ c.name }}
         </mat-option>
