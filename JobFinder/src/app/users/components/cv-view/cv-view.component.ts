@@ -1,29 +1,9 @@
 import { SkillsService } from './../../services/skills.service';
-import {
-  Component,
-  ComponentRef,
-  InputSignal,
-  OnInit,
-  Signal,
-  ViewChild,
-  ViewContainerRef
-} from '@angular/core';
+import { Component, ComponentRef, InputSignal, OnInit, Signal, ViewChild, ViewContainerRef } from '@angular/core';
 import { CoursesService, CurriculumVitaesService, EducationsService, LanguagesInfoService, PersonalDetailsService as PersonalInfoService, WorkExperiencesService } from '../../services';
 import { ActivatedRoute } from '@angular/router';
 import { CvListingData } from '../../models/cv/cv-listing-data';
-import {
-  CourseCertificate,
-  Education,
-  EducationOutput,
-  LanguageInfoInput,
-  LanguageInfoOutput,
-  PersonalDetails,
-  PersonalDetailsOutput,
-  SkillsInfo,
-  SkillsInfoOutput,
-  WorkExperience,
-  WorkExperienceOutput
-} from '../../models/cv';
+import { CourseCertificate, Education, EducationOutput, LanguageInfoInput, LanguageInfoOutput, PersonalDetails, PersonalDetailsOutput, SkillsInfo, SkillsInfoOutput, WorkExperience, WorkExperienceOutput } from '../../models/cv';
 import { EducationsComponent } from '../educations/educations.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Modal } from 'bootstrap';
@@ -35,6 +15,7 @@ import { PersonalDetailsComponent } from '../personal-details/personal-details.c
 import { SkillsInfoComponent } from '../skills-info/skills-info.component';
 import { BasicModel } from '../../../models';
 import { NomenclatureService } from '../../../core/services';
+import { CvSectionTypeEnum } from '../../enums/cv-section-type.enum';
 
 @Component({
   selector: 'jf-cv-view',
@@ -59,6 +40,8 @@ export class CvViewComponent implements OnInit {
   citizenships!: Signal<BasicModel[]>;
   genderOptions!: Signal<BasicModel[]>;
   drivingCategories!: Signal<BasicModel[]>;
+
+  sectionType: typeof CvSectionTypeEnum = CvSectionTypeEnum;
 
   constructor(
     private route: ActivatedRoute,
@@ -93,46 +76,39 @@ export class CvViewComponent implements OnInit {
     this.createdComponentRef?.destroy();
   }
 
-  editPersonalDetails = (modalElement: any): void => {
+  editSection = (sectionType: CvSectionTypeEnum, modalElement: any): void => {
     const modal = new Modal(modalElement);
-    this.editCvSectionTitle = "Edit Personal Details"
-    this.onCreatePersonalDetailsModalComponent();
-    modal.show();
-  }
 
-  editSkillsInfo = (modalElement: any): void => {
-    const modal = new Modal(modalElement);
-    this.editCvSectionTitle = "Edit Skills Info"
-    modal.show();
-    this.onCreateSkillsModalComponent();
-  }
+    switch (sectionType) {
+      case CvSectionTypeEnum.PersonalDetails:
+        this.editCvSectionTitle = "Edit Personal Details";
+        this.onCreatePersonalDetailsModalComponent();
+        break;
+      case CvSectionTypeEnum.EducationInfo:
+        this.editCvSectionTitle = "Edit Educations info";
+        this.onCreateEducationModalComponent();
+        break;
+      case CvSectionTypeEnum.WorkExperienceInfo:
+        this.editCvSectionTitle = "Edit Work Experience info"
+        this.onCreateWorkExperienceInfoComponent();
+        break;
+      case CvSectionTypeEnum.LanguagesInfo:
+        this.editCvSectionTitle = "Edit Languages info"
+        this.onCreateLanguagesInfoComponent();
+        break;
+      case CvSectionTypeEnum.SkillsInfo:
+        this.editCvSectionTitle = "Edit Skills Info"
+        this.onCreateSkillsModalComponent();
+        break;
+      case CvSectionTypeEnum.CoursesInfo:
+        this.editCvSectionTitle = "Edit Courses info"
+        this.onCreateCoursesInfoComponent();
+        break;
+      default:
+        throw new TypeError("Unhandled section type.");
+    }
 
-  editEducations = (modalElement: any): void => {
-    const modal = new Modal(modalElement);
-    this.editCvSectionTitle = "Edit Educations info"
     modal.show();
-    this.onCreateEducationModalComponent();
-  }
-
-  editLanguagesInfo = (modalElement: any): void => {
-    const modal = new Modal(modalElement);
-    this.editCvSectionTitle = "Edit Languages info"
-    modal.show();
-    this.onCreateLanguagesInfoComponent();
-  }
-
-  editCoursesInfo = (modalElement: any): void => {
-    const modal = new Modal(modalElement);
-    this.editCvSectionTitle = "Edit Courses info"
-    modal.show();
-    this.onCreateCoursesInfoComponent();
-  }
-
-  editWorkExperienceInfo = (modalElement: any): void => {
-    const modal = new Modal(modalElement);
-    this.editCvSectionTitle = "Edit Work Experience info"
-    modal.show();
-    this.onCreateWorkExperienceInfoComponent();
   }
 
   private onCreateSkillsModalComponent = (): void => {
@@ -238,27 +214,6 @@ export class CvViewComponent implements OnInit {
       });
   }
 
-  private loadCvData = (): void => {
-    this.cvService.getCvListingData(this.cvId)
-      .subscribe((data: CvListingData) => {
-        this.cv = data;
-        const details: PersonalDetails = this.cv.personalDetails;
-        this.fullName = this.getFullName(details);
-        const cvSkills: SkillsInfo = this.cv.skills;
-        cvSkills.licenseCategoriesText = this.getDrivingLicensesText(cvSkills.drivingLicenseCategories);
-      });
-  }
-
-  private getFullName = (details: PersonalDetails): string => {
-    return `${details.firstName} ${details.middleName} ${details.lastName}`;
-  }
-
-  private getDrivingLicensesText = (drivingLicenseCategories: BasicModel[]): string => {
-    return drivingLicenseCategories.length > 0
-      ? drivingLicenseCategories.map(x => x.name).join(', ')
-      : 'no driving license';
-  }
-
   private onCreatePersonalDetailsModalComponent = (): void => {
     const createdComponentRef: ComponentRef<PersonalDetailsComponent> = this.cvSectionComponentRef
       .createComponent(PersonalDetailsComponent);
@@ -279,5 +234,26 @@ export class CvViewComponent implements OnInit {
           this.toaster.success("Personal Details successfuly updated.");
         });
       });
+  }
+
+  private loadCvData = (): void => {
+    this.cvService.getCvListingData(this.cvId)
+      .subscribe((data: CvListingData) => {
+        this.cv = data;
+        const details: PersonalDetails = this.cv.personalDetails;
+        this.fullName = this.getFullName(details);
+        const cvSkills: SkillsInfo = this.cv.skills;
+        cvSkills.licenseCategoriesText = this.getDrivingLicensesText(cvSkills.drivingLicenseCategories);
+      });
+  }
+
+  private getFullName = (details: PersonalDetails): string => {
+    return `${details.firstName} ${details.middleName} ${details.lastName}`;
+  }
+
+  private getDrivingLicensesText = (drivingLicenseCategories: BasicModel[]): string => {
+    return drivingLicenseCategories.length > 0
+      ? drivingLicenseCategories.map(x => x.name).join(', ')
+      : 'no driving license';
   }
 }
