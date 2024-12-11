@@ -13,7 +13,7 @@ import { WorkExperienceInfoComponent } from '../work-experiences/work-experience
 import { ToastrService } from 'ngx-toastr';
 import { PersonalDetailsComponent } from '../personal-details/personal-details.component';
 import { SkillsInfoComponent } from '../skills-info/skills-info.component';
-import { BasicModel } from '../../../models';
+import { BasicModel, UpdateResultModel } from '../../../models';
 import { NomenclatureService } from '../../../core/services';
 import { CvSectionTypeEnum } from '../../enums/cv-section-type.enum';
 
@@ -148,10 +148,12 @@ export class CvViewComponent implements OnInit {
     component.emitWorkExperiencesData
       .subscribe((data: WorkExperience[]) => {
         const requestData: WorkExperienceOutput[] = this.workExperiencesService.mapWorkExperienceInfoData(data);
-        this.workExperiencesService.update(this.cv.id, requestData).subscribe(() => {
-          this.cv.workExperiences = data;
-          this.toaster.success("Work Experience info successfuly updated.");
-        });
+        this.workExperiencesService.update(this.cv.id, requestData)
+          .subscribe((result: UpdateResultModel) => {
+            this.setItemsIds(data, result.newItemsIds);
+            this.cv.workExperiences = data;
+            this.toaster.success("Work Experience info successfuly updated.");
+          });
       });
   }
 
@@ -168,10 +170,12 @@ export class CvViewComponent implements OnInit {
 
     component.emitCoursesData
       .subscribe((data: CourseCertificate[]) => {
-        this.coursesService.update(this.cv.id, data).subscribe(() => {
-          this.cv.courseCertificates = data;
-          this.toaster.success("Courses info successfuly updated.");
-        });
+        this.coursesService.update(this.cv.id, data)
+          .subscribe((result: UpdateResultModel) => {
+            this.setItemsIds(data, result.newItemsIds);
+            this.cv.courseCertificates = data;
+            this.toaster.success("Courses info successfuly updated.");
+          });
       });
   }
 
@@ -185,13 +189,15 @@ export class CvViewComponent implements OnInit {
     component.languageLevels = this.languageLevels as InputSignal<BasicModel[]>;
 
     component.emitLanguagesInfo.subscribe((data: LanguageInfoInput[]) => {
-      debugger;
+
       const requestData: LanguageInfoOutput[] = this.languagesService.mapLanguageInfoData(data);
-      this.languagesService.update(requestData).subscribe(() => {
-        // TODO: if new element is added it is with id 0 - find way to get the new id
-        this.cv.languagesInfo = data;
-        this.toaster.success("Languages info successfuly updated.");
-      });
+
+      this.languagesService.update(this.cv.id, requestData)
+        .subscribe((result: UpdateResultModel) => {
+          this.setItemsIds(data, result.newItemsIds);
+          this.cv.languagesInfo = data;
+          this.toaster.success("Languages info successfuly updated.");
+        });
     });
   }
 
@@ -207,10 +213,12 @@ export class CvViewComponent implements OnInit {
     component.emitEducationData
       .subscribe((data: Education[]) => {
         const requestData: EducationOutput[] = this.educationsService.mapEducationInfoData(data);
-        this.educationsService.update(this.cv.id, requestData).subscribe(() => {
-          this.cv.educations = data;
-          this.toaster.success("Education info successfuly updated.");
-        });
+        this.educationsService.update(this.cv.id, requestData)
+          .subscribe((result: UpdateResultModel) => {
+            this.setItemsIds(data, result.newItemsIds);
+            this.cv.educations = data;
+            this.toaster.success("Education info successfuly updated.");
+          });
       });
   }
 
@@ -255,5 +263,14 @@ export class CvViewComponent implements OnInit {
     return drivingLicenseCategories.length > 0
       ? drivingLicenseCategories.map(x => x.name).join(', ')
       : 'no driving license';
+  }
+
+  private setItemsIds = (items: any[], ids: number[]): void => {
+    let index = 0;
+    items.forEach((element: any) => {
+      if (!element.id) {
+        element.id = ids[index++];
+      }
+    });
   }
 }

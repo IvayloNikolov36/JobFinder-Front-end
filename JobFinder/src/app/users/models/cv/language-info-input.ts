@@ -2,7 +2,7 @@ import { BasicModel } from "../../../models";
 
 export interface LanguageInfoInput {
   id: number;
-  cvId: number;
+  curriculumVitaeId: string;
   languageType: BasicModel;
   comprehensionLevel: BasicModel;
   speakingLevel: BasicModel;

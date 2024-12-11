@@ -12,7 +12,7 @@ export const getDeleteCvUrl = (id: string) => route + `cvs/delete/${id}`;
 export const getCvEducationsUrl = (): string => route + 'cvs/Educations';
 export const getCvEducationsEditUrl = (cvId: string) => route + 'cvs/Educations' + `/${cvId}/update`;
 export const getCvLanguagesUrl = (): string => route + 'cvs/languagesinfo';
-export const getUpdateLanguageInfoUrl = () => getCvLanguagesUrl() + `/update`;
+export const getUpdateLanguageInfoUrl = (cvId: string) => getCvLanguagesUrl() + `/${cvId}/update`;
 export const getCvSkillsUrl = (): string => route + 'cvs/skills';
 export const getUpdateCvSkillsUrl = (cvId: string) => getCvSkillsUrl() + `/update`;
 export const getCvPersonalDetailsUrl = (): string => route + 'cvs/PersonalDetails';

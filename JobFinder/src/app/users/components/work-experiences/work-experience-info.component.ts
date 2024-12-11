@@ -41,7 +41,7 @@ export class WorkExperienceInfoComponent implements OnInit {
       organization: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
       businessSector: [{} as BasicModel, [Validators.required]],
       location: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      additionalDetails: ['', [Validators.minLength(20), Validators.maxLength(3000)]]
+      aditionalDetails: ['', [Validators.minLength(20), Validators.maxLength(3000)]]
     });
 
     this.we.push(formGroup);
@@ -82,7 +82,7 @@ export class WorkExperienceInfoComponent implements OnInit {
         formGroup.controls['organization'].setValue(we.organization);
         formGroup.controls['businessSector'].setValue(we.businessSector);
         formGroup.controls['location'].setValue(we.location);
-        formGroup.controls['additionalDetails'].setValue(we.additionalDetails);
+        formGroup.controls['additionalDetails'].setValue(we.aditionalDetails);
       });
     } else {
       this.addWorkExperienceForm();

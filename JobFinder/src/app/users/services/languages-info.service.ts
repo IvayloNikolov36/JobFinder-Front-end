@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { LanguageInfoInput } from '../models/cv/language-info-input';
 import { getCvLanguagesUrl, getUpdateLanguageInfoUrl } from '../../core/controllers';
 import { LanguageInfoOutput } from '../models/cv';
+import { UpdateResultModel } from '../../models';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,8 @@ export class LanguagesInfoService {
     return this.http.get<LanguageInfoInput[]>(getCvLanguagesUrl());
   }
 
-  update(data: LanguageInfoOutput[]) {
-    return this.http.put(getUpdateLanguageInfoUrl(), data);
+  update(cvId: string, data: LanguageInfoOutput[]): Observable<UpdateResultModel> {
+    return this.http.put<UpdateResultModel>(getUpdateLanguageInfoUrl(cvId), data);
   }
 
   mapLanguageInfoData = (data: LanguageInfoInput[]): LanguageInfoOutput[] => {
@@ -28,6 +29,7 @@ export class LanguagesInfoService {
       result.writingLevelId = element.writingLevel.id;
       result.speakingLevelId = element.speakingLevel.id;
       result.languageTypeId = element.languageType.id;
+
       return result;
     });
   }

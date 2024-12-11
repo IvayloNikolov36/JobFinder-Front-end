@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Education, EducationOutput } from '../models/cv';
 import { getCvEducationsEditUrl, getCvEducationsUrl } from '../../core/controllers';
+import { UpdateResultModel } from '../../models';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +14,14 @@ export class EducationsService {
 
   get = (): Observable<Education[]> => this.http.get<Education[]>(getCvEducationsUrl());
 
-  update = (cvId: string, data: EducationOutput[]) => this.http.put(getCvEducationsEditUrl(cvId), data);
+  update(cvId: string, data: EducationOutput[]): Observable<UpdateResultModel> {
+    return this.http.put<UpdateResultModel>(getCvEducationsEditUrl(cvId), data);
+  }
 
   public mapEducationInfoData = (data: Education[]): EducationOutput[] => {
     return data.map((item: Education) => {
       return {
         id: item.id,
-        cvId: item.cvId,
         organization: item.organization,
         fromDate: item.fromDate,
         toDate: item.toDate,

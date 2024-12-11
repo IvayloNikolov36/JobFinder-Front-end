@@ -35,7 +35,6 @@ export class LanguagesInfoComponent implements OnInit {
   addNewLanguageInfoForm(): FormGroup<any> {
     const formGroup: FormGroup<any> = this.formBuilder.group({
       id: [0, []],
-      cvId: ['', []],
       languageType: [{} as BasicModel, [Validators.required]],
       comprehensionLevel: [{} as BasicModel, [Validators.required]],
       speakingLevel: [{} as BasicModel, [Validators.required]],
@@ -73,7 +72,6 @@ export class LanguagesInfoComponent implements OnInit {
       this.languagesInfoData.forEach((languagesInfoData: LanguageInfoInput) => {
         const formGroup: FormGroup<any> = this.addNewLanguageInfoForm();
         formGroup.controls['id'].setValue(languagesInfoData.id);
-        formGroup.controls['cvId'].setValue(languagesInfoData.cvId);
         formGroup.controls['languageType'].setValue(languagesInfoData.languageType);
         formGroup.controls['comprehensionLevel'].setValue(languagesInfoData.comprehensionLevel);
         formGroup.controls['speakingLevel'].setValue(languagesInfoData.speakingLevel);
