@@ -237,7 +237,7 @@ export class CvViewComponent implements OnInit {
     component.emitPersonalDetails
       .subscribe((data: PersonalDetails) => {
         const requestData: PersonalDetailsOutput = this.personalInfoService.mapPersonalInfo(data);
-        this.personalInfoService.update(requestData).subscribe(() => {
+        this.personalInfoService.update(this.cv.id, requestData).subscribe(() => {
           this.cv.personalDetails = { ...data };
           this.fullName = this.getFullName(this.cv.personalDetails);
           this.toaster.success("Personal Details successfuly updated.");

@@ -20,7 +20,6 @@ export class WorkExperiencesService {
     return data.map((element: WorkExperience) => {
       return {
         id: element.id,
-        cvId: element.cvId,
         fromDate: element.fromDate,
         toDate: element.toDate,
         jobTitle: element.jobTitle,

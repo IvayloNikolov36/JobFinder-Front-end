@@ -16,8 +16,8 @@ export class PersonalDetailsService {
     return this.http.get<PersonalDetails>(getCvPersonalDetailsUrl() + `/${cvId}`);
   }
 
-  update(data: PersonalDetailsOutput): Observable<Object> {
-    return this.http.put(getCvPersonalDetailsUpdateUrl(), data);
+  update(cvId: string, data: PersonalDetailsOutput): Observable<Object> {
+    return this.http.put(getCvPersonalDetailsUpdateUrl(cvId), data);
   }
 
   mapPersonalInfo = (data: PersonalDetails): PersonalDetailsOutput => {

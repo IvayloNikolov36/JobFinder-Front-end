@@ -35,7 +35,6 @@ export class WorkExperienceInfoComponent implements OnInit {
   addWorkExperienceForm(): FormGroup<any> {
     const formGroup: FormGroup<any> = this.formBuilder.group({
       id: [0, []],
-      cvId: ['', []],
       fromDate: ['', [Validators.required]],
       toDate: ['', []],
       jobTitle: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
@@ -76,7 +75,6 @@ export class WorkExperienceInfoComponent implements OnInit {
       this.workExperienceInfoData.forEach((we: WorkExperience) => {
         const formGroup: FormGroup<any> = this.addWorkExperienceForm();
         formGroup.controls['id'].setValue(we.id);
-        formGroup.controls['cvId'].setValue(we.cvId);
         formGroup.controls['fromDate'].setValue(we.fromDate);
         formGroup.controls['toDate'].setValue(we.toDate);
         formGroup.controls['jobTitle'].setValue(we.jobTitle);
