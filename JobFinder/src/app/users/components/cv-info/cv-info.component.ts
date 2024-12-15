@@ -4,7 +4,8 @@ import { CvInfo } from '../../models/cv';
 
 @Component({
   selector: 'jf-cv-info',
-  templateUrl: './cv-info.component.html'
+  templateUrl: './cv-info.component.html',
+  standalone: false
 })
 export class CvInfoComponent implements OnInit {
 

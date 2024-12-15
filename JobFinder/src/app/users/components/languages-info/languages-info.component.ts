@@ -5,7 +5,8 @@ import { BasicModel } from '../../../models';
 
 @Component({
   selector: 'jf-languages-info',
-  templateUrl: './languages-info.component.html'
+  templateUrl: './languages-info.component.html',
+  standalone: false
 })
 export class LanguagesInfoComponent implements OnInit {
 

@@ -1,8 +1,8 @@
 import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
 
-
 @Directive({
-  selector: '[jfDropdown]'
+  selector: '[jfDropdown]',
+  standalone: false
 })
 export class DropdownDirective {
 

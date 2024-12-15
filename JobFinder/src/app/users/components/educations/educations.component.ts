@@ -5,7 +5,8 @@ import { BasicModel } from '../../../models';
 
 @Component({
   selector: 'jf-educations',
-  templateUrl: './educations.component.html'
+  templateUrl: './educations.component.html',
+  standalone: false
 })
 export class EducationsComponent implements OnInit {
 

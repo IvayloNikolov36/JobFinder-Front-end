@@ -4,7 +4,8 @@ import { CourseCertificate } from '../../models/cv';
 
 @Component({
   selector: 'jf-courses-certificates',
-  templateUrl: './courses-certificates.component.html'
+  templateUrl: './courses-certificates.component.html',
+  standalone: false
 })
 export class CoursesCertificatesComponent implements OnInit {
 

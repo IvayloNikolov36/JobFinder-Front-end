@@ -1,14 +1,14 @@
 import { JobAdvertisementsService } from './../services/job-advertisements.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription, tap } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { BasicModel } from '../models/basic.model';
 import { JobAd } from '../models/job-ad';
 import { ActivatedRoute, Router } from '@angular/router';
 
-
 @Component({
   selector: 'jf-job-advertisements',
-  templateUrl: './job-advertisements.component.html'
+  templateUrl: './job-advertisements.component.html',
+  standalone: false
 })
 export class JobAdvertisementsComponent implements OnInit, OnDestroy {
 
@@ -131,7 +131,6 @@ export class JobAdvertisementsComponent implements OnInit, OnDestroy {
 
   changeSortingOrder(orderValue: string): void {
     this.currentPage = this.initialPage;
-    console.log(orderValue);
     orderValue === 'true' ? this.isAscending = true : this.isAscending = false;
     this.updateQueryParams({ page: this.currentPage, isAscending: orderValue });
     this.getJobAds();

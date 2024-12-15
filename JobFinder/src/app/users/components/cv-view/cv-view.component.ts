@@ -19,7 +19,8 @@ import { CvSectionTypeEnum } from '../../enums/cv-section-type.enum';
 
 @Component({
   selector: 'jf-cv-view',
-  templateUrl: './cv-view.component.html'
+  templateUrl: './cv-view.component.html',
+  standalone: false
 })
 export class CvViewComponent implements OnInit {
 

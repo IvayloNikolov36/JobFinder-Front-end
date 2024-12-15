@@ -11,7 +11,6 @@ import {
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -50,13 +49,8 @@ export class ResponseHandlerInterceptorService implements HttpInterceptor {
             });
           }
         }
-
-        console.log('Error message: ' + errorMessage);
-
         this.toastr.error(errorMessage, 'Error');
-
         this.router.navigate(['/home']);
-
         throw err;
       })) as any as any;
   }

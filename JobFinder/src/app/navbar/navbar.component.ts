@@ -3,10 +3,10 @@ import { AuthService } from '../core/services/auth.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-
 @Component({
   selector: 'jf-navbar',
-  templateUrl: './navbar.component.html'
+  templateUrl: './navbar.component.html',
+  standalone: false
 })
 export class NavbarComponent implements OnInit, OnDestroy {
 

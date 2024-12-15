@@ -1,8 +1,8 @@
 import { Directive, ElementRef, Renderer2, HostListener } from '@angular/core';
 
-
 @Directive({
-  selector: '[jfCollapse]'
+  selector: '[jfCollapse]',
+  standalone: false
 })
 export class CollapseDirective {
 

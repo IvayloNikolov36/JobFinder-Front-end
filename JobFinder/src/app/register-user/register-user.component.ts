@@ -4,10 +4,10 @@ import { AuthService } from '../core/services/auth.service';
 import { Router } from '@angular/router';
 import { MustMatch } from '../core/functions/must-match';
 
-
 @Component({
   selector: 'jf-register-user',
-  templateUrl: './register-user.component.html'
+  templateUrl: './register-user.component.html',
+  standalone: false
 })
 export class RegisterUserComponent implements OnInit {
 

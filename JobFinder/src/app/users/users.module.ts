@@ -15,7 +15,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UsersRoutingModule } from './users-routing.module';
-
 import { ToastrModule } from 'ngx-toastr';
 import { CvViewComponent } from './components/cv-view/cv-view.component';
 

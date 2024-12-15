@@ -3,10 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../core/services/auth.service';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'jf-login',
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
+  standalone: false
 })
 export class LoginComponent implements OnInit {
 

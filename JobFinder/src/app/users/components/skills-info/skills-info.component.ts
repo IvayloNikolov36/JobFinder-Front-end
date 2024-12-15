@@ -5,7 +5,8 @@ import { BasicModel } from '../../../models';
 
 @Component({
   selector: 'jf-skills-info',
-  templateUrl: './skills-info.component.html'
+  templateUrl: './skills-info.component.html',
+  standalone: false
 })
 export class SkillsInfoComponent implements OnInit {
 

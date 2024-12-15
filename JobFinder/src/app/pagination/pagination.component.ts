@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
-
 @Component({
   selector: 'jf-pagination',
-  templateUrl: './pagination.component.html'
+  templateUrl: './pagination.component.html',
+  standalone: false
 })
 export class PaginationComponent implements OnChanges {
 

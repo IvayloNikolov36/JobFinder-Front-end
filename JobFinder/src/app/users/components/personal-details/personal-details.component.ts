@@ -5,7 +5,8 @@ import { BasicModel } from '../../../models';
 
 @Component({
   selector: 'jf-personal-details',
-  templateUrl: './personal-details.component.html'
+  templateUrl: './personal-details.component.html',
+  standalone: false
 })
 export class PersonalDetailsComponent implements OnInit {
 
@@ -24,7 +25,6 @@ export class PersonalDetailsComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    console.log(this.personalDetailsData);
     this.initializeForm();
   }
 

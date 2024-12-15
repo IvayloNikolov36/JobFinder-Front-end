@@ -6,10 +6,10 @@ import { JobAdvertisementsService } from '../services/job-advertisements.service
 import { BasicModel } from '../models/basic.model';
 import { ToastrService } from 'ngx-toastr';
 
-
 @Component({
   selector: 'jf-create-job-advertisement',
-  templateUrl: './create-job-advertisement.component.html'
+  templateUrl: './create-job-advertisement.component.html',
+  standalone: false
 })
 export class CreateJobAdvertisementComponent {
 

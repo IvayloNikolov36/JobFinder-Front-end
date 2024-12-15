@@ -12,7 +12,8 @@ import { NomenclatureService } from '../../../core/services';
 
 @Component({
   selector: 'jf-create-cv',
-  templateUrl: './create-cv.component.html'
+  templateUrl: './create-cv.component.html',
+  standalone: false
 })
 export class CreateCvComponent implements AfterViewInit {
 

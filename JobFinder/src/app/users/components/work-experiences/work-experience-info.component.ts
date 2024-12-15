@@ -5,7 +5,8 @@ import { BasicModel } from '../../../models';
 
 @Component({
   selector: 'jf-work-experience-info',
-  templateUrl: './work-experience-info.component.html'
+  templateUrl: './work-experience-info.component.html',
+  standalone: false
 })
 export class WorkExperienceInfoComponent implements OnInit {
 

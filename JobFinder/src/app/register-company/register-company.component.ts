@@ -4,11 +4,10 @@ import { AuthService } from '../core/services/auth.service';
 import { Router } from '@angular/router';
 import { MustMatch } from '../core/functions/must-match';
 
-
-
 @Component({
   selector: 'jf-register-company',
-  templateUrl: './register-company.component.html'
+  templateUrl: './register-company.component.html',
+  standalone: false
 })
 export class RegisterCompanyComponent implements OnInit {
 

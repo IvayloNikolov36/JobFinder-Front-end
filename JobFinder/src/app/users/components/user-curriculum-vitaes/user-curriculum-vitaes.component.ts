@@ -6,7 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'jf-user-curriculum-vitaes',
-  templateUrl: './user-curriculum-vitaes.component.html'
+  templateUrl: './user-curriculum-vitaes.component.html',
+  standalone: false
 })
 export class UserCurriculumVitaesComponent implements OnInit {
 

@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { JobDetails } from '../models/job-details';
 import { ActivatedRoute } from '@angular/router';
 
-
 @Component({
   selector: 'jf-job-advertisement-details',
-  templateUrl: './job-advertisement-details.component.html'
+  templateUrl: './job-advertisement-details.component.html',
+  standalone: false
 })
 export class JobAdvertisementDetailsComponent implements OnInit {
 
