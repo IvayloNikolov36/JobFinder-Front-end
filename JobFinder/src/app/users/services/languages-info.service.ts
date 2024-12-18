@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LanguageInfoInput } from '../models/cv/language-info-input';
-import { getCvLanguagesUrl, getUpdateLanguageInfoUrl } from '../../core/controllers';
+import { getUpdateLanguageInfoUrl } from '../../core/controllers';
 import { LanguageInfoOutput } from '../models/cv';
 import { UpdateResultModel } from '../../models';
 
@@ -12,10 +12,6 @@ import { UpdateResultModel } from '../../models';
 export class LanguagesInfoService {
 
   constructor(private http: HttpClient) { }
-
-  get(): Observable<LanguageInfoInput[]> {
-    return this.http.get<LanguageInfoInput[]>(getCvLanguagesUrl());
-  }
 
   update(cvId: string, data: LanguageInfoOutput[]): Observable<UpdateResultModel> {
     return this.http.put<UpdateResultModel>(getUpdateLanguageInfoUrl(cvId), data);

@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Education, EducationOutput } from '../models/cv';
-import { getCvEducationsEditUrl, getCvEducationsUrl } from '../../core/controllers';
+import { getCvEducationsEditUrl } from '../../core/controllers';
 import { UpdateResultModel } from '../../models';
 
 @Injectable({
@@ -11,8 +11,6 @@ import { UpdateResultModel } from '../../models';
 export class EducationsService {
 
   constructor(private http: HttpClient) { }
-
-  get = (): Observable<Education[]> => this.http.get<Education[]>(getCvEducationsUrl());
 
   update(cvId: string, data: EducationOutput[]): Observable<UpdateResultModel> {
     return this.http.put<UpdateResultModel>(getCvEducationsEditUrl(cvId), data);
