@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { JobAdvertisementsService } from '../services/job-advertisements.service';
 import { BasicModel } from '../models/basic.model';
 import { ToastrService } from 'ngx-toastr';
+import { NomenclatureService } from '../core/services';
 
 @Component({
   selector: 'jf-create-job-advertisement',
@@ -23,12 +24,13 @@ export class CreateJobAdvertisementComponent {
 
   constructor(
     private jobAdsService: JobAdvertisementsService,
+    private nomenclatureService: NomenclatureService,
     private fb: FormBuilder,
     private router: Router,
     private toastr: ToastrService) {
 
-    this.jobCategories$ = this.jobAdsService.getCategories();
-    this.jobEngagements$ = this.jobAdsService.getEngagements();
+    this.jobCategories$ = this.nomenclatureService.getJobCategories();
+    this.jobEngagements$ = this.nomenclatureService.getJobEngagements();
   }
 
   ngOnInit() {
@@ -59,7 +61,7 @@ export class CreateJobAdvertisementComponent {
     this.form.controls['jobCategoryId'].setValue(this.chosedCategory);
     this.form.controls['jobEngagementId'].setValue(this.chosedEngagement);
 
-    this.jobAdsService.createjobAd(this.form.value)
+    this.jobAdsService.createJobAd(this.form.value)
       .subscribe(() => {
         this.toastr.success("Job Advertisement is created.", "Success");
         this.router.navigate(['/home']);

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { JobDetails } from '../models/job-details';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'jf-job-advertisement-details',
@@ -8,8 +8,6 @@ import { ActivatedRoute } from '@angular/router';
   standalone: false
 })
 export class JobAdvertisementDetailsComponent implements OnInit {
-
-  // TODO: complete the details of the job adv
 
   jobDetails!: JobDetails;
 
@@ -22,20 +20,40 @@ export class JobAdvertisementDetailsComponent implements OnInit {
   sortBy!: string | null;
   isAscending!: boolean;
 
-  constructor(
-    private route: ActivatedRoute
-  ) { }
+  readonly initialPage: number = 1;
+  readonly itemsPerPage: number = 10;
+  readonly selectValueNone: number = 0;
+
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    // TODO: refactor
+    this.getJobDetails();
+    this.geQueryParamsData();
+  }
+
+  private getJobDetails = (): void => {
     this.jobDetails = this.route.snapshot.data['singleJob']; // TODO: fix to get job details
-    this.page = parseInt(this.route.snapshot.queryParamMap.get('page') ?? '1');
-    this.items = parseInt(this.route.snapshot.queryParamMap.get('items') ?? '10');
-    this.searchText = this.route.snapshot.queryParamMap.get('searchText') ?? '';
-    this.location = this.route.snapshot.queryParamMap.get('location');
-    this.category = parseInt(this.route.snapshot.queryParamMap.get('category') ?? '0');
-    this.engagement = parseInt(this.route.snapshot.queryParamMap.get('engagement') ?? '0');
-    this.sortBy = this.route.snapshot.queryParamMap.get('sortBy');
-    this.isAscending = this.route.snapshot.queryParamMap.get('isAscending') === 'true' ? true : false;
+  }
+
+  private geQueryParamsData = (): void => {
+    const queryParams: ParamMap = this.route.snapshot.queryParamMap;
+
+    const pageValue: string | null = queryParams.get('page');
+    this.page = pageValue === null ? this.initialPage : parseInt(pageValue);
+
+    const itemsValue: string | null = queryParams.get('items');
+    this.items = itemsValue === null ? this.itemsPerPage : parseInt(itemsValue);
+
+    this.searchText = queryParams.get('searchText') ?? '';
+    this.location = queryParams.get('location');
+
+    const categoryValue: string | null = queryParams.get('category');
+    this.category = categoryValue === null ? this.selectValueNone : parseInt(categoryValue);
+
+    const engagementValue: string | null = queryParams.get('engagement');
+    this.engagement = engagementValue === null ? this.selectValueNone : parseInt(engagementValue);
+
+    this.sortBy = queryParams.get('sortBy');
+    this.isAscending = queryParams.get('isAscending') === 'true' ? true : false;
   }
 }

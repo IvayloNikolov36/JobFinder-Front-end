@@ -8,5 +8,5 @@ export interface WorkExperience {
   organization: string;
   businessSector: BasicModel;
   location: string;
-  aditionalDetails: string;
+  additionalDetails: string;
 }

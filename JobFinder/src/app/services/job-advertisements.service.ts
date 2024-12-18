@@ -1,10 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BasicModel } from '../models/basic.model';
 import { JobAd } from '../models/job-ad';
 import { JobDetails } from '../models/job-details';
-import { createAd, getAd, getAds, getCategoriesUrl, getEngagementsUrl } from '../core/controllers';
+import { createAd, getAd, getAds } from '../core/controllers';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +12,7 @@ export class JobAdvertisementsService {
 
   constructor(private http: HttpClient) { }
 
-  createjobAd(data: JobAd): Observable<Object> {
+  createJobAd(data: JobAd): Observable<Object> {
     return this.http.post(createAd(), data);
   }
 
@@ -34,13 +33,5 @@ export class JobAdvertisementsService {
 
   details(id: number): Observable<JobDetails> {
     return this.http.get<JobDetails>(getAd(id));
-  }
-
-  getEngagements(): Observable<BasicModel[]> {
-    return this.http.get<BasicModel[]>(getEngagementsUrl());
-  }
-
-  getCategories(): Observable<BasicModel[]> {
-    return this.http.get<BasicModel[]>(getCategoriesUrl());
   }
 }

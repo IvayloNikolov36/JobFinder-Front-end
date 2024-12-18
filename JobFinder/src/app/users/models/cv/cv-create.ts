@@ -3,7 +3,7 @@ import {
   EducationOutput,
   LanguageInfoOutput,
   PersonalDetailsOutput,
-  SkillsInfo,
+  SkillsInfoOutput,
   WorkExperienceOutput
 } from ".";
 
@@ -14,6 +14,6 @@ export interface CvCreate {
   educations: EducationOutput[];
   workExperiences: WorkExperienceOutput[];
   languagesInfo: LanguageInfoOutput[];
-  skills: SkillsInfo;
+  skills: SkillsInfoOutput;
   courseCertificates: CourseCertificate[];
 }

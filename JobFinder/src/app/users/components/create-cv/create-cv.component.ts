@@ -4,11 +4,12 @@ import { CvInfoComponent } from '../cv-info/cv-info.component';
 import { FormGroup } from '@angular/forms';
 import { CoursesCertificatesComponent, EducationsComponent, LanguagesInfoComponent, PersonalDetailsComponent, SkillsInfoComponent, WorkExperienceInfoComponent } from '../index';
 import { CourseCertificate, CvCreate, CvInfo, Education, LanguageInfoInput, PersonalDetails, SkillsInfo, WorkExperience } from '../../models/cv';
-import { CurriculumVitaesService, EducationsService, PersonalDetailsService, WorkExperiencesService } from '../../services';
+import { CurriculumVitaesService, EducationsService, PersonalDetailsService, SkillsService, WorkExperiencesService } from '../../services';
 import { ToastrService } from 'ngx-toastr';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BasicModel } from '../../../models';
 import { NomenclatureService } from '../../../core/services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jf-create-cv',
@@ -45,6 +46,7 @@ export class CreateCvComponent implements AfterViewInit {
   cvModel: CvCreate = {} as CvCreate;
 
   constructor(
+    private router: Router,
     private cdref: ChangeDetectorRef,
     private cvService: CurriculumVitaesService,
     private nomenclatureService: NomenclatureService,
@@ -52,6 +54,7 @@ export class CreateCvComponent implements AfterViewInit {
     private workExperiencesService: WorkExperiencesService,
     private educationsService: EducationsService,
     private languagesService: LanguagesInfoService,
+    private skillsInfoService: SkillsService,
     private toastr: ToastrService
   ) {
     this.getData();
@@ -90,7 +93,7 @@ export class CreateCvComponent implements AfterViewInit {
   }
 
   onPassedSkillsInfoData = (data: SkillsInfo): void => {
-    this.cvModel.skills = data;
+    this.cvModel.skills = this.skillsInfoService.mapSkillsData(data);
   }
 
   onPassedCoursesData = (data: CourseCertificate[]): void => {
@@ -102,7 +105,7 @@ export class CreateCvComponent implements AfterViewInit {
       .subscribe({
         next: () => {
           this.toastr.success(`${this.cvModel.name} cv is successfully created.`);
-          // TODO: redirect to all cvs
+          this.router.navigate(['/my-cvs']);
         },
         error: () => this.toastr.error('Sorry, Can not create the CV.')
       });

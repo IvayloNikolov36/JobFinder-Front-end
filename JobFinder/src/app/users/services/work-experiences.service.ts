@@ -26,7 +26,7 @@ export class WorkExperiencesService {
         organization: element.organization,
         businessSectorId: element.businessSector.id,
         location: element.location,
-        additionalDetails: element.aditionalDetails
+        additionalDetails: element.additionalDetails
       } as WorkExperienceOutput
     });
   }

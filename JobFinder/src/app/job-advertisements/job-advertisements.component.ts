@@ -3,7 +3,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { BasicModel } from '../models/basic.model';
 import { JobAd } from '../models/job-ad';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { NomenclatureService } from '../core/services';
 
 @Component({
   selector: 'jf-job-advertisements',
@@ -17,75 +18,44 @@ export class JobAdvertisementsComponent implements OnInit, OnDestroy {
   jobAds!: JobAd[];
   totalCount!: number;
 
-  searchText: string | null = '';
+  subscriptions: Subscription[] = [];
+
+  searchText!: string;
+  currentPage!: number;
+  itemsCount!: number;
+  location!: string;
+  category!: number;
+  engagement!: number;
+  sortBy!: string;
+  isAscending!: boolean;
+  showFiltersArea: boolean = false;
+
+  readonly locationsArray: string[] = ['Sofia', 'Plovdiv', 'Varna', 'Burgas', 'Ruse', 'Stara Zagora', 'Pleven', 'Veliko Tarnovo'];
+  readonly itemsCountArray: number[] = [5, 10, 15, 20, 30, 50, 100];
   readonly initialPage = 1;
-  currentPage = this.initialPage;
+  readonly selectValueNone: number = 0;
+  readonly showFiltersText: string = 'Show Filters';
+  readonly hideFiltersText: string = 'Hide Filters';
 
-  jobAdsSubscription!: Subscription;
-
-  itemsCountArray = [5, 10, 15, 20, 30, 50, 100];
-  itemsCount = this.itemsCountArray[0];
-  locationsArray = ['Sofia', 'Plovdiv', 'Varna', 'Burgas', 'Ruse', 'Stara Zagora', 'Pleven'];
-  location: string | null = 'All';
-  category: number = 0;
-  engagement: number = 0;
-  sortBy: string | null = 'Published';
-  isAscending = false;
-  showFiltersArea = false;
-  buttonText = 'Show Filters';
+  buttonText: string = this.showFiltersText;
 
   constructor(
     private jobAdsService: JobAdvertisementsService,
+    private nomenclatureService: NomenclatureService,
     private route: ActivatedRoute,
     private router: Router
   ) {
-    // TODO: refactor the whole method
-    if (this.route.snapshot.queryParamMap.get('page')) {
-
-      this.currentPage = parseInt(
-        this.route.snapshot.queryParamMap.get('page')
-        ?? this.initialPage.toString());
-
-      this.itemsCount = parseInt(
-        this.route.snapshot.queryParamMap.get('items')
-        ?? this.itemsCountArray[0].toString());
-
-      this.searchText = this.route.snapshot.queryParamMap.get('searchText');
-      this.location = this.route.snapshot.queryParamMap.get('location');
-      this.category = parseInt(this.route.snapshot.queryParamMap.get('category') ?? '0');
-      this.engagement = parseInt(this.route.snapshot.queryParamMap.get('engagement') ?? '0');
-      this.sortBy = this.route.snapshot.queryParamMap.get('sortBy');
-      this.isAscending = this.route.snapshot.queryParamMap.get('isAscending') === 'true'
-        ? true
-        : false;
-    }
+    this.getDataFromQueryParams();
   }
 
   ngOnInit(): void {
     this.getJobAds();
-    this.categories$ = this.jobAdsService.getCategories();
-    this.engagements$ = this.jobAdsService.getEngagements();
+    this.categories$ = this.nomenclatureService.getJobCategories();
+    this.engagements$ = this.nomenclatureService.getJobEngagements();
   }
 
   ngOnDestroy(): void {
-    this.jobAdsSubscription.unsubscribe();
-  }
-
-  private getJobAds(): void {
-    this.jobAdsSubscription = this.jobAdsService
-      .all(
-        this.currentPage,
-        this.itemsCount,
-        this.searchText ?? '',
-        this.location ?? '',
-        this.category,
-        this.engagement,
-        this.sortBy ?? '',
-        this.isAscending)
-      .subscribe((data: any) => {
-        this.totalCount = data.totalCount;
-        this.jobAds = data.data;
-      });
+    this.subscriptions.forEach(s => s.unsubscribe());
   }
 
   searchJob(): void {
@@ -131,7 +101,7 @@ export class JobAdvertisementsComponent implements OnInit, OnDestroy {
 
   changeSortingOrder(orderValue: string): void {
     this.currentPage = this.initialPage;
-    orderValue === 'true' ? this.isAscending = true : this.isAscending = false;
+    this.isAscending = orderValue === 'true' ? true : false;
     this.updateQueryParams({ page: this.currentPage, isAscending: orderValue });
     this.getJobAds();
   }
@@ -147,9 +117,9 @@ export class JobAdvertisementsComponent implements OnInit, OnDestroy {
 
   showOrHideFilters(): void {
     this.showFiltersArea = !this.showFiltersArea;
-    this.buttonText === 'Show Filters'
-      ? this.buttonText = 'Hide Filters'
-      : this.buttonText = 'Show Filters';
+    this.buttonText === this.showFiltersText
+      ? this.buttonText = this.hideFiltersText
+      : this.buttonText = this.showFiltersText;
   }
 
   private updateQueryParams(queryParamsObject: object): void {
@@ -159,5 +129,45 @@ export class JobAdvertisementsComponent implements OnInit, OnDestroy {
         queryParams: queryParamsObject,
         queryParamsHandling: 'merge'
       });
+  }
+
+  private getJobAds(): void {
+    const subscription: Subscription = this.jobAdsService.all(
+      this.currentPage,
+      this.itemsCount,
+      this.searchText,
+      this.location,
+      this.category,
+      this.engagement,
+      this.sortBy,
+      this.isAscending)
+      .subscribe((data: any) => {
+        this.totalCount = data.totalCount;
+        this.jobAds = data.data;
+      });
+
+    this.subscriptions.push(subscription);
+  }
+
+  private getDataFromQueryParams = (): void => {
+    const queryParams: ParamMap = this.route.snapshot.queryParamMap;
+
+    const pageValue: string | null = queryParams.get('page');
+    this.currentPage = pageValue === null ? this.initialPage : parseInt(pageValue);
+
+    const itemsValue: string | null = queryParams.get('items');
+    this.itemsCount = itemsValue === null ? this.itemsCountArray[0] : parseInt(itemsValue);
+
+    this.searchText = queryParams.get('searchText') ?? '';
+    this.location = queryParams.get('location') ?? 'All';
+
+    const categoryValue: string | null = queryParams.get('category');
+    this.category = categoryValue === null ? this.selectValueNone : parseInt(categoryValue);
+
+    const engagementValue: string | null = queryParams.get('engagement');
+    this.engagement = engagementValue === null ? this.selectValueNone : parseInt(engagementValue);
+
+    this.sortBy = queryParams.get('sortBy') ?? 'Published';
+    this.isAscending = queryParams.get('isAscending') === 'true' ? true : false;
   }
 }
