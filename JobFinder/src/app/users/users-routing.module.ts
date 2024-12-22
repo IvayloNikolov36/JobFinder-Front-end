@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: 'create-cv', component: CreateCvComponent },
   { path: 'profile', component: UserAccountComponent },
   { path: 'my-cvs', component: UserCurriculumVitaesComponent },
-  { path: 'my-cvs/details/:id', component: CvViewComponent },
+  { path: 'my-cvs/cv-details/:id', component: CvViewComponent },
   { path: '', pathMatch: 'full', redirectTo: 'profile' },
 ];
 

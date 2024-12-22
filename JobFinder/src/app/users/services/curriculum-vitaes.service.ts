@@ -25,6 +25,6 @@ export class CurriculumVitaesService {
   }
 
   delete = (id: string): Observable<Object> => {
-    return this.http.delete(getDeleteCvUrl(id));
+    return this.http.delete<Object>(getDeleteCvUrl(id));
   }
 }
